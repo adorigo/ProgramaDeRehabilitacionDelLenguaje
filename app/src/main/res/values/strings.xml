@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">Programa de Rehabilitacion del Lenguaje</string>
+    <string name="app_name">Quiz App</string>
+
+    <string name="title_activity_quiz">Answer this Question</string>
+    <string name="buttonNext">Siguiente</string>
+    <string name="buttonReset">Reset</string>
+    <string name="buttonGoBack">Atras</string>
+    <string name="levelCompleted">Nivel Completado</string>
+
+    <string name="title_activity_main_menu">Main Menu</string>
+    <string name="buttonQuiz">Semantica</string>
+    <string name="buttonExit">Salir</string>
+
+    <string name="title_activity_login">Configuracion</string>
+
 </resources>

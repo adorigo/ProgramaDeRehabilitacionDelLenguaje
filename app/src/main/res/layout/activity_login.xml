@@ -1,0 +1,30 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/crema_background"
+    tools:context="com.example.fokof_000.myfirstapp.LoginActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <com.example.fokof_000.myfirstapp.util.VerdanaEditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberPassword"
+            android:ems="10"
+            android:id="@+id/textPin" />
+
+        <com.example.fokof_000.myfirstapp.util.VerdanaButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/buttonNext"
+        android:id="@+id/buttonLoginNext"
+        android:onClick="doLogin"/>
+
+    </LinearLayout>
+
+</FrameLayout>

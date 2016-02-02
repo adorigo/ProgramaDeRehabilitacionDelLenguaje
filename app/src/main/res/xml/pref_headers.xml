@@ -1,0 +1,11 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <header
+        android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$GeneralPreferenceFragment"
+        android:title="@string/pref_general" />
+
+    <header
+        android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$ModuloLecturaPreferenceFragment"
+        android:title="@string/pref_modulo_lectura" />
+
+</preference-headers>

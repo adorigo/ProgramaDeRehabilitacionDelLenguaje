@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/pref_general"
+        android:key="pref_key_general">
+        <CheckBoxPreference
+            android:key="pref_key_cpmotrices"
+            android:summary="@string/pref_summary_cpmotrices"
+            android:title="@string/pref_title_cpmotrices"
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="pref_key_feedback"
+            android:summary="@string/pref_summary_feedback"
+            android:title="@string/pref_title_feedback"
+            android:defaultValue="true" />
+        <CheckBoxPreference
+            android:key="pref_key_estimulos"
+            android:summary="@string/pref_summary_estimulos"
+            android:title="@string/pref_title_estimulos"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_modulo_lectura"
+        android:key="pref_key_modulo_lectura">
+        <CheckBoxPreference
+            android:key="pref_key_pregcomprension"
+            android:summary="@string/pref_summary_pregcomprension"
+            android:title="@string/pref_title_pregcomprension"
+            android:defaultValue="true" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
