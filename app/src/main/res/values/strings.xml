@@ -1,16 +1,38 @@
 <resources>
-    <string name="app_name">Quiz App</string>
+    <string name="app_name">Programa de Rehabilitacion del Lenguaje</string>
 
-    <string name="title_activity_quiz">Answer this Question</string>
+    <string name="title_activity_quiz">Responda esta Pregunta</string>
+
+    <string name="incorrectAns">Incorrecto</string>
+    <string name="buttonTryAgain">Reintentar</string>
+
+    <string name="correctAns">Correcto</string>
     <string name="buttonNext">Siguiente</string>
-    <string name="buttonReset">Reset</string>
-    <string name="buttonGoBack">Atras</string>
-    <string name="levelCompleted">Nivel Completado</string>
 
-    <string name="title_activity_main_menu">Main Menu</string>
-    <string name="buttonQuiz">Semantica</string>
+    <string name="levelCompleted">Nivel Completado</string>
+    <string name="buttonNextLevel">Siguiente Nivel</string>
+    <string name="buttonReset">Reset</string>
+
+    <string name="buttonModules">Iniciar</string>
+    <string name="buttonSettings">Configuracion</string>
     <string name="buttonExit">Salir</string>
 
-    <string name="title_activity_login">Configuracion</string>
+    <string name="title_activity_settings">Configuracion</string>
+    <string name="titleConfiguration">Configuracion de la Aplicacion</string>
+    <string name="hintPIN">PIN de Seguridad</string>
+    <string name="buttonLoginBack">Menu Principal</string>
+    <string name="buttonLoginNext">Acceder</string>
+
+    <string name="title_activity_modules">Modulos de Aprendizaje</string>
+    <string name="textNoModules">No hay Modulos</string>
+
+    <string name="title_activity_categories">Categorias</string>
+    <string name="textNoCategories">No hay Categorias</string>
+
+    <string name="title_activity_levels">Niveles</string>
+    <string name="textNoLevels">No hay Niveles</string>
+
+    <string name="buttonGoBack">Atras</string>
+
 
 </resources>

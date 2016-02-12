@@ -3,12 +3,12 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="@dimen/abc_dialog_padding_material" >
+    android:padding="@dimen/abc_dialog_padding_material">
 
     <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/levelCompleted"
+        android:text="@string/incorrectAns"
         android:id="@+id/textPopup"
         android:layout_gravity="center_horizontal"
         android:textSize="@dimen/abc_text_size_title_material" />
@@ -23,15 +23,7 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/buttonGoBack"
-            android:id="@+id/buttonGoBack"
-            android:onClick="goBack"/>
-
-        <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/buttonReset"
-            android:id="@+id/buttonReset" />
+            android:text="@string/buttonTryAgain"
+            android:id="@+id/buttonTryAgain" />
     </LinearLayout>
 </LinearLayout>

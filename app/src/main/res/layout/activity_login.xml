@@ -2,29 +2,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/crema_background"
-    tools:context="com.example.fokof_000.myfirstapp.LoginActivity">
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="ar.org.ineco.prl.programaderehabilitaciondellenguaje.LoginActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top">
+
+        <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/titleConfiguration"
+            android:id="@+id/textTitle" />
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:gravity="center">
 
-        <com.example.fokof_000.myfirstapp.util.VerdanaEditText
+        <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaEditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="numberPassword"
             android:ems="10"
-            android:id="@+id/textPin" />
+            android:id="@+id/textPin"
+            android:hint="@string/hintPIN" />
 
-        <com.example.fokof_000.myfirstapp.util.VerdanaButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/buttonNext"
-        android:id="@+id/buttonLoginNext"
-        android:onClick="doLogin"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/buttonLoginBack"
+                android:id="@+id/buttonLoginBack"
+                android:onClick="goBack" />
+
+            <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/buttonLoginNext"
+                android:id="@+id/buttonLoginNext"
+                android:onClick="doLogin" />
+        </LinearLayout>
 
     </LinearLayout>
-
 </FrameLayout>

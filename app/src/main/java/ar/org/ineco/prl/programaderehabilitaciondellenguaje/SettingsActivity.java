@@ -10,6 +10,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.view.View;
 
 import java.util.List;
 
@@ -29,13 +30,15 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public boolean isValidFragment(String fragmentName){
-        return true;
+        return GeneralPreferenceFragment.class.getName().equals(fragmentName) ||
+                ModuloLecturaPreferenceFragment.class.getName().equals(fragmentName);
     }
 
 
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<Header> target) {
+        super.onBuildHeaders(target);
         loadHeadersFromResource(R.xml.pref_headers, target);
     }
 

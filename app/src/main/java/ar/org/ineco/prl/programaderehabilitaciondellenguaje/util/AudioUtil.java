@@ -10,7 +10,6 @@ import android.os.Build;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.R;
 
 public class AudioUtil {
-
     private final int sdkVersion = Build.VERSION.SDK_INT;
 
     public final int TRIVIA_RIGHT_ANSWER;
