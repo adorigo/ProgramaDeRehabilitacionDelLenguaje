@@ -61,7 +61,7 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
 
         audioUtil = new AudioUtil(this);
 
-        databaseLoader = new DatabaseLoader(this);
+        databaseLoader = DatabaseLoader.getInstance();
         databaseLoader.openWritable();
 
         onCreateHelper();

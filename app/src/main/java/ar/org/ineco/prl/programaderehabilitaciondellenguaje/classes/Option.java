@@ -1,6 +1,7 @@
 package ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes;
 
 public class Option {
+
     private String text;
     private long value;
     private int isCorrect;

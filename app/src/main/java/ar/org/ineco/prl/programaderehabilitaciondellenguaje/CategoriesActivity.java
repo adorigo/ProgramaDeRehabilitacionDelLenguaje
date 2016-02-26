@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Category;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.database.DatabaseLoader;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Menu;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView;
 
@@ -18,30 +18,29 @@ import java.util.List;
 
 
 public class CategoriesActivity extends Activity {
-    private DatabaseLoader databaseLoader;
-    private String moduleID;
-    private List<Category> allCategories;
+
+    private Menu menu = Menu.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
-
-        moduleID = getIntent().getStringExtra("Module");
-
-        databaseLoader = new DatabaseLoader(this);
-        databaseLoader.openReadable();
 
         onCreateHelper();
     }
 
     private void onCreateHelper() {
-        allCategories = databaseLoader.getAllCategories(moduleID);
+
+        List<Category> Categories = menu.getCategories();
+
         TextView moduleText = (TextView) findViewById(R.id.textModuleTitle);
-        moduleText.setText(databaseLoader.getModuleName(moduleID));
+        moduleText.setText(menu.getLabel());
+
         LinearLayout categoriesLayout = (LinearLayout) findViewById(R.id.layoutCategories);
         categoriesLayout.removeAllViews();
-        for (Category cat : allCategories) {
+
+        for (Category cat : Categories) {
             VerdanaButton catButton = new VerdanaButton(this, null);
             catButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -55,30 +54,51 @@ public class CategoriesActivity extends Activity {
             });
 
             categoriesLayout.addView(catButton);
-            Log.d(CategoriesActivity.class.getName(), "Adding " + cat.getCatName());
         }
 
-        if (allCategories.size() == 0) {
+        if (Categories.size() == 0) {
             VerdanaTextView noCategories = new VerdanaTextView(this, null);
             noCategories.setText(R.string.textNoCategories);
             categoriesLayout.addView(noCategories);
         }
-        databaseLoader.close();
+
     }
 
     private void startCategory(Object thisCategory) {
+
         Category cat = (Category) thisCategory;
-        Intent intent = new Intent(this, LevelsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("Module", moduleID);
-        intent.putExtra("Category", String.valueOf(cat.getCatNumber()));
-        startActivity(intent);
+
+        menu.setCurrentCategory(cat);
+
+        if(menu.canGoLower()){
+
+            onCreateHelper();
+
+        } else {
+
+            Intent intent = new Intent(this, LevelsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            //intent.putExtra("Category", String.valueOf(cat.getCatNumber()));
+
+            startActivity(intent);
+        }
     }
 
     public void goBack(View v) {
-        Intent intent = new Intent(this, ModulesActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("Module", moduleID);
-        startActivity(intent);
+
+        if(menu.canGoUp()){
+
+            menu.goUp();
+
+            onCreateHelper();
+
+        } else {
+
+            Intent intent = new Intent(this, MainMenuActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            startActivity(intent);
+        }
     }
 }

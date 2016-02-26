@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 public class MyDatabase extends SQLiteAssetHelper {
-    private static final String DATABASE_NAME = "bd_prdl.sqlite";
+    private static final String DATABASE_NAME = "bd_prdl.db";
 
     private static final int DATABASE_VERSION = 1;
 
@@ -49,7 +49,6 @@ public class MyDatabase extends SQLiteAssetHelper {
     public static final String TABLE_CATEGORY = "categoria";
     public static final String CATEGORY_COLUMN_ID = "cat_id";
     public static final String CATEGORY_COLUMN_NAME = "cat_nombre";
-    public static final String CATEGORY_COLUMN_MID = "mod_id";
     public static final String CATEGORY_COLUMN_CID = "cat_padre";
 
     public static final String TABLE_IMG = "imagen";
@@ -75,10 +74,11 @@ public class MyDatabase extends SQLiteAssetHelper {
 
     public static String[] allModuleColumns = {MODULE_COLUMN_ID, MODULE_COLUMN_NAME};
 
-    public static String[] allCategoryColumns = {CATEGORY_COLUMN_ID, CATEGORY_COLUMN_NAME,
-            CATEGORY_COLUMN_MID, CATEGORY_COLUMN_CID};
+    public static String[] allCategoryColumns = {CATEGORY_COLUMN_ID, CATEGORY_COLUMN_NAME, CATEGORY_COLUMN_CID};
 
     public static String[] allIMGColumns = {IMG_COLUMN_ID, IMG_COLUMN_NAME};
+
+    public static String[] allSNDColumns = {SND_COLUMN_ID, SND_COLUMN_NAME};
 
     public static String[] allLVLColumns = {LVL_COLUMN_ID, LVL_COLUMN_NUMBER, LVL_COLUMN_CID};
 

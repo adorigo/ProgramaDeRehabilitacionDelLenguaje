@@ -2,18 +2,17 @@ package ar.org.ineco.prl.programaderehabilitaciondellenguaje.database;
 
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ApplicationContext;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ImageFile;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Option;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Question;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Category;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Level;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Module;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,13 +22,22 @@ import java.util.Map;
 import java.util.Set;
 
 public class DatabaseLoader {
+
+    private static DatabaseLoader ourInstance;
+
+    public static DatabaseLoader getInstance() {
+        if(ourInstance == null){
+            ourInstance = new DatabaseLoader();
+        }
+        return ourInstance;
+    }
+
+    private DatabaseLoader() {
+        dbHelper = new MyDatabase(ApplicationContext.get().getApplicationContext());
+    }
+
     private MyDatabase dbHelper;
     private SQLiteDatabase database;
-
-
-    public DatabaseLoader(Context context) {
-        dbHelper = new MyDatabase(context);
-    }
 
     public void openWritable() throws SQLException {
         database = dbHelper.getWritableDatabase();
@@ -44,6 +52,8 @@ public class DatabaseLoader {
     }
 
     public List<Question> getAllQuestions(String thisLevel) {
+
+        openReadable();
 
         Map<Long, Question> allQuestions = new HashMap<>();
 
@@ -75,6 +85,8 @@ public class DatabaseLoader {
         }
 
         cursor.close();
+
+        close();
 
         return (List<Question>) allQuestions.values();
     }
@@ -194,94 +206,80 @@ public class DatabaseLoader {
         );
     }
 
-    public List<Level> getAllLevels(String thisCategory) {
-        List<Level> allLevels = new ArrayList<>();
+    public Map<Long, Level> getLevels() {
+
+        openReadable();
+
+        Map<Long, Level> levels = new HashMap();
+
         String query = "SELECT * FROM " + MyDatabase.TABLE_LVL;
-        String condition = " WHERE " + MyDatabase.CATEGORY_COLUMN_CID + " = " + thisCategory;
-        Cursor cursor = database.rawQuery(query + condition, null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            Level lvl = cursorToLevel(cursor);
-            allLevels.add(lvl);
-            cursor.moveToNext();
-        }
-
-        cursor.close();
-        return allLevels;
-    }
-
-    private Level cursorToLevel(Cursor cursor) {
-        return new Level(cursor.getInt(0));
-    }
-
-    public String getCategoryName(String thisCategory) {
-        String categoryName = "";
-        String query = "SELECT cat_name FROM " + MyDatabase.TABLE_CATEGORY;
-        String condition = " WHERE " + MyDatabase.CATEGORY_COLUMN_CID + " = " + thisCategory;
-        Cursor cursor = database.rawQuery(query + condition, null);
-
-        cursor.moveToFirst();
-        if (!cursor.isAfterLast()) {
-            categoryName = cursor.getString(0);
-        }
-        cursor.close();
-        return categoryName;
-    }
-
-    public List<Category> getAllCategories(String moduleID) {
-        List<Category> allCategories = new ArrayList<>();
-        String query = "SELECT * FROM " + MyDatabase.TABLE_CATEGORY;
-        String condition = " WHERE " + MyDatabase.CATEGORY_COLUMN_MID + " = " + moduleID;
-        Cursor cursor = database.rawQuery(query + condition, null);
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            Category cat = cursorToCategory(cursor);
-            allCategories.add(cat);
-            cursor.moveToNext();
-        }
-
-        cursor.close();
-        return allCategories;
-    }
-
-    private Category cursorToCategory(Cursor cursor) {
-        return new Category(cursor.getInt(0), cursor.getString(1));
-    }
-
-    public List<Module> getAllModules() {
-        List<Module> allModules = new ArrayList<>();
-        String query = "SELECT * FROM " + MyDatabase.TABLE_MODULE;
         Cursor cursor = database.rawQuery(query, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Module mod = cursorToModule(cursor);
-            allModules.add(mod);
+            Level lvl = cursorToLevel(cursor);
+            levels.put(lvl.getLvlId(), lvl);
             cursor.moveToNext();
         }
 
         cursor.close();
-        return allModules;
+
+        close();
+
+        return levels;
     }
 
-    private Module cursorToModule(Cursor cursor) {
-        return new Module(cursor.getInt(0), cursor.getString(1));
+    private Level cursorToLevel(Cursor cursor) {
+        return new Level(cursor.getLong(cursor.getColumnIndex(MyDatabase.LVL_COLUMN_ID)),
+                cursor.getInt(cursor.getColumnIndex(MyDatabase.LVL_COLUMN_NUMBER)),
+                cursor.getLong(cursor.getColumnIndex(MyDatabase.LVL_COLUMN_CID))
+        );
     }
 
-    public String getModuleName(String thisModule) {
-        String moduleName = "";
-        String query = "SELECT mod_name FROM " + MyDatabase.TABLE_MODULE;
-        String condition = " WHERE " + MyDatabase.MODULE_COLUMN_ID + " = " + thisModule;
-        Cursor cursor = database.rawQuery(query + condition, null);
+    public Map<Long, Category> getCategories() {
+
+        openReadable();
+
+        Map<Long, Category> categories = new HashMap();
+
+        String query = "SELECT * FROM " + MyDatabase.TABLE_CATEGORY;
+        Cursor cursor = database.rawQuery(query, null);
 
         cursor.moveToFirst();
-        if (!cursor.isAfterLast()) {
-            moduleName = cursor.getString(0);
+        while (!cursor.isAfterLast()) {
+            Category cat = cursorToCategory(cursor);
+            categories.put(cat.getCatNumber(), cat);
+            cursor.moveToNext();
         }
 
         cursor.close();
-        return moduleName;
+
+        query = "SELECT "+MyDatabase.CATEGORY_COLUMN_ID+", "+MyDatabase.CATEGORY_COLUMN_CID+" FROM " + MyDatabase.TABLE_CATEGORY;
+        String condition = " WHERE " + MyDatabase.CATEGORY_COLUMN_CID + "!= ''";
+        cursor = database.rawQuery(query + condition, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+
+            Long idChildCategory = cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_ID));
+            Long idParentCategory = cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_CID));
+
+            categories.get(idParentCategory).addChildren(categories.get(idChildCategory));
+            Log.d(DatabaseLoader.class.getName(), "Adding " + idChildCategory.toString() + " to " + idParentCategory.toString());
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+
+        close();
+
+        return categories;
+    }
+
+    private Category cursorToCategory(Cursor cursor) {
+        return new Category(cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_ID)),
+                cursor.getString(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_NAME)),
+                cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_CID))
+        );
     }
 }

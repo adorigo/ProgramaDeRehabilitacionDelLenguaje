@@ -23,9 +23,6 @@
     <string name="buttonLoginBack">Menu Principal</string>
     <string name="buttonLoginNext">Acceder</string>
 
-    <string name="title_activity_modules">Modulos de Aprendizaje</string>
-    <string name="textNoModules">No hay Modulos</string>
-
     <string name="title_activity_categories">Categorias</string>
     <string name="textNoCategories">No hay Categorias</string>
 

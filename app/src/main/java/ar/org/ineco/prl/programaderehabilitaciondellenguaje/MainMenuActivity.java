@@ -15,7 +15,7 @@ public class MainMenuActivity extends Activity {
 
 
     public void startModulesActivity(View view) {
-        Intent intent = new Intent(this, ModulesActivity.class);
+        Intent intent = new Intent(this, CategoriesActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
