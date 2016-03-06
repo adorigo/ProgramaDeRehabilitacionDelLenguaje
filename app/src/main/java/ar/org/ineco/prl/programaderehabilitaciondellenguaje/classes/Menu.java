@@ -1,7 +1,5 @@
 package ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,13 +22,11 @@ public class Menu {
 
         DatabaseLoader databaseLoader = DatabaseLoader.getInstance();
         categories = databaseLoader.getCategories();
-        levels = databaseLoader.getLevels();
         currentCategory = null;
         currentLevel = null;
     }
 
     private Map<Long, Category> categories;
-    private Map<Long, Level> levels;
 
     private Category currentCategory;
     private Level currentLevel;
@@ -41,7 +37,8 @@ public class Menu {
 
         if (currentCategory == null) {
 
-            cats = new ArrayList<>();
+            cats = new ArrayList<>(categories.values());
+            /*cats = new ArrayList<>();
 
             List<Category> allCategories = new ArrayList<>(categories.values());
 
@@ -51,7 +48,7 @@ public class Menu {
 
                     cats.add(category);
                 }
-            }
+            }*/
 
         } else {
             cats = currentCategory.getChildCategories();
@@ -63,16 +60,17 @@ public class Menu {
     public List<Level> getLevels () {
 
         List<Level> lvls = new ArrayList<>();
-        List<Level> allLvls = new ArrayList<>(levels.values());
+        //List<Level> allLvls = new ArrayList<>(levels.values());
 
         if (currentCategory != null) {
 
-            for (Level level : allLvls) {
+            lvls = currentCategory.getLevels();
+            /*for (Level level : allLvls) {
 
-                if (level.getCatNumber() == currentCategory.getCatNumber()) {
+                if (level.getCatid() == currentCategory.getId()) {
                     lvls.add(level);
                 }
-            }
+            }*/
         }
 
         return lvls;
@@ -98,7 +96,7 @@ public class Menu {
         String label = "";
 
         if (currentCategory != null) {
-            label = currentCategory.getCatName();
+            label = currentCategory.getName();
         }
 
         return label;
@@ -137,7 +135,7 @@ public class Menu {
 
         if (currentLevel != null) {
 
-            switch ((int) currentLevel.getCatNumber()) {
+            switch ((int) currentLevel.getCatid()) {
 
                 case 3:
                 case 4:

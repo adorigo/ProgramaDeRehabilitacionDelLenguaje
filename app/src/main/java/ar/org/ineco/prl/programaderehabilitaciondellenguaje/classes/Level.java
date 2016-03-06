@@ -1,35 +1,90 @@
 package ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.database.DatabaseLoader;
+
 public class Level {
 
-    private long lvlId;
-    private int lvlNumber;
-    private long catNumber;
+    private long id;
+    private int number;
+    private boolean done;
+    private long catid;
 
-    public Level (long thisLVLId, int thisLVLNumber, long thisCatNumber) {
+    private List<Question> questions;
 
-        lvlNumber = thisLVLNumber;
-        lvlId = thisLVLId;
-        catNumber = thisCatNumber;
+    public Level (long thisLVLId, int thisLVLNumber, int thisLVLDone, long thisCatNumber) {
+
+        number = thisLVLNumber;
+        id = thisLVLId;
+        done = (thisLVLDone == 1);
+        catid = thisCatNumber;
+        questions = new ArrayList<>();
     }
 
     public String getLvlName () {
 
-        return "Level " + String.valueOf(lvlNumber);
+        return "Nivel " + String.valueOf(number);
     }
 
-    public int getLvlNumber () {
+    public int getNumber () {
 
-        return lvlNumber;
+        return number;
     }
 
-    public long getCatNumber () {
+    public long getCatid () {
 
-        return catNumber;
+        return catid;
     }
 
-    public long getLvlId () {
+    public long getId () {
 
-        return lvlId;
+        return id;
+    }
+
+    public boolean isDone () {
+
+        return done;
+    }
+
+    public List<Question> getQuestions () {
+
+        return questions;
+    }
+
+    public List<Question> getPendingQuestions () {
+
+        List<Question> pendingQuestions = new ArrayList<>();
+
+        for (Question question : this.questions) {
+
+            if (!question.isDone()) {
+
+                pendingQuestions.add(question);
+            }
+        }
+
+        return pendingQuestions;
+    }
+
+    public void addAllQuestions (List<Question> thisQuestions) {
+
+        questions.addAll(thisQuestions);
+    }
+
+    public void check () {
+
+        this.done = true;
+        DatabaseLoader.getInstance().checkLevel(this);
+    }
+
+    public void resetQuestions () {
+
+        for (Question question : this.questions) {
+
+            question.reset();
+        }
+        DatabaseLoader.getInstance().resetLevel(this);
     }
 }

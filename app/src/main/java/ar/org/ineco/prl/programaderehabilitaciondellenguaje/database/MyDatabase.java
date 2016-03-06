@@ -18,13 +18,13 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
     - assets/databases/<database_name>_upgrade_<from_version>-<to_version>.sql
 
- */
+    Generating upgrade scripts
+
+    You can use 3rd party tools to automatically generate the SQL required to modify a database
+    from one schema version to another. One such application is SQLite Compare Utility for Windows.
+*/
 
 public class MyDatabase extends SQLiteAssetHelper {
-
-    private static final String DATABASE_NAME = "database.db";
-
-    private static final int DATABASE_VERSION = 1;
 
     public static final String TABLE_OPTION = "opcion";
     public static final String OPTION_COLUMN_ID = "_id";
@@ -89,7 +89,10 @@ public class MyDatabase extends SQLiteAssetHelper {
 
     public static String[] allSNDColumns = {SND_COLUMN_ID, SND_COLUMN_NAME};
 
-    public static String[] allLVLColumns = {LVL_COLUMN_ID, LVL_COLUMN_NUMBER, LVL_COLUMN_CID};
+    public static String[] allLVLColumns = {LVL_COLUMN_ID, LVL_COLUMN_NUMBER, LVL_COLUMN_LVLDONE, LVL_COLUMN_CID};
+
+    private static final String DATABASE_NAME = "database.db";
+    private static final int DATABASE_VERSION = 2;
 
     public MyDatabase (Context context) {
 

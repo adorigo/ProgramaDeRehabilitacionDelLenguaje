@@ -16,11 +16,11 @@ import android.widget.Toast;
 import java.util.Iterator;
 import java.util.List;
 
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ApplicationContext;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ImageFile;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Menu;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Option;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Question;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.database.DatabaseLoader;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.AudioUtil;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.FeedbackDialog;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.Utils;
@@ -29,15 +29,13 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
 
 public class PragmaticaActivity extends Activity implements View.OnClickListener {
 
-    private DatabaseLoader databaseLoader;
-    private List<Question> allQuestions;
     private Question currentQuestion;
     private Iterator iterator;
 
     private int currentQuestionNumber;
     private int totalQuestionNumber;
 
-    private Menu menu = Menu.getInstance();
+    private Menu menu = ApplicationContext.getMenu();
     private FeedbackDialog feedbackEnd;
     private FeedbackDialog feedbackCorrectAns;
     private AudioUtil audioUtil;
@@ -60,19 +58,16 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
         audioUtil = new AudioUtil(this);
 
-        databaseLoader = DatabaseLoader.getInstance();
-        databaseLoader.openWritable();
-
         onCreateHelper();
     }
 
     private void onCreateHelper () {
 
-        allQuestions = databaseLoader.getAllQuestions(menu.getCurrentLevel().getLvlId());
+        List<Question> allQuestions = menu.getCurrentLevel().getPendingQuestions();
 
         if (allQuestions.size() > 0) {
 
-            totalQuestionNumber = allQuestions.size();
+            totalQuestionNumber = menu.getCurrentLevel().getQuestions().size();
             currentQuestionNumber = 0;
             iterator = allQuestions.iterator();
             Log.d(PragmaticaActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
@@ -81,93 +76,25 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
         } else {
 
-            showEndDialogOptions();
-        }
-    }
-
-    private void showEndDialogOptions () {
-
-        feedbackEnd.show();
-    }
-
-    private void checkAnswer (Option thisOption) {
-
-        if (thisOption.checkAns()) {
-
-            feedbackCorrectAns.show();
-
-            if (Utils.withSound(this)) {
-                audioUtil.playSound(audioUtil.TRIVIA_RIGHT_ANSWER);
-            }
-
-        } else {
-
-            Toast.makeText(this, "Wrong!", Toast.LENGTH_SHORT).show();
-
-            if (Utils.withSound(this)) {
-                audioUtil.playSound(audioUtil.TRIVIA_WRONG_ANSWER);
-            }
-        }
-    }
-
-    public void nextQuestion () {
-
-        databaseLoader.checkQuestion(currentQuestion);
-
-        feedbackCorrectAns.hide();
-
-        float completeRate = (float) currentQuestionNumber / totalQuestionNumber;
-
-        Log.d(PragmaticaActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
-
-        Log.d(PragmaticaActivity.class.getName(),
-                completeRate
-                        + " <= "
-                        + Utils.lvlRate(this)
-        );
-
-
-        if (iterator.hasNext() && completeRate <= Utils.lvlRate(this)) {
-
-            currentQuestion = (Question) iterator.next();
-            currentQuestionNumber++;
-            drawUI();
-
-        } else {
+            menu.getCurrentLevel().check();
 
             showEndDialogOptions();
         }
-    }
-
-    public void resetQuestions () {
-
-        feedbackEnd.hide();
-
-        databaseLoader.resetQuestions(menu.getCurrentLevel().getLvlId());
-
-        onCreateHelper();
-    }
-
-    public void goBack () {
-
-        feedbackEnd.hide();
-
-        menu.setCurrentLevel(null);
-
-        Intent intent = new Intent(this, LevelsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        startActivity(intent);
     }
 
     private void drawUI () {
 
         if (currentQuestion != null) {
 
+            VerdanaTextView title = (VerdanaTextView) findViewById(R.id.textTitle);
+            title.setText("");
+
             LinearLayout questionLayout = (LinearLayout) findViewById(R.id.layoutQuestion);
             questionLayout.removeAllViews();
+
             LinearLayout optionsLayout = (LinearLayout) findViewById(R.id.layoutOptions);
             optionsLayout.removeAllViews();
+
 
             Runnable runAfterSplash = new Runnable() {
 
@@ -180,32 +107,37 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
             Log.d(PragmaticaActivity.class.getName(), "Size: " + currentQuestion.getImages().size());
 
-            if (currentQuestion.getImages().size() == 1) {
+            if (currentQuestion.getImages().size() > 0) {
 
-                ImageFile img = currentQuestion.getImages().get(0);
+                title.setText(currentQuestion.getText());
 
-                ImageView image = new ImageView(this);
+                for (ImageFile img : currentQuestion.getImages()) {
 
-                image.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT));
+                    ImageView image = new ImageView(this);
 
-                image.setImageResource(getResources().getIdentifier(img.getName(), "drawable", this.getPackageName()));
+                    image.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                    image.setImageResource(getResources().getIdentifier(img.getName(), "drawable", this.getPackageName()));
 
-                lp.setMargins(5, 5, 5, 5);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                image.setLayoutParams(lp);
+                    lp.setMargins(5, 5, 5, 5);
 
-                questionLayout.addView(image);
+                    image.setLayoutParams(lp);
 
-                Log.d(QuizActivity.class.getName(), "Adding ImageView " + img.getName());
+                    questionLayout.addView(image);
+
+                    Log.d(PragmaticaActivity.class.getName(), "Adding ImageView " + img.getName());
+                }
 
                 Handler h = new Handler();
                 h.postDelayed(runAfterSplash, 5000);
 
             } else {
+
+                title.setText(R.string.title_activity_pragmatica);
 
                 VerdanaTextView questionText = new VerdanaTextView(this, null);
 
@@ -260,6 +192,84 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
         }
     }
 
+    private void showEndDialogOptions () {
+
+        feedbackEnd.show();
+    }
+
+    private void checkAnswer (Option thisOption) {
+
+        if (thisOption.checkAns()) {
+
+            feedbackCorrectAns.show();
+
+            if (Utils.withSound(this)) {
+                audioUtil.playSound(audioUtil.TRIVIA_RIGHT_ANSWER);
+            }
+
+        } else {
+
+            Toast.makeText(this, "Wrong!", Toast.LENGTH_SHORT).show();
+
+            if (Utils.withSound(this)) {
+                audioUtil.playSound(audioUtil.TRIVIA_WRONG_ANSWER);
+            }
+        }
+    }
+
+    public void nextQuestion () {
+
+        currentQuestion.check();
+
+        feedbackCorrectAns.hide();
+
+        currentQuestionNumber++;
+
+        float completeRate = ((float) currentQuestionNumber) / totalQuestionNumber;
+
+        Log.d(PragmaticaActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
+
+        Log.d(PragmaticaActivity.class.getName(),
+                completeRate
+                        + " <= "
+                        + Utils.lvlRate(this)
+        );
+
+
+        if (iterator.hasNext() && completeRate <= Utils.lvlRate(this)) {
+
+            currentQuestion = (Question) iterator.next();
+            drawUI();
+
+        } else {
+
+            menu.getCurrentLevel().check();
+
+            showEndDialogOptions();
+        }
+    }
+
+    public void resetQuestions () {
+
+        feedbackEnd.hide();
+
+        menu.getCurrentLevel().resetQuestions();
+
+        onCreateHelper();
+    }
+
+    public void goBack () {
+
+        feedbackEnd.hide();
+
+        menu.setCurrentLevel(null);
+
+        Intent intent = new Intent(this, LevelsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        startActivity(intent);
+    }
+
     @Override
     public void onClick (View v) {
 
@@ -284,7 +294,6 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
         super.onResume();
 
-        databaseLoader.openWritable();
         audioUtil = new AudioUtil(this);
 
         Log.d(PragmaticaActivity.class.getName(), "Loader Opened.");
@@ -295,7 +304,6 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
         super.onPause();
 
-        databaseLoader.close();
         feedbackEnd.dismiss();
         feedbackCorrectAns.dismiss();
         audioUtil.unloadAll();

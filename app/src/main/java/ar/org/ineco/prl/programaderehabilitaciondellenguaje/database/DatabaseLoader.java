@@ -56,15 +56,13 @@ public class DatabaseLoader {
         dbHelper.close();
     }
 
-    public List<Question> getAllQuestions (long thisLevel) {
-
-        openReadable();
+    public List<Question> getAllQuestions (Level thisLevel) {
 
         Map<Long, Question> allQuestions = new HashMap<>();
 
         String query = "SELECT * FROM " + MyDatabase.TABLE_QUESTION;
         String condition = " WHERE " + MyDatabase.QUESTION_COLUMN_CHECK + " = 0";
-        condition += " AND " + MyDatabase.QUESTION_COLUMN_LVLID + " = " + thisLevel;
+        condition += " AND " + MyDatabase.QUESTION_COLUMN_LVLID + " = " + thisLevel.getId();
         Cursor cursor = database.rawQuery(query + condition, null);
 
         cursor.moveToFirst();
@@ -73,32 +71,47 @@ public class DatabaseLoader {
 
             Question Question = cursorToQuestion(cursor);
 
-            while (!cursor.isAfterLast() && Question.getId() == cursor.getLong(0)) {
-
-                Question.addImages(getAllQuestionsImages(Question.getId()));
-
-                cursor.moveToNext();
-            }
+            Question.addImages(getAllQuestionsImages(Question.getId()));
 
             allQuestions.put(Question.getId(), Question);
+
+            cursor.moveToNext();
         }
 
-        List<Option> allOptions = getAllOptions(allQuestions.keySet());
+        if (allQuestions.size() > 0) {
 
-        for (Option opt : allOptions) {
-            allQuestions.get(opt.getQid()).addOption(opt);
+            List<Option> allOptions = getAllOptions(allQuestions.keySet());
+
+            for (Option opt : allOptions) {
+                allQuestions.get(opt.getQid()).addOption(opt);
+            }
         }
 
         cursor.close();
 
-        close();
+        // Load question hierarchy
+        List<Question> questions = new ArrayList<>();
 
-        return new ArrayList<>(allQuestions.values());
+        for (Question question : allQuestions.values()) {
+
+            if (question.hasParent()) {
+
+                allQuestions.get(question.getParentQuestion()).addChildQuestion(question);
+
+            } else {
+
+                questions.add(question);
+            }
+        }
+
+        return questions;
     }
 
     private List<ImageFile> getAllQuestionsImages (Long questionID) {
 
         Set<Long> idsImages = new HashSet<>();
+
+        List<ImageFile> images = new ArrayList<>();
 
         String query = "SELECT * FROM " + MyDatabase.TABLE_PREGIMG;
         String condition = " WHERE " + MyDatabase.PREGIMG_COLUMN_QID + " = " + questionID;
@@ -116,7 +129,12 @@ public class DatabaseLoader {
 
         cursor.close();
 
-        return getAllImages(idsImages);
+        if (idsImages.size() > 0) {
+
+            images.addAll(getAllImages(idsImages));
+        }
+
+        return images;
     }
 
     private List<ImageFile> getAllImages (Set<Long> idsImages) {
@@ -132,20 +150,17 @@ public class DatabaseLoader {
         condition = condition.substring(0, condition.length() - 1);
         condition += ");";
 
-        if (idsImages.size() > 0) {
+        Cursor cursor = database.rawQuery(query + condition, null);
 
-            Cursor cursor = database.rawQuery(query + condition, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
 
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-
-                ImageFile image = cursorToImage(cursor);
-                images.add(image);
-                cursor.moveToNext();
-            }
-
-            cursor.close();
+            ImageFile image = cursorToImage(cursor);
+            images.add(image);
+            cursor.moveToNext();
         }
+
+        cursor.close();
 
         return images;
     }
@@ -153,44 +168,17 @@ public class DatabaseLoader {
     private ImageFile cursorToImage (Cursor cursor) {
 
         return new ImageFile(cursor.getLong(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_ID)),
-                cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_NAME)));
-    }
-
-    public void checkQuestion (Question question) {
-
-        long id = question.getId();
-
-        Log.d(DatabaseLoader.class.getName(), "Question checked with id: " + id);
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MyDatabase.QUESTION_COLUMN_CHECK, 1);
-        database.update(MyDatabase.TABLE_QUESTION, contentValues, MyDatabase.QUESTION_COLUMN_ID
-                + " = " + id, null);
-        if (!database.isOpen()) {
-            close();
-        }
-    }
-
-    public void resetQuestions (long thisLevel) {
-
-        if (!database.isOpen()) {
-            openWritable();
-        }
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MyDatabase.QUESTION_COLUMN_CHECK, 0);
-
-        String condition = MyDatabase.QUESTION_COLUMN_LVLID + " = " + thisLevel;
-
-        int rows = database.update(MyDatabase.TABLE_QUESTION, contentValues, condition, null);
-        Log.d(DatabaseLoader.class.getName(), "Reseting all questions with " + rows + " affected.");
-
-        close();
+                cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_NAME))
+        );
     }
 
     private Question cursorToQuestion (Cursor cursor) {
 
         return new Question(cursor.getLong(cursor.getColumnIndex(MyDatabase.QUESTION_COLUMN_ID)),
-                cursor.getString(cursor.getColumnIndex(MyDatabase.QUESTION_COLUMN_TXT)));
+                cursor.getString(cursor.getColumnIndex(MyDatabase.QUESTION_COLUMN_TXT)),
+                cursor.getInt(cursor.getColumnIndex(MyDatabase.QUESTION_COLUMN_CHECK)),
+                cursor.getLong(cursor.getColumnIndex(MyDatabase.QUESTION_COLUMN_QID))
+        );
     }
 
     private List<Option> getAllOptions (Set<Long> idsQuestions) {
@@ -203,7 +191,8 @@ public class DatabaseLoader {
         for (Long idQst : idsQuestions) {
             condition += String.valueOf(idQst) + ",";
         }
-        condition = condition.substring(0, condition.length() - 1);
+
+        condition = condition.substring(0, condition.length() - 1); // remove trailing comma
         condition += ");";
 
         Cursor cursor = database.rawQuery(query + condition, null);
@@ -228,30 +217,34 @@ public class DatabaseLoader {
 
         return new Option(cursor.getLong(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_TXT)),
-                (int) cursor.getLong(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_CORR)),
+                cursor.getInt(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_CORR)),
                 cursor.getLong(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_QID))
         );
     }
 
-    public Map<Long, Level> getLevels () {
+    public List<Level> getAllLevels (Category thisCategory) {
 
-        openReadable();
-
-        Map<Long, Level> levels = new HashMap<>();
+        List<Level> levels = new ArrayList<>();
 
         String query = "SELECT * FROM " + MyDatabase.TABLE_LVL;
-        Cursor cursor = database.rawQuery(query, null);
+        String condition = " WHERE " + MyDatabase.LVL_COLUMN_CID + " = " + thisCategory.getId();
+        String order = " ORDER BY " + MyDatabase.LVL_COLUMN_NUMBER + " ASC";
+        Cursor cursor = database.rawQuery(query + condition + order, null);
 
         cursor.moveToFirst();
+
         while (!cursor.isAfterLast()) {
+
             Level lvl = cursorToLevel(cursor);
-            levels.put(lvl.getLvlId(), lvl);
+
+            lvl.addAllQuestions(getAllQuestions(lvl));
+
+            levels.add(lvl);
+
             cursor.moveToNext();
         }
 
         cursor.close();
-
-        close();
 
         return levels;
     }
@@ -260,6 +253,7 @@ public class DatabaseLoader {
 
         return new Level(cursor.getLong(cursor.getColumnIndex(MyDatabase.LVL_COLUMN_ID)),
                 cursor.getInt(cursor.getColumnIndex(MyDatabase.LVL_COLUMN_NUMBER)),
+                cursor.getInt(cursor.getColumnIndex(MyDatabase.LVL_COLUMN_LVLDONE)),
                 cursor.getLong(cursor.getColumnIndex(MyDatabase.LVL_COLUMN_CID))
         );
     }
@@ -274,14 +268,17 @@ public class DatabaseLoader {
         Cursor cursor = database.rawQuery(query, null);
 
         cursor.moveToFirst();
+
         while (!cursor.isAfterLast()) {
+
             Category cat = cursorToCategory(cursor);
-            categories.put(cat.getCatNumber(), cat);
+            categories.put(cat.getId(), cat);
             cursor.moveToNext();
         }
 
         cursor.close();
 
+        // Load Category hierarchy
         query = "SELECT " + MyDatabase.CATEGORY_COLUMN_ID + ", " + MyDatabase.CATEGORY_COLUMN_CID + " FROM " + MyDatabase.TABLE_CATEGORY;
         String condition = " WHERE " + MyDatabase.CATEGORY_COLUMN_CID + "!= ''";
         cursor = database.rawQuery(query + condition, null);
@@ -297,6 +294,22 @@ public class DatabaseLoader {
             cursor.moveToNext();
         }
 
+        List<Category> tempList = new ArrayList<>(categories.values());
+
+        for (Category category : tempList) {
+
+            if (!category.hasChildren() && category.hasParent()) {
+
+                category.addAllLevels(getAllLevels(category));
+
+                categories.remove(category.getId());
+
+            } else if (category.hasChildren() && category.hasParent()) {
+
+                categories.remove(category.getId());
+            }
+        }
+
         cursor.close();
 
         close();
@@ -310,5 +323,51 @@ public class DatabaseLoader {
                 cursor.getString(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_NAME)),
                 cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_CID))
         );
+    }
+
+    public void checkLevel (Level level) {
+
+        openWritable();
+
+        long id = level.getId();
+
+        Log.d(DatabaseLoader.class.getName(), "Level checked with id: " + id);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MyDatabase.LVL_COLUMN_LVLDONE, 1);
+        database.update(MyDatabase.TABLE_LVL, contentValues, MyDatabase.LVL_COLUMN_ID
+                + " = " + id, null);
+
+        close();
+    }
+
+    public void checkQuestion (Question question) {
+
+        openWritable();
+
+        long id = question.getId();
+
+        Log.d(DatabaseLoader.class.getName(), "Question checked with id: " + id);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MyDatabase.QUESTION_COLUMN_CHECK, 1);
+        database.update(MyDatabase.TABLE_QUESTION, contentValues, MyDatabase.QUESTION_COLUMN_ID
+                + " = " + id, null);
+
+        close();
+    }
+
+    public void resetLevel (Level thisLevel) {
+
+        openWritable();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MyDatabase.QUESTION_COLUMN_CHECK, 0);
+
+        String condition = MyDatabase.QUESTION_COLUMN_LVLID + " = " + thisLevel.getId();
+
+        int rows = database.update(MyDatabase.TABLE_QUESTION, contentValues, condition, null);
+        Log.d(DatabaseLoader.class.getName(), "Reseting all questions for level " + thisLevel.getId()
+                + " with " + rows + " affected.");
+
+        close();
     }
 }

@@ -5,27 +5,30 @@ import java.util.List;
 
 public class Category {
 
-    private long catNumber;
-    private String catName;
+    private long id;
+    private String name;
     private long parentCategory;
     private List<Category> childCategories;
 
+    private List<Level> levels;
+
     public Category (long thisCatNumber, String thisCatName, long thisParentCategory) {
 
-        catNumber = thisCatNumber;
-        catName = thisCatName;
+        id = thisCatNumber;
+        name = thisCatName;
         parentCategory = thisParentCategory;
-        childCategories = new ArrayList();
+        childCategories = new ArrayList<>();
+        levels = new ArrayList<>();
     }
 
-    public String getCatName () {
+    public String getName () {
 
-        return catName;
+        return name;
     }
 
-    public long getCatNumber () {
+    public long getId () {
 
-        return catNumber;
+        return id;
     }
 
     public Long getParentCategory () {
@@ -53,9 +56,19 @@ public class Category {
         childCategories.add(category);
     }
 
+    public void addAllLevels (List<Level> thisLevels) {
+
+        levels.addAll(thisLevels);
+    }
+
+    public List<Level> getLevels () {
+
+        return levels;
+    }
+
     @Override
     public String toString () {
 
-        return getCatName();
+        return getName();
     }
 }

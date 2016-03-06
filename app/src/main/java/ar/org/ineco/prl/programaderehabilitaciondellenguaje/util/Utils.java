@@ -3,6 +3,7 @@ package ar.org.ineco.prl.programaderehabilitaciondellenguaje.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class Utils {
 
@@ -17,9 +18,11 @@ public class Utils {
     public static float lvlRate (Context context) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        String value = sharedPref.getString("pref_key_lvlrate", "10");
-        float result = Integer.valueOf(value) / 100;
-        return result;
+        String value = sharedPref.getString("pref_key_lvlrate", "15");
+
+        Log.d(Utils.class.getName(), value);
+
+        return Integer.valueOf(value) / 100.0f;
     }
 
     public static String getPinPassword () {

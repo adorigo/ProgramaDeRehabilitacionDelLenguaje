@@ -2,16 +2,16 @@ package ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes;
 
 public class Option {
 
+    private long id;
     private String text;
-    private long value;
-    private int isCorrect;
+    private boolean isCorrect;
     private long qid;
 
-    public Option (long thisValue, String thisText, int thisCorrect, long thisQid) {
+    public Option (long thisId, String thisText, int thisCorrect, long thisQid) {
 
+        this.id = thisId;
         this.text = thisText;
-        this.isCorrect = thisCorrect;
-        this.value = thisValue;
+        this.isCorrect = (thisCorrect == 1);
         this.qid = thisQid;
     }
 
@@ -20,9 +20,9 @@ public class Option {
         return text;
     }
 
-    public long getValue () {
+    public long getId () {
 
-        return value;
+        return id;
     }
 
     public long getQid () {
@@ -32,7 +32,7 @@ public class Option {
 
     public boolean checkAns () {
 
-        return isCorrect == 1;
+        return isCorrect;
     }
 
     @Override

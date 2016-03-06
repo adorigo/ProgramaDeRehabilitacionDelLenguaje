@@ -1,14 +1,18 @@
 <resources>
+
     <string name="pref_summary_pregcomprension">Se hara una pregunta de compresion al final del ejercicio</string>
     <string name="pref_title_pregcomprension">Preguntas de Comprension</string>
+
     <string name="pref_modulo_lectura">Modulo Lectura</string>
+
     <string name="pref_title_estimulos">Estimulos Sonoros</string>
     <string name="pref_summary_estimulos">Se utilizaran consignas auditivas</string>
-    <string name="pref_summary_feedback">Se reproducira un sonido ante la respuestan del paciente</string>
     <string name="pref_title_feedback">Feedback Sonoro</string>
+    <string name="pref_summary_feedback">Se reproducira un sonido ante la respuestan del paciente</string>
     <string name="pref_title_cpmotrices">Problemas Motrices</string>
     <string name="pref_summary_cpmotrices">Especifica si el paciente tiene problemas motrices</string>
-    <string name="pref_general">Configuracion General</string>
     <string name="pref_title_lvlrate">Avanze de Nivel</string>
     <string name="pref_summary_lvlrate">Porcentaje de preguntas correctas para avanzar de nivel</string>
+
+    <string name="pref_general">Configuracion General</string>
 </resources>

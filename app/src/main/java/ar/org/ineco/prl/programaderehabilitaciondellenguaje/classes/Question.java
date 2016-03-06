@@ -5,19 +5,27 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.database.DatabaseLoader;
+
 public class Question {
 
     private long id;
     private String text;
+    private boolean done;
     private List<Option> opts;
     private List<ImageFile> imgs;
+    private long parentQuestion;
+    private List<Question> childQuestions;
 
-    public Question (long thisId, String thisText) {
+    public Question (long thisId, String thisText, int thisQuestionDone, long thisParentQuestion) {
 
         text = thisText;
         id = thisId;
+        done = (thisQuestionDone == 1);
+        parentQuestion = thisParentQuestion;
         imgs = new ArrayList<>();
         opts = new ArrayList<>();
+        childQuestions = new ArrayList<>();
     }
 
     public List<Option> getOpts () {
@@ -68,5 +76,41 @@ public class Question {
     public String toString () {
 
         return text;
+    }
+
+    public List<Question> getChildQuestions () {
+
+        return childQuestions;
+    }
+
+    public void addChildQuestion (Question thisQuestion) {
+
+        childQuestions.add(thisQuestion);
+    }
+
+    public Long getParentQuestion () {
+
+        return parentQuestion;
+    }
+
+    public boolean hasParent () {
+
+        return getParentQuestion() != null && getParentQuestion() != 0;
+    }
+
+    public void check () {
+
+        this.done = true;
+        DatabaseLoader.getInstance().checkQuestion(this);
+    }
+
+    public void reset () {
+
+        this.done = false;
+    }
+
+    public boolean isDone () {
+
+        return done;
     }
 }

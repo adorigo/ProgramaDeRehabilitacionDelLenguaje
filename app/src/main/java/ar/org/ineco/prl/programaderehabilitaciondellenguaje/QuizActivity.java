@@ -1,3 +1,4 @@
+/*
 package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 
 import android.app.Activity;
@@ -251,3 +252,4 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
         }
     }
 }
+*/

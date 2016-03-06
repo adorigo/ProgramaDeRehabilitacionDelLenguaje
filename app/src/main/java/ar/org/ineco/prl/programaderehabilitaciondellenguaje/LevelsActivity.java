@@ -2,7 +2,9 @@ package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ApplicationContext;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Level;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Menu;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
@@ -18,8 +21,7 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
 
 public class LevelsActivity extends Activity {
 
-    private Menu menu = Menu.getInstance();
-    private List<Level> Levels;
+    private Menu menu = ApplicationContext.getMenu();
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -30,9 +32,10 @@ public class LevelsActivity extends Activity {
         onCreateHelper();
     }
 
+    @SuppressWarnings("deprecation")
     private void onCreateHelper () {
 
-        Levels = menu.getLevels();
+        List<Level> levels = menu.getLevels();
 
         TextView categoryText = (TextView) findViewById(R.id.textCategoryTitle);
         categoryText.setText(menu.getLabel());
@@ -40,31 +43,47 @@ public class LevelsActivity extends Activity {
         LinearLayout levelsLayout = (LinearLayout) findViewById(R.id.layoutLevels);
         levelsLayout.removeAllViews();
 
-        for (Level lvl : Levels) {
+        for (Level lvl : levels) {
 
             VerdanaButton lvlButton = new VerdanaButton(this, null);
 
             lvlButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             lvlButton.setText(lvl.getLvlName());
-            lvlButton.setTag(lvl);
 
-            lvlButton.setOnClickListener(new View.OnClickListener() {
+            if (lvl.isDone()) {
 
-                @Override
-                public void onClick (View v) {
+                int sdkVersion = Build.VERSION.SDK_INT;
 
-                    startLevel(v.getTag());
+                if (sdkVersion < Build.VERSION_CODES.M) {
+                    lvlButton.setBackgroundColor(getResources().getColor(R.color.level_complete));
+                } else {
+                    lvlButton.setBackgroundColor(ContextCompat.getColor(this, R.color.level_complete));
                 }
-            });
 
+
+            } else {
+
+                lvlButton.setTag(lvl);
+
+                lvlButton.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick (View v) {
+
+                        startLevel(v.getTag());
+                    }
+                });
+            }
             levelsLayout.addView(lvlButton);
             Log.d(LevelsActivity.class.getName(), "Adding " + lvl.getLvlName());
         }
 
-        if (Levels.size() == 0) {
+        if (levels.size() == 0) {
+
             VerdanaTextView noLevels = new VerdanaTextView(this, null);
             noLevels.setText(R.string.textNoLevels);
+
             levelsLayout.addView(noLevels);
         }
     }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ApplicationContext;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Category;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Menu;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
@@ -18,7 +19,7 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
 
 public class CategoriesActivity extends Activity {
 
-    private Menu menu = Menu.getInstance();
+    private Menu menu = ApplicationContext.getMenu();
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class CategoriesActivity extends Activity {
             VerdanaButton catButton = new VerdanaButton(this, null);
             catButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
-            catButton.setText(cat.getCatName());
+            catButton.setText(cat.getName());
             catButton.setTag(cat);
             catButton.setOnClickListener(new View.OnClickListener() {
 
@@ -80,7 +81,7 @@ public class CategoriesActivity extends Activity {
             Intent intent = new Intent(this, LevelsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            //intent.putExtra("Category", String.valueOf(cat.getCatNumber()));
+            //intent.putExtra("Category", String.valueOf(cat.getId()));
 
             startActivity(intent);
         }
