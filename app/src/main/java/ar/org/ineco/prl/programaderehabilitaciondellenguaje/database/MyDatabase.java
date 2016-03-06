@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 public class MyDatabase extends SQLiteAssetHelper {
-    private static final String DATABASE_NAME = "bd_prdl.sqlite";
+    private static final String DATABASE_NAME = "database.sqlite";
 
     private static final int DATABASE_VERSION = 1;
 
