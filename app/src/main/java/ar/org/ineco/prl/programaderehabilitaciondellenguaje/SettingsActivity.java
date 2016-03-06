@@ -10,26 +10,27 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.view.View;
 
 import java.util.List;
-
 
 
 public class SettingsActivity extends PreferenceActivity {
 
     @Override
-    public boolean onIsMultiPane() {
+    public boolean onIsMultiPane () {
+
         return isXLargeTablet(this);
     }
 
-    private static boolean isXLargeTablet(Context context) {
+    private static boolean isXLargeTablet (Context context) {
+
         return (context.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
     }
 
     @Override
-    public boolean isValidFragment(String fragmentName){
+    public boolean isValidFragment (String fragmentName) {
+
         return GeneralPreferenceFragment.class.getName().equals(fragmentName) ||
                 ModuloLecturaPreferenceFragment.class.getName().equals(fragmentName);
     }
@@ -37,14 +38,17 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void onBuildHeaders(List<Header> target) {
+    public void onBuildHeaders (List<Header> target) {
+
         super.onBuildHeaders(target);
         loadHeadersFromResource(R.xml.pref_headers, target);
     }
 
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
+
         @Override
-        public boolean onPreferenceChange(Preference preference, Object value) {
+        public boolean onPreferenceChange (Preference preference, Object value) {
+
             String stringValue = value.toString();
 
             if (preference instanceof ListPreference) {
@@ -56,14 +60,15 @@ public class SettingsActivity extends PreferenceActivity {
                                 ? listPreference.getEntries()[index]
                                 : null);
 
-            }  else {
+            } else {
                 preference.setSummary(stringValue);
             }
             return true;
         }
     };
 
-    private static void bindPreferenceSummaryToValue(Preference preference) {
+    private static void bindPreferenceSummaryToValue (Preference preference) {
+
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
 
         sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
@@ -74,8 +79,10 @@ public class SettingsActivity extends PreferenceActivity {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
+
         @Override
-        public void onCreate(Bundle savedInstanceState) {
+        public void onCreate (Bundle savedInstanceState) {
+
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
         }
@@ -83,8 +90,10 @@ public class SettingsActivity extends PreferenceActivity {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class ModuloLecturaPreferenceFragment extends PreferenceFragment {
+
         @Override
-        public void onCreate(Bundle savedInstanceState) {
+        public void onCreate (Bundle savedInstanceState) {
+
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_modulo_lectura);
         }

@@ -3,6 +3,12 @@
     <PreferenceCategory
         android:title="@string/pref_general"
         android:key="pref_key_general">
+        <EditTextPreference
+            android:key="pref_key_lvlrate"
+            android:summary="@string/pref_summary_lvlrate"
+            android:title="@string/pref_title_lvlrate"
+            android:inputType="number"
+            />
         <CheckBoxPreference
             android:key="pref_key_cpmotrices"
             android:summary="@string/pref_summary_cpmotrices"

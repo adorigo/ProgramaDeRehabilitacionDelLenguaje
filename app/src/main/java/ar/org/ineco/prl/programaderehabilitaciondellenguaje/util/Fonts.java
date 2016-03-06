@@ -10,7 +10,8 @@ public class Fonts {
 
     private static final Map<String, Typeface> typefaces = new HashMap<>();
 
-    public static Typeface getTypeface(Context ctx, String fontName) {
+    public static Typeface getTypeface (Context ctx, String fontName) {
+
         Typeface typeface = typefaces.get(fontName);
         if (typeface == null) {
             typeface = Typeface.createFromAsset(ctx.getAssets(), fontName);

@@ -3,18 +3,17 @@ package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Category;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Menu;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView;
-
-import java.util.List;
 
 
 public class CategoriesActivity extends Activity {
@@ -22,7 +21,7 @@ public class CategoriesActivity extends Activity {
     private Menu menu = Menu.getInstance();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
@@ -30,7 +29,7 @@ public class CategoriesActivity extends Activity {
         onCreateHelper();
     }
 
-    private void onCreateHelper() {
+    private void onCreateHelper () {
 
         List<Category> Categories = menu.getCategories();
 
@@ -47,8 +46,10 @@ public class CategoriesActivity extends Activity {
             catButton.setText(cat.getCatName());
             catButton.setTag(cat);
             catButton.setOnClickListener(new View.OnClickListener() {
+
                 @Override
-                public void onClick(View v) {
+                public void onClick (View v) {
+
                     startCategory(v.getTag());
                 }
             });
@@ -64,13 +65,13 @@ public class CategoriesActivity extends Activity {
 
     }
 
-    private void startCategory(Object thisCategory) {
+    private void startCategory (Object thisCategory) {
 
         Category cat = (Category) thisCategory;
 
         menu.setCurrentCategory(cat);
 
-        if(menu.canGoLower()){
+        if (menu.canGoLower()) {
 
             onCreateHelper();
 
@@ -85,9 +86,9 @@ public class CategoriesActivity extends Activity {
         }
     }
 
-    public void goBack(View v) {
+    public void goBack (View v) {
 
-        if(menu.canGoUp()){
+        if (menu.canGoUp()) {
 
             menu.goUp();
 

@@ -6,25 +6,30 @@ public class Level {
     private int lvlNumber;
     private long catNumber;
 
-    public Level(long thisLVLId, int thisLVLNumber, long thisCatNumber) {
+    public Level (long thisLVLId, int thisLVLNumber, long thisCatNumber) {
+
         lvlNumber = thisLVLNumber;
         lvlId = thisLVLId;
         catNumber = thisCatNumber;
     }
 
-    public String getLvlName() {
+    public String getLvlName () {
+
         return "Level " + String.valueOf(lvlNumber);
     }
 
-    public int getLvlNumber() {
+    public int getLvlNumber () {
+
         return lvlNumber;
     }
 
-    public long getCatNumber() {
+    public long getCatNumber () {
+
         return catNumber;
     }
 
-    public long getLvlId() {
+    public long getLvlId () {
+
         return lvlId;
     }
 }

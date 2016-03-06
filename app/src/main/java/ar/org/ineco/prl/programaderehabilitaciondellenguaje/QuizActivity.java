@@ -11,19 +11,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Iterator;
+import java.util.List;
+
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ImageFile;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Option;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Question;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.AudioUtil;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.database.DatabaseLoader;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.AudioUtil;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.FeedbackDialog;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.Utils;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
 
-import java.util.Iterator;
-import java.util.List;
-
-public class QuizActivity extends Activity implements android.view.View.OnClickListener{
+public class QuizActivity extends Activity implements android.view.View.OnClickListener {
 
     private DatabaseLoader databaseLoader;
     private List<Question> allQuestions;
@@ -39,7 +39,8 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
     private AudioUtil audioUtil;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
@@ -56,7 +57,7 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
         feedbackEnd.findViewById(R.id.buttonReset).setOnClickListener(this);
         feedbackEnd.findViewById(R.id.buttonGoBack).setOnClickListener(this);
 
-        feedbackCorrectAns = new FeedbackDialog(this,R.layout.activity_quiz_popup_correctans);
+        feedbackCorrectAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_correctans);
         feedbackCorrectAns.findViewById(R.id.buttonNext).setOnClickListener(this);
 
         audioUtil = new AudioUtil(this);
@@ -67,11 +68,11 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
         onCreateHelper();
     }
 
-    private void onCreateHelper() {
+    private void onCreateHelper () {
 
         allQuestions = databaseLoader.getAllQuestions(Long.valueOf(levelID));
 
-        if(allQuestions.size()>0){
+        if (allQuestions.size() > 0) {
 
             totalQuestionNumber = allQuestions.size();
             currentQuestionNumber = 1;
@@ -79,19 +80,20 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
             currentQuestion = (Question) iterator.next();
             drawUI();
 
-        }else{
+        } else {
 
             showEndDialogOptions();
         }
     }
 
-    private void showEndDialogOptions() {
+    private void showEndDialogOptions () {
+
         feedbackEnd.show();
     }
 
-    private void checkAnswer(Option thisOption) {
+    private void checkAnswer (Option thisOption) {
 
-        if(thisOption.checkAns()){
+        if (thisOption.checkAns()) {
 
             feedbackCorrectAns.show();
 
@@ -99,7 +101,7 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
                 audioUtil.playSound(audioUtil.TRIVIA_RIGHT_ANSWER);
             }
 
-        }else{
+        } else {
 
             Toast.makeText(this, "Wrong!", Toast.LENGTH_SHORT).show();
 
@@ -109,34 +111,34 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
         }
     }
 
-    public void nextQuestion(){
+    public void nextQuestion () {
 
         databaseLoader.checkQuestion(currentQuestion);
 
         feedbackCorrectAns.hide();
 
-        if(iterator.hasNext()){
+        if (iterator.hasNext()) {
 
             currentQuestion = (Question) iterator.next();
             currentQuestionNumber++;
             drawUI();
 
-        }else{
+        } else {
 
             showEndDialogOptions();
         }
     }
 
-    public void resetQuestions(){
+    public void resetQuestions () {
 
         feedbackEnd.hide();
 
-        databaseLoader.resetQuestions();
+        databaseLoader.resetQuestions(1);
 
         onCreateHelper();
     }
 
-    public void goBack(){
+    public void goBack () {
 
         feedbackEnd.hide();
 
@@ -148,9 +150,9 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
         startActivity(intent);
     }
 
-    private void drawUI() {
+    private void drawUI () {
 
-        if(!(currentQuestion==null)){
+        if (!(currentQuestion == null)) {
 
             LinearLayout questionLayout = (LinearLayout) findViewById(R.id.layoutQuestion);
             questionLayout.removeAllViews();
@@ -180,24 +182,26 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
 
             optionsLayout.removeAllViews();
 
-            for(Option option:currentQuestion.getOpts()){
+            for (Option option : currentQuestion.getOpts()) {
 
                 VerdanaButton optionButton = new VerdanaButton(this, null);
 
                 optionButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
 
                 optionButton.setText(option.getStr());
 
                 optionButton.setTag(option);
 
                 optionButton.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        Option optSelected = (Option) v.getTag();
-                                                        checkAnswer(optSelected);
-                                                    }
-                                                });
+
+                    @Override
+                    public void onClick (View v) {
+
+                        Option optSelected = (Option) v.getTag();
+                        checkAnswer(optSelected);
+                    }
+                });
 
                 optionsLayout.addView(optionButton);
             }
@@ -205,7 +209,7 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
     }
 
     @Override
-    public void onResume(){
+    public void onResume () {
 
         super.onResume();
 
@@ -216,7 +220,7 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
     }
 
     @Override
-    public void onPause(){
+    public void onPause () {
 
         super.onPause();
 
@@ -229,9 +233,9 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick (View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.buttonReset:
                 resetQuestions();

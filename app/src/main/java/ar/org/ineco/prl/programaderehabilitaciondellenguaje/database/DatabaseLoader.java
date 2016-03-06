@@ -7,13 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ApplicationContext;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ImageFile;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Option;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Question;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Category;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Level;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,37 +14,49 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ApplicationContext;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Category;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ImageFile;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Level;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Option;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Question;
+
 public class DatabaseLoader {
 
     private static DatabaseLoader ourInstance;
 
-    public static DatabaseLoader getInstance() {
-        if(ourInstance == null){
+    public static DatabaseLoader getInstance () {
+
+        if (ourInstance == null) {
             ourInstance = new DatabaseLoader();
         }
         return ourInstance;
     }
 
-    private DatabaseLoader() {
+    private DatabaseLoader () {
+
         dbHelper = new MyDatabase(ApplicationContext.get().getApplicationContext());
     }
 
     private MyDatabase dbHelper;
     private SQLiteDatabase database;
 
-    public void openWritable() throws SQLException {
+    public void openWritable () throws SQLException {
+
         database = dbHelper.getWritableDatabase();
     }
 
-    public void openReadable() throws SQLException {
+    public void openReadable () throws SQLException {
+
         database = dbHelper.getReadableDatabase();
     }
 
-    public void close() {
+    public void close () {
+
         dbHelper.close();
     }
 
-    public List<Question> getAllQuestions(long thisLevel) {
+    public List<Question> getAllQuestions (long thisLevel) {
 
         openReadable();
 
@@ -88,15 +93,15 @@ public class DatabaseLoader {
 
         close();
 
-        return (List<Question>) allQuestions.values();
+        return new ArrayList<>(allQuestions.values());
     }
 
-    private List<ImageFile> getAllQuestionsImages(Long questionID) {
+    private List<ImageFile> getAllQuestionsImages (Long questionID) {
 
         Set<Long> idsImages = new HashSet<>();
 
         String query = "SELECT * FROM " + MyDatabase.TABLE_PREGIMG;
-        String condition = " WHERE " + MyDatabase.QUESTION_COLUMN_ID + " = " + questionID;
+        String condition = " WHERE " + MyDatabase.PREGIMG_COLUMN_QID + " = " + questionID;
         Cursor cursor = database.rawQuery(query + condition, null);
 
         cursor.moveToFirst();
@@ -114,67 +119,88 @@ public class DatabaseLoader {
         return getAllImages(idsImages);
     }
 
-    private List<ImageFile> getAllImages(Set<Long> idsImages) {
+    private List<ImageFile> getAllImages (Set<Long> idsImages) {
 
         List<ImageFile> images = new ArrayList<>();
 
         String query = "SELECT * FROM " + MyDatabase.TABLE_IMG;
         String condition = " WHERE " + MyDatabase.IMG_COLUMN_ID + " IN (";
 
-        for(Long idImg : idsImages){
+        for (Long idImg : idsImages) {
             condition += String.valueOf(idImg) + ",";
         }
         condition = condition.substring(0, condition.length() - 1);
         condition += ");";
 
-        Cursor cursor = database.rawQuery(query + condition, null);
+        if (idsImages.size() > 0) {
 
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()){
+            Cursor cursor = database.rawQuery(query + condition, null);
 
-            ImageFile image = cursorToImage(cursor);
-            images.add(image);
-            cursor.moveToNext();
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                ImageFile image = cursorToImage(cursor);
+                images.add(image);
+                cursor.moveToNext();
+            }
+
+            cursor.close();
         }
-
-        cursor.close();
 
         return images;
     }
 
-    private ImageFile cursorToImage(Cursor cursor) {
+    private ImageFile cursorToImage (Cursor cursor) {
+
         return new ImageFile(cursor.getLong(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_NAME)));
     }
 
-    public void checkQuestion(Question question) {
+    public void checkQuestion (Question question) {
+
         long id = question.getId();
+
         Log.d(DatabaseLoader.class.getName(), "Question checked with id: " + id);
         ContentValues contentValues = new ContentValues();
         contentValues.put(MyDatabase.QUESTION_COLUMN_CHECK, 1);
         database.update(MyDatabase.TABLE_QUESTION, contentValues, MyDatabase.QUESTION_COLUMN_ID
                 + " = " + id, null);
+        if (!database.isOpen()) {
+            close();
+        }
     }
 
-    public void resetQuestions() {
+    public void resetQuestions (long thisLevel) {
+
+        if (!database.isOpen()) {
+            openWritable();
+        }
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(MyDatabase.QUESTION_COLUMN_CHECK, 0);
-        int rows = database.update(MyDatabase.TABLE_QUESTION, contentValues, null, null);
+
+        String condition = MyDatabase.QUESTION_COLUMN_LVLID + " = " + thisLevel;
+
+        int rows = database.update(MyDatabase.TABLE_QUESTION, contentValues, condition, null);
         Log.d(DatabaseLoader.class.getName(), "Reseting all questions with " + rows + " affected.");
+
+        close();
     }
 
-    private Question cursorToQuestion(Cursor cursor) {
+    private Question cursorToQuestion (Cursor cursor) {
+
         return new Question(cursor.getLong(cursor.getColumnIndex(MyDatabase.QUESTION_COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.QUESTION_COLUMN_TXT)));
     }
 
-    private List<Option> getAllOptions(Set<Long> idsQuestions) {
+    private List<Option> getAllOptions (Set<Long> idsQuestions) {
+
         List<Option> Options = new ArrayList<>();
 
         String query = "SELECT * FROM " + MyDatabase.TABLE_OPTION;
         String condition = " WHERE " + MyDatabase.OPTION_COLUMN_QID + " IN (";
 
-        for(Long idQst : idsQuestions){
+        for (Long idQst : idsQuestions) {
             condition += String.valueOf(idQst) + ",";
         }
         condition = condition.substring(0, condition.length() - 1);
@@ -198,7 +224,8 @@ public class DatabaseLoader {
         return Options;
     }
 
-    private Option cursorToOption(Cursor cursor) {
+    private Option cursorToOption (Cursor cursor) {
+
         return new Option(cursor.getLong(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_TXT)),
                 (int) cursor.getLong(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_CORR)),
@@ -206,11 +233,11 @@ public class DatabaseLoader {
         );
     }
 
-    public Map<Long, Level> getLevels() {
+    public Map<Long, Level> getLevels () {
 
         openReadable();
 
-        Map<Long, Level> levels = new HashMap();
+        Map<Long, Level> levels = new HashMap<>();
 
         String query = "SELECT * FROM " + MyDatabase.TABLE_LVL;
         Cursor cursor = database.rawQuery(query, null);
@@ -229,18 +256,19 @@ public class DatabaseLoader {
         return levels;
     }
 
-    private Level cursorToLevel(Cursor cursor) {
+    private Level cursorToLevel (Cursor cursor) {
+
         return new Level(cursor.getLong(cursor.getColumnIndex(MyDatabase.LVL_COLUMN_ID)),
                 cursor.getInt(cursor.getColumnIndex(MyDatabase.LVL_COLUMN_NUMBER)),
                 cursor.getLong(cursor.getColumnIndex(MyDatabase.LVL_COLUMN_CID))
         );
     }
 
-    public Map<Long, Category> getCategories() {
+    public Map<Long, Category> getCategories () {
 
         openReadable();
 
-        Map<Long, Category> categories = new HashMap();
+        Map<Long, Category> categories = new HashMap<>();
 
         String query = "SELECT * FROM " + MyDatabase.TABLE_CATEGORY;
         Cursor cursor = database.rawQuery(query, null);
@@ -254,7 +282,7 @@ public class DatabaseLoader {
 
         cursor.close();
 
-        query = "SELECT "+MyDatabase.CATEGORY_COLUMN_ID+", "+MyDatabase.CATEGORY_COLUMN_CID+" FROM " + MyDatabase.TABLE_CATEGORY;
+        query = "SELECT " + MyDatabase.CATEGORY_COLUMN_ID + ", " + MyDatabase.CATEGORY_COLUMN_CID + " FROM " + MyDatabase.TABLE_CATEGORY;
         String condition = " WHERE " + MyDatabase.CATEGORY_COLUMN_CID + "!= ''";
         cursor = database.rawQuery(query + condition, null);
 
@@ -276,7 +304,8 @@ public class DatabaseLoader {
         return categories;
     }
 
-    private Category cursorToCategory(Cursor cursor) {
+    private Category cursorToCategory (Cursor cursor) {
+
         return new Category(cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_NAME)),
                 cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_CID))

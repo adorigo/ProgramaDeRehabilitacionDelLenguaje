@@ -2,6 +2,7 @@
     <string name="app_name">Programa de Rehabilitacion del Lenguaje</string>
 
     <string name="title_activity_quiz">Responda esta Pregunta</string>
+    <string name="title_activity_pragmatica">Pragmatica</string>
 
     <string name="incorrectAns">Incorrecto</string>
     <string name="buttonTryAgain">Reintentar</string>

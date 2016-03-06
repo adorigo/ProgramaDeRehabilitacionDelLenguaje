@@ -10,43 +10,52 @@ public class Category {
     private long parentCategory;
     private List<Category> childCategories;
 
-    public Category(long thisCatNumber, String thisCatName, long thisParentCategory) {
+    public Category (long thisCatNumber, String thisCatName, long thisParentCategory) {
+
         catNumber = thisCatNumber;
         catName = thisCatName;
         parentCategory = thisParentCategory;
         childCategories = new ArrayList();
     }
 
-    public String getCatName() {
+    public String getCatName () {
+
         return catName;
     }
 
-    public long getCatNumber() {
+    public long getCatNumber () {
+
         return catNumber;
     }
 
-    public Long getParentCategory() {
+    public Long getParentCategory () {
+
         return parentCategory;
     }
 
-    public boolean hasParent(){
+    public boolean hasParent () {
+
         return getParentCategory() != null && getParentCategory() != 0;
     }
 
-    public List<Category> getChildCategories() {
+    public List<Category> getChildCategories () {
+
         return childCategories;
     }
 
-    public boolean hasChildren() {
+    public boolean hasChildren () {
+
         return !childCategories.isEmpty();
     }
 
-    public void addChildren(Category category) {
+    public void addChildren (Category category) {
+
         childCategories.add(category);
     }
 
     @Override
-    public String toString() {
+    public String toString () {
+
         return getCatName();
     }
 }

@@ -12,15 +12,15 @@ public class Menu {
 
     private static Menu ourInstance;
 
-    public static Menu getInstance() {
+    public static Menu getInstance () {
 
-        if(ourInstance == null){
+        if (ourInstance == null) {
             ourInstance = new Menu();
         }
         return ourInstance;
     }
 
-    private Menu() {
+    private Menu () {
 
         DatabaseLoader databaseLoader = DatabaseLoader.getInstance();
         categories = databaseLoader.getCategories();
@@ -28,25 +28,26 @@ public class Menu {
         currentCategory = null;
         currentLevel = null;
     }
+
     private Map<Long, Category> categories;
     private Map<Long, Level> levels;
 
     private Category currentCategory;
     private Level currentLevel;
 
-    public List<Category> getCategories(){
+    public List<Category> getCategories () {
 
         List<Category> cats;
 
-        if(currentCategory == null) {
+        if (currentCategory == null) {
 
-            cats = new ArrayList<Category>();
+            cats = new ArrayList<>();
 
-            List<Category> allCategories = new ArrayList<Category>(categories.values());
+            List<Category> allCategories = new ArrayList<>(categories.values());
 
-            for(Category category : allCategories){
-                Log.d(Menu.class.getName(), category+" "+category.hasParent());
-                if(!category.hasParent()){
+            for (Category category : allCategories) {
+                Log.d(Menu.class.getName(), category + " " + category.hasParent());
+                if (!category.hasParent()) {
 
                     cats.add(category);
                 }
@@ -59,16 +60,16 @@ public class Menu {
         return cats;
     }
 
-    public List<Level> getLevels(){
+    public List<Level> getLevels () {
 
-        List<Level> lvls = new ArrayList<Level>();
-        List<Level> allLvls = new ArrayList<Level>(levels.values());
+        List<Level> lvls = new ArrayList<>();
+        List<Level> allLvls = new ArrayList<>(levels.values());
 
-        if(currentCategory != null){
+        if (currentCategory != null) {
 
-            for(Level level : allLvls){
+            for (Level level : allLvls) {
 
-                if(level.getCatNumber() == currentCategory.getCatNumber()){
+                if (level.getCatNumber() == currentCategory.getCatNumber()) {
                     lvls.add(level);
                 }
             }
@@ -77,39 +78,42 @@ public class Menu {
         return lvls;
     }
 
-    public void setCurrentCategory(Category currentCategory) {
+    public void setCurrentCategory (Category currentCategory) {
+
         this.currentCategory = currentCategory;
     }
 
-    public void setCurrentLevel(Level currentLevel) {
+    public void setCurrentLevel (Level currentLevel) {
+
         this.currentLevel = currentLevel;
     }
 
-    public Level getCurrentLevel() {
+    public Level getCurrentLevel () {
+
         return currentLevel;
     }
 
-    public String getLabel() {
+    public String getLabel () {
 
         String label = "";
 
-        if(currentCategory != null){
+        if (currentCategory != null) {
             label = currentCategory.getCatName();
         }
 
         return label;
     }
 
-    public boolean canGoLower() {
+    public boolean canGoLower () {
 
-        return currentCategory.hasChildren();
+        return currentCategory != null && currentCategory.hasChildren();
     }
 
-    public boolean canGoUp() {
+    public boolean canGoUp () {
 
         boolean can = false;
 
-        if(currentCategory != null){
+        if (currentCategory != null) {
             Long parent = currentCategory.getParentCategory();
             can = (parent != null);
         }
@@ -117,23 +121,35 @@ public class Menu {
         return can;
     }
 
-    public void goUp() {
+    public void goUp () {
 
-        Long parent = currentCategory.getParentCategory();
+        if (currentCategory != null) {
 
-        this.currentCategory = categories.get(parent);
+            Long parent = currentCategory.getParentCategory();
+
+            this.currentCategory = categories.get(parent);
+        }
     }
 
-    public String getActivityNameForLevel() {
+    public String getActivityNameForLevel () {
 
-        String activityName = "LevelsActivity";
+        String activityName = "ar.org.ineco.prl.programaderehabilitaciondellenguaje.";
 
-        if(currentLevel != null){
+        if (currentLevel != null) {
 
-            switch ((int) currentLevel.getCatNumber()){
+            switch ((int) currentLevel.getCatNumber()) {
 
-                case 1:case 2:case 3:case 4:case 5:case 6:case 7:case 8:case 9:case 10:case 11: case 12:
-                    activityName = "PragmaticaActivity";
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 8:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                    activityName += "PragmaticaActivity";
                     break;
             }
         }

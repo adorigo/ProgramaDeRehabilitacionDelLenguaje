@@ -25,6 +25,12 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity
+            android:name=".PragmaticaActivity"
+            android:label="@string/title_activity_pragmatica"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="sensorLandscape"
@@ -34,12 +40,16 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="sensorLandscape"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme">
+
+        </activity>
         <activity
             android:name=".LevelsActivity"
             android:label="@string/title_activity_levels"
             android:screenOrientation="sensorLandscape"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme">
+
+        </activity>
         <activity
             android:name=".CategoriesActivity"
             android:label="@string/title_activity_categories"

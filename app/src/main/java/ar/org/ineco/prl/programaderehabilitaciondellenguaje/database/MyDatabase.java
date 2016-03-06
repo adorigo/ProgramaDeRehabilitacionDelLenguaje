@@ -1,11 +1,24 @@
 package ar.org.ineco.prl.programaderehabilitaciondellenguaje.database;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
+
+/*
+    To facilitate a database upgrade, increment the version number that you pass to your
+    SQLiteAssetHelper constructor:
+
+    - private static final int DATABASE_VERSION = <to_version>;
+
+    Update the initial SQLite database in the project's assets/databases directory with the changes
+    and create a text file containing all required SQL commands to upgrade the database from
+    its previous version to it's current version and place it in the same folder.
+
+    The required naming convention for this upgrade file is as follows:
+
+    - assets/databases/<database_name>_upgrade_<from_version>-<to_version>.sql
+
+ */
 
 public class MyDatabase extends SQLiteAssetHelper {
 
@@ -78,9 +91,8 @@ public class MyDatabase extends SQLiteAssetHelper {
 
     public static String[] allLVLColumns = {LVL_COLUMN_ID, LVL_COLUMN_NUMBER, LVL_COLUMN_CID};
 
-    public static final String TABLE_VIEW_QUESTIONS = "preguntas";
+    public MyDatabase (Context context) {
 
-    public MyDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 }

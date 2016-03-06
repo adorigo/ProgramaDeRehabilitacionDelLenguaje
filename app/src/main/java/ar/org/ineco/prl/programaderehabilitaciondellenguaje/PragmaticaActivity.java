@@ -3,8 +3,9 @@ package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.AudioUtil;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.FeedbackDialog;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.Utils;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView;
 
 public class PragmaticaActivity extends Activity implements View.OnClickListener {
 
@@ -68,27 +70,29 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
         allQuestions = databaseLoader.getAllQuestions(menu.getCurrentLevel().getLvlId());
 
-        if(allQuestions.size()>0){
+        if (allQuestions.size() > 0) {
 
             totalQuestionNumber = allQuestions.size();
-            currentQuestionNumber = 1;
+            currentQuestionNumber = 0;
             iterator = allQuestions.iterator();
+            Log.d(PragmaticaActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
             currentQuestion = (Question) iterator.next();
             drawUI();
 
-        }else{
+        } else {
 
             showEndDialogOptions();
         }
     }
 
-    private void showEndDialogOptions() {
+    private void showEndDialogOptions () {
+
         feedbackEnd.show();
     }
 
-    private void checkAnswer(Option thisOption) {
+    private void checkAnswer (Option thisOption) {
 
-        if(thisOption.checkAns()){
+        if (thisOption.checkAns()) {
 
             feedbackCorrectAns.show();
 
@@ -96,7 +100,7 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
                 audioUtil.playSound(audioUtil.TRIVIA_RIGHT_ANSWER);
             }
 
-        }else{
+        } else {
 
             Toast.makeText(this, "Wrong!", Toast.LENGTH_SHORT).show();
 
@@ -106,34 +110,45 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
         }
     }
 
-    public void nextQuestion(){
+    public void nextQuestion () {
 
         databaseLoader.checkQuestion(currentQuestion);
 
         feedbackCorrectAns.hide();
 
-        if(iterator.hasNext()){
+        float completeRate = (float) currentQuestionNumber / totalQuestionNumber;
+
+        Log.d(PragmaticaActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
+
+        Log.d(PragmaticaActivity.class.getName(),
+                completeRate
+                        + " <= "
+                        + Utils.lvlRate(this)
+        );
+
+
+        if (iterator.hasNext() && completeRate <= Utils.lvlRate(this)) {
 
             currentQuestion = (Question) iterator.next();
             currentQuestionNumber++;
             drawUI();
 
-        }else{
+        } else {
 
             showEndDialogOptions();
         }
     }
 
-    public void resetQuestions(){
+    public void resetQuestions () {
 
         feedbackEnd.hide();
 
-        databaseLoader.resetQuestions();
+        databaseLoader.resetQuestions(menu.getCurrentLevel().getLvlId());
 
         onCreateHelper();
     }
 
-    public void goBack(){
+    public void goBack () {
 
         feedbackEnd.hide();
 
@@ -145,14 +160,27 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
         startActivity(intent);
     }
 
-    private void drawUI() {
+    private void drawUI () {
 
-        if(!(currentQuestion==null)){
+        if (currentQuestion != null) {
 
             LinearLayout questionLayout = (LinearLayout) findViewById(R.id.layoutQuestion);
             questionLayout.removeAllViews();
+            LinearLayout optionsLayout = (LinearLayout) findViewById(R.id.layoutOptions);
+            optionsLayout.removeAllViews();
 
-            if(currentQuestion.getImages().size() == 1) {
+            Runnable runAfterSplash = new Runnable() {
+
+                @Override
+                public void run () {
+
+                    showOptions();
+                }
+            };
+
+            Log.d(PragmaticaActivity.class.getName(), "Size: " + currentQuestion.getImages().size());
+
+            if (currentQuestion.getImages().size() == 1) {
 
                 ImageFile img = currentQuestion.getImages().get(0);
 
@@ -174,69 +202,68 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
                 Log.d(QuizActivity.class.getName(), "Adding ImageView " + img.getName());
 
-                thread =  new Thread(){
-                    @Override
-                    public void run(){
-                        try {
-                            synchronized(this){
-                                wait(3000);
-                            }
-                        }
-                        catch(InterruptedException ex){
-                        }
-                    }
-                };
+                Handler h = new Handler();
+                h.postDelayed(runAfterSplash, 5000);
 
-                thread.start();
-            }
+            } else {
 
-            questionLayout.removeAllViews();
+                VerdanaTextView questionText = new VerdanaTextView(this, null);
 
-            LinearLayout optionsLayout = (LinearLayout) findViewById(R.id.layoutOptions);
-
-            optionsLayout.removeAllViews();
-
-            for(Option option:currentQuestion.getOpts()){
-
-                VerdanaButton optionButton = new VerdanaButton(this, null);
-
-                optionButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                questionText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                optionButton.setText(option.getStr());
+                questionText.setTextSize(getResources().getDimension(R.dimen.textsize));
+                questionText.setText(currentQuestion.getText());
+                questionText.setGravity(Gravity.CENTER_HORIZONTAL);
 
-                optionButton.setTag(option);
+                questionLayout.addView(questionText);
 
-                optionButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Option optSelected = (Option) v.getTag();
-                        checkAnswer(optSelected);
-                    }
-                });
-
-                optionsLayout.addView(optionButton);
+                showOptions();
             }
         }
     }
-    private Thread thread;
 
-    @Override
-    public boolean onTouchEvent(MotionEvent evt)
-    {
-        if(evt.getAction() == MotionEvent.ACTION_DOWN)
-        {
-            synchronized(thread){
-                thread.notifyAll();
-            }
+    private void showOptions () {
+
+        if (currentQuestion.getImages().size() == 1) {
+
+            LinearLayout questionLayout = (LinearLayout) findViewById(R.id.layoutQuestion);
+            questionLayout.removeAllViews();
         }
-        return true;
+
+        LinearLayout optionsLayout = (LinearLayout) findViewById(R.id.layoutOptions);
+        optionsLayout.removeAllViews();
+
+        for (Option option : currentQuestion.getOpts()) {
+
+            VerdanaButton optionButton = new VerdanaButton(this, null);
+
+            optionButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+
+            optionButton.setText(option.getStr());
+            optionButton.setGravity(Gravity.CENTER_HORIZONTAL);
+
+            optionButton.setTag(option);
+
+            optionButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick (View v) {
+
+                    Option optSelected = (Option) v.getTag();
+                    checkAnswer(optSelected);
+                }
+            });
+
+            optionsLayout.addView(optionButton);
+        }
     }
 
     @Override
     public void onClick (View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.buttonReset:
                 resetQuestions();
@@ -253,18 +280,18 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
     }
 
     @Override
-    public void onResume(){
+    public void onResume () {
 
         super.onResume();
 
         databaseLoader.openWritable();
         audioUtil = new AudioUtil(this);
 
-        Log.d(QuizActivity.class.getName(), "Loader Opened.");
+        Log.d(PragmaticaActivity.class.getName(), "Loader Opened.");
     }
 
     @Override
-    public void onPause(){
+    public void onPause () {
 
         super.onPause();
 
@@ -273,6 +300,6 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
         feedbackCorrectAns.dismiss();
         audioUtil.unloadAll();
 
-        Log.d(QuizActivity.class.getName(), "Loader Closed, FeedbackDialogs Dismissed.");
+        Log.d(PragmaticaActivity.class.getName(), "Loader Closed, FeedbackDialogs Dismissed.");
     }
 }

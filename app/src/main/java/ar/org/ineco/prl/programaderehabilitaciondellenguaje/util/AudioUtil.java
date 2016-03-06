@@ -10,18 +10,17 @@ import android.os.Build;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.R;
 
 public class AudioUtil {
-    private final int sdkVersion = Build.VERSION.SDK_INT;
 
     public final int TRIVIA_RIGHT_ANSWER;
     public final int TRIVIA_WRONG_ANSWER;
 
-    private float rate = 1.0f;
-    private float leftVolume = 1.0f;
-    private float rightVolume = 1.0f;
     private SoundPool sndPool;
     private Context pContext;
 
-    public AudioUtil(Context thisContext) {
+    public AudioUtil (Context thisContext) {
+
+        int sdkVersion = Build.VERSION.SDK_INT;
+
         if (sdkVersion < Build.VERSION_CODES.LOLLIPOP) {
             sndPool = buildLessLollipop();
         } else {
@@ -34,12 +33,15 @@ public class AudioUtil {
         pContext = thisContext;
     }
 
-    private SoundPool buildLessLollipop() {
+    @SuppressWarnings("deprecation")
+    private SoundPool buildLessLollipop () {
+
         return new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private SoundPool buildLollipop() {
+    private SoundPool buildLollipop () {
+
         SoundPool.Builder sndPoolBuilder = new SoundPool.Builder();
         sndPoolBuilder.setAudioAttributes(new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_GAME)
@@ -48,15 +50,21 @@ public class AudioUtil {
         return sndPoolBuilder.build();
     }
 
-    public int loadSound(int soundResourceID) {
+    public int loadSound (int soundResourceID) {
+
         return sndPool.load(pContext, soundResourceID, 0);
     }
 
-    public void playSound(int soundID) {
+    public void playSound (int soundID) {
+
+        float rightVolume = 1.0f;
+        float leftVolume = 1.0f;
+        float rate = 1.0f;
         sndPool.play(soundID, leftVolume, rightVolume, 1, 0, rate);
     }
 
-    public void unloadAll() {
+    public void unloadAll () {
+
         sndPool.release();
     }
 }

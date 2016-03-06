@@ -9,12 +9,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Menu;
+import java.util.List;
+
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Level;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Menu;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView;
-
-import java.util.List;
 
 public class LevelsActivity extends Activity {
 
@@ -22,7 +22,7 @@ public class LevelsActivity extends Activity {
     private List<Level> Levels;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_levels);
@@ -30,7 +30,8 @@ public class LevelsActivity extends Activity {
         onCreateHelper();
     }
 
-    private void onCreateHelper() {
+    private void onCreateHelper () {
+
         Levels = menu.getLevels();
 
         TextView categoryText = (TextView) findViewById(R.id.textCategoryTitle);
@@ -49,8 +50,10 @@ public class LevelsActivity extends Activity {
             lvlButton.setTag(lvl);
 
             lvlButton.setOnClickListener(new View.OnClickListener() {
+
                 @Override
-                public void onClick(View v) {
+                public void onClick (View v) {
+
                     startLevel(v.getTag());
                 }
             });
@@ -66,21 +69,23 @@ public class LevelsActivity extends Activity {
         }
     }
 
-    private void startLevel(Object thisLevel) {
+    private void startLevel (Object thisLevel) {
 
         Level lvl = (Level) thisLevel;
         menu.setCurrentLevel(lvl);
 
-        Class nextActivity;
+        Class<?> nextActivity;
 
         try {
 
-             nextActivity = Class.forName(menu.getActivityNameForLevel());
+            nextActivity = Class.forName(menu.getActivityNameForLevel());
 
-        } catch (ClassNotFoundException ex){
+        } catch (ClassNotFoundException ex) {
 
             nextActivity = LevelsActivity.class;
         }
+
+        Log.d(LevelsActivity.class.getName(), "This class for lvl: " + nextActivity);
 
         Intent intent = new Intent(this, nextActivity);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -88,7 +93,7 @@ public class LevelsActivity extends Activity {
         startActivity(intent);
     }
 
-    public void goBack(View v) {
+    public void goBack (View v) {
 
         menu.goUp();
 
