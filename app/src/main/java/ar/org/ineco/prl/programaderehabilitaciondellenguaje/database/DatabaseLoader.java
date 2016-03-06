@@ -51,7 +51,7 @@ public class DatabaseLoader {
         dbHelper.close();
     }
 
-    public List<Question> getAllQuestions(String thisLevel) {
+    public List<Question> getAllQuestions(long thisLevel) {
 
         openReadable();
 

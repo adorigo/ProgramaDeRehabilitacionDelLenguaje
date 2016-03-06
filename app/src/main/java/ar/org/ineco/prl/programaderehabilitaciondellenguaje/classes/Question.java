@@ -15,6 +15,7 @@ public class Question {
         text = thisText;
         id = thisId;
         imgs = new ArrayList<>();
+        opts = new ArrayList<>();
     }
 
     public List<Option> getOpts() {
@@ -35,9 +36,12 @@ public class Question {
         return text;
     }
 
-
     public void addImage(ImageFile thisImage) {
         imgs.add(thisImage);
+    }
+
+    public void addImages(List<ImageFile> allQuestionsImages) {
+        imgs.addAll(allQuestionsImages);
     }
 
     public List<ImageFile> getImages() {
@@ -53,9 +57,5 @@ public class Question {
     @Override
     public String toString(){
         return text;
-    }
-
-    public void addImages(List<ImageFile> allQuestionsImages) {
-        imgs.addAll(allQuestionsImages);
     }
 }

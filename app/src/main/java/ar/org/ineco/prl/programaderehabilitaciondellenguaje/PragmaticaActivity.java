@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,52 +12,48 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Iterator;
+import java.util.List;
+
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ImageFile;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Menu;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Option;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Question;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.AudioUtil;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.database.DatabaseLoader;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.AudioUtil;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.FeedbackDialog;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.Utils;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
 
-import java.util.Iterator;
-import java.util.List;
-
-public class QuizActivity extends Activity implements android.view.View.OnClickListener{
+public class PragmaticaActivity extends Activity implements View.OnClickListener {
 
     private DatabaseLoader databaseLoader;
     private List<Question> allQuestions;
     private Question currentQuestion;
     private Iterator iterator;
+
     private int currentQuestionNumber;
     private int totalQuestionNumber;
-    private String moduleID;
-    private String categoryID;
-    private String levelID;
+
+    private Menu menu = Menu.getInstance();
     private FeedbackDialog feedbackEnd;
     private FeedbackDialog feedbackCorrectAns;
     private AudioUtil audioUtil;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quiz);
+    protected void onCreate (Bundle savedInstanceState) {
 
-        moduleID = getIntent().getStringExtra("Module");
-        categoryID = getIntent().getStringExtra("Category");
-        levelID = getIntent().getStringExtra("Level");
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pragmatica);
 
         TextView qstText = (TextView) findViewById(R.id.textTitle);
-        if (categoryID.equals("1")) {
-            qstText.setText("Señale la categoría a la que pertenecen estos elementos");
-        }
+        qstText.setText(menu.getLabel());
 
         feedbackEnd = new FeedbackDialog(this, R.layout.activity_quiz_popup_end);
         feedbackEnd.findViewById(R.id.buttonReset).setOnClickListener(this);
         feedbackEnd.findViewById(R.id.buttonGoBack).setOnClickListener(this);
 
-        feedbackCorrectAns = new FeedbackDialog(this,R.layout.activity_quiz_popup_correctans);
+        feedbackCorrectAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_correctans);
         feedbackCorrectAns.findViewById(R.id.buttonNext).setOnClickListener(this);
 
         audioUtil = new AudioUtil(this);
@@ -67,9 +64,9 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
         onCreateHelper();
     }
 
-    private void onCreateHelper() {
+    private void onCreateHelper () {
 
-        allQuestions = databaseLoader.getAllQuestions(Long.valueOf(levelID));
+        allQuestions = databaseLoader.getAllQuestions(menu.getCurrentLevel().getLvlId());
 
         if(allQuestions.size()>0){
 
@@ -140,10 +137,10 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
 
         feedbackEnd.hide();
 
+        menu.setCurrentLevel(null);
+
         Intent intent = new Intent(this, LevelsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("Module", moduleID);
-        intent.putExtra("Category", categoryID);
 
         startActivity(intent);
     }
@@ -155,7 +152,9 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
             LinearLayout questionLayout = (LinearLayout) findViewById(R.id.layoutQuestion);
             questionLayout.removeAllViews();
 
-            for (ImageFile img : currentQuestion.getImages()) {
+            if(currentQuestion.getImages().size() == 1) {
+
+                ImageFile img = currentQuestion.getImages().get(0);
 
                 ImageView image = new ImageView(this);
 
@@ -174,7 +173,24 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
                 questionLayout.addView(image);
 
                 Log.d(QuizActivity.class.getName(), "Adding ImageView " + img.getName());
+
+                thread =  new Thread(){
+                    @Override
+                    public void run(){
+                        try {
+                            synchronized(this){
+                                wait(3000);
+                            }
+                        }
+                        catch(InterruptedException ex){
+                        }
+                    }
+                };
+
+                thread.start();
             }
+
+            questionLayout.removeAllViews();
 
             LinearLayout optionsLayout = (LinearLayout) findViewById(R.id.layoutOptions);
 
@@ -185,22 +201,54 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
                 VerdanaButton optionButton = new VerdanaButton(this, null);
 
                 optionButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
 
                 optionButton.setText(option.getStr());
 
                 optionButton.setTag(option);
 
                 optionButton.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        Option optSelected = (Option) v.getTag();
-                                                        checkAnswer(optSelected);
-                                                    }
-                                                });
+                    @Override
+                    public void onClick(View v) {
+                        Option optSelected = (Option) v.getTag();
+                        checkAnswer(optSelected);
+                    }
+                });
 
                 optionsLayout.addView(optionButton);
             }
+        }
+    }
+    private Thread thread;
+
+    @Override
+    public boolean onTouchEvent(MotionEvent evt)
+    {
+        if(evt.getAction() == MotionEvent.ACTION_DOWN)
+        {
+            synchronized(thread){
+                thread.notifyAll();
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onClick (View v) {
+
+        switch (v.getId()){
+
+            case R.id.buttonReset:
+                resetQuestions();
+                break;
+
+            case R.id.buttonGoBack:
+                goBack();
+                break;
+
+            case R.id.buttonNext:
+                nextQuestion();
+                break;
         }
     }
 
@@ -226,24 +274,5 @@ public class QuizActivity extends Activity implements android.view.View.OnClickL
         audioUtil.unloadAll();
 
         Log.d(QuizActivity.class.getName(), "Loader Closed, FeedbackDialogs Dismissed.");
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()){
-
-            case R.id.buttonReset:
-                resetQuestions();
-                break;
-
-            case R.id.buttonGoBack:
-                goBack();
-                break;
-
-            case R.id.buttonNext:
-                nextQuestion();
-                break;
-        }
     }
 }
