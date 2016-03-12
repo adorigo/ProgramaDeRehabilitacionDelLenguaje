@@ -258,7 +258,7 @@ public class DatabaseLoader {
         );
     }
 
-    public Map<Long, Category> getCategories () {
+    public Category getCategories () {
 
         openReadable();
 
@@ -289,8 +289,12 @@ public class DatabaseLoader {
             Long idChildCategory = cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_ID));
             Long idParentCategory = cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_CID));
 
+            categories.get(idChildCategory).setParentCategory(categories.get(idParentCategory));
+
             categories.get(idParentCategory).addChildren(categories.get(idChildCategory));
+
             Log.d(DatabaseLoader.class.getName(), "Adding " + idChildCategory.toString() + " to " + idParentCategory.toString());
+
             cursor.moveToNext();
         }
 
@@ -314,14 +318,14 @@ public class DatabaseLoader {
 
         close();
 
-        return categories;
+        return new ArrayList<>(categories.values()).get(0);
     }
 
     private Category cursorToCategory (Cursor cursor) {
 
         return new Category(cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_NAME)),
-                cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_CID))
+                null
         );
     }
 

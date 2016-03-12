@@ -2,7 +2,6 @@ package ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.database.DatabaseLoader;
 
@@ -21,36 +20,19 @@ public class Menu {
     private Menu () {
 
         DatabaseLoader databaseLoader = DatabaseLoader.getInstance();
-        categories = databaseLoader.getCategories();
-        currentCategory = null;
+        currentCategory = databaseLoader.getCategories();
         currentLevel = null;
     }
-
-    private Map<Long, Category> categories;
 
     private Category currentCategory;
     private Level currentLevel;
 
     public List<Category> getCategories () {
 
-        List<Category> cats;
+        List<Category> cats = new ArrayList<>();
 
-        if (currentCategory == null) {
+        if (currentCategory != null) {
 
-            cats = new ArrayList<>(categories.values());
-            /*cats = new ArrayList<>();
-
-            List<Category> allCategories = new ArrayList<>(categories.values());
-
-            for (Category category : allCategories) {
-                Log.d(Menu.class.getName(), category + " " + category.hasParent());
-                if (!category.hasParent()) {
-
-                    cats.add(category);
-                }
-            }*/
-
-        } else {
             cats = currentCategory.getChildCategories();
         }
 
@@ -59,21 +41,14 @@ public class Menu {
 
     public List<Level> getLevels () {
 
-        List<Level> lvls = new ArrayList<>();
-        //List<Level> allLvls = new ArrayList<>(levels.values());
+        List<Level> levels = new ArrayList<>();
 
         if (currentCategory != null) {
 
-            lvls = currentCategory.getLevels();
-            /*for (Level level : allLvls) {
-
-                if (level.getCatid() == currentCategory.getId()) {
-                    lvls.add(level);
-                }
-            }*/
+            levels = currentCategory.getLevels();
         }
 
-        return lvls;
+        return levels;
     }
 
     public void setCurrentCategory (Category currentCategory) {
@@ -109,23 +84,14 @@ public class Menu {
 
     public boolean canGoUp () {
 
-        boolean can = false;
-
-        if (currentCategory != null) {
-            Long parent = currentCategory.getParentCategory();
-            can = (parent != null);
-        }
-
-        return can;
+        return currentCategory != null && currentCategory.hasParent();
     }
 
     public void goUp () {
 
         if (currentCategory != null) {
 
-            Long parent = currentCategory.getParentCategory();
-
-            this.currentCategory = categories.get(parent);
+            this.currentCategory = currentCategory.getParentCategory();
         }
     }
 
@@ -133,9 +99,9 @@ public class Menu {
 
         String activityName = "ar.org.ineco.prl.programaderehabilitaciondellenguaje.";
 
-        if (currentLevel != null) {
+        if (currentCategory != null) {
 
-            switch ((int) currentLevel.getCatid()) {
+            switch ((int) currentCategory.getId()) {
 
                 case 3:
                 case 4:

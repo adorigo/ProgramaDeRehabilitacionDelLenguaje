@@ -81,8 +81,6 @@ public class CategoriesActivity extends Activity {
             Intent intent = new Intent(this, LevelsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            //intent.putExtra("Category", String.valueOf(cat.getId()));
-
             startActivity(intent);
         }
     }

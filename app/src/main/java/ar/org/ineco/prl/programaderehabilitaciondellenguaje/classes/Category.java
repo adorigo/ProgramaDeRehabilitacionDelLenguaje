@@ -7,12 +7,13 @@ public class Category {
 
     private long id;
     private String name;
-    private long parentCategory;
+
+    private Category parentCategory;
     private List<Category> childCategories;
 
     private List<Level> levels;
 
-    public Category (long thisCatNumber, String thisCatName, long thisParentCategory) {
+    public Category (long thisCatNumber, String thisCatName, Category thisParentCategory) {
 
         id = thisCatNumber;
         name = thisCatName;
@@ -31,14 +32,19 @@ public class Category {
         return id;
     }
 
-    public Long getParentCategory () {
+    public void setParentCategory (Category parentCategory) {
+
+        this.parentCategory = parentCategory;
+    }
+
+    public Category getParentCategory () {
 
         return parentCategory;
     }
 
     public boolean hasParent () {
 
-        return getParentCategory() != null && getParentCategory() != 0;
+        return parentCategory != null;
     }
 
     public List<Category> getChildCategories () {
