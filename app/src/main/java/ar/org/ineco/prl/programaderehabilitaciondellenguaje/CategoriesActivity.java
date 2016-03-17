@@ -42,7 +42,7 @@ public class CategoriesActivity extends Activity {
 
         for (Category cat : Categories) {
             VerdanaButton catButton = new VerdanaButton(this, null);
-            catButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+            catButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             catButton.setText(cat.getName());
             catButton.setTag(cat);

@@ -10,28 +10,28 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/maxButtonLayoutSize"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center">
 
         <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton
             android:id="@+id/buttonModules"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/buttonModules"
             android:onClick="startModulesActivity" />
 
         <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton
             android:id="@+id/buttonSettings"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/buttonSettings"
             android:onClick="startLoginActivity" />
 
         <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton
             android:id="@+id/buttonExitApp"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/buttonExit"
             android:onClick="exitApp" />

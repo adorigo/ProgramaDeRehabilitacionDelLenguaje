@@ -11,47 +11,62 @@
              tools:context="ar.org.ineco.prl.programaderehabilitaciondellenguaje.PragmaticaActivity">
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="@color/black_overlay" >
-
-        <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/title_activity_pragmatica"
-            android:id="@+id/textTitle"
-            android:gravity="center_horizontal" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/layoutQuestion"
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:padding="@dimen/abc_control_padding_material"
-            android:gravity="center"/>
+            android:layout_gravity="top"
+            android:background="@color/black_overlay">
+
+            <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/categoriesTitle"
+                android:text="@string/title_activity_pragmatica"
+                android:id="@+id/textTitle"
+                android:gravity="center_horizontal" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/layoutOptions"
-            android:padding="@dimen/abc_control_padding_material"
-            android:gravity="center">
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:id="@+id/layoutQuestion"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:padding="@dimen/abc_control_padding_material"
+                android:gravity="center" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="@dimen/maxButtonLayoutSize"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/layoutOptions"
+                android:padding="@dimen/abc_control_padding_material"
+                android:gravity="center" />
+
         </LinearLayout>
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/layoutNextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_gravity="bottom" />
+
     </LinearLayout>
+
 </FrameLayout>

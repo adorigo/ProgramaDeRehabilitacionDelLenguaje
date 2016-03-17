@@ -15,22 +15,22 @@
     <string name="buttonReset">Reset</string>
 
     <string name="buttonModules">Iniciar</string>
-    <string name="buttonSettings">Configuracion</string>
+    <string name="buttonSettings">Configuración</string>
     <string name="buttonExit">Salir</string>
 
-    <string name="title_activity_settings">Configuracion</string>
-    <string name="titleConfiguration">Configuracion de la Aplicacion</string>
+    <string name="title_activity_settings">Configuración</string>
+    <string name="titleConfiguration">Configuración de la Aplicación</string>
     <string name="hintPIN">PIN de Seguridad</string>
     <string name="buttonLoginBack">Menu Principal</string>
     <string name="buttonLoginNext">Acceder</string>
 
-    <string name="title_activity_categories">Categorias</string>
-    <string name="textNoCategories">No hay Categorias</string>
+    <string name="title_activity_categories">Categorías</string>
+    <string name="textNoCategories">No hay Categorías</string>
 
     <string name="title_activity_levels">Niveles</string>
     <string name="textNoLevels">No hay Niveles</string>
 
-    <string name="buttonGoBack">Atras</string>
+    <string name="buttonGoBack">Atrás</string>
 
 
 </resources>

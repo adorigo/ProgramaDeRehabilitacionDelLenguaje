@@ -47,7 +47,7 @@ public class LevelsActivity extends Activity {
 
             VerdanaButton lvlButton = new VerdanaButton(this, null);
 
-            lvlButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+            lvlButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             lvlButton.setText(lvl.getLvlName());
 
