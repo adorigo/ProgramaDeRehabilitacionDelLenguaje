@@ -7,5 +7,6 @@
     <dimen name="questionText">20sp</dimen>
     <dimen name="maxButtonLayoutSize">400dp</dimen>
 
-    <dimen name="imgSize">120dp</dimen>
+    <dimen name="imgSize">200dp</dimen>
+    <dimen name="imgMargin">5px</dimen>
 </resources>

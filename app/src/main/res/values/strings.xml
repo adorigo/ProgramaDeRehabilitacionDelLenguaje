@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Programa de Rehabilitacion del Lenguaje</string>
+    <string name="app_name">Programa de Rehabilitación del Lenguaje</string>
 
     <string name="title_activity_quiz">Responda esta Pregunta</string>
-    <string name="title_activity_pragmatica">Pragmatica</string>
+    <string name="title_activity_pragmatica">Pragmática</string>
 
     <string name="incorrectAns">Incorrecto</string>
     <string name="buttonTryAgain">Reintentar</string>
@@ -21,7 +21,7 @@
     <string name="title_activity_settings">Configuración</string>
     <string name="titleConfiguration">Configuración de la Aplicación</string>
     <string name="hintPIN">PIN de Seguridad</string>
-    <string name="buttonLoginBack">Menu Principal</string>
+    <string name="buttonLoginBack">Menú Principal</string>
     <string name="buttonLoginNext">Acceder</string>
 
     <string name="title_activity_categories">Categorías</string>
