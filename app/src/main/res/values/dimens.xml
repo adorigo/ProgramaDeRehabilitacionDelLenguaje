@@ -6,4 +6,6 @@
     <dimen name="categoriesTitle">20sp</dimen>
     <dimen name="questionText">20sp</dimen>
     <dimen name="maxButtonLayoutSize">400dp</dimen>
+
+    <dimen name="imgSize">120dp</dimen>
 </resources>

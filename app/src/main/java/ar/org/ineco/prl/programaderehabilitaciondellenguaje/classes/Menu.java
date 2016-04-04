@@ -21,9 +21,11 @@ public class Menu {
 
         DatabaseLoader databaseLoader = DatabaseLoader.getInstance();
         currentCategory = databaseLoader.getCategories();
+        topCategory = currentCategory;
         currentLevel = null;
     }
 
+    private Category topCategory;
     private Category currentCategory;
     private Level currentLevel;
 
@@ -93,6 +95,12 @@ public class Menu {
 
             this.currentCategory = currentCategory.getParentCategory();
         }
+    }
+
+    public void goToTop () {
+
+        currentCategory = topCategory;
+        currentLevel = null;
     }
 
     public String getActivityNameForLevel () {

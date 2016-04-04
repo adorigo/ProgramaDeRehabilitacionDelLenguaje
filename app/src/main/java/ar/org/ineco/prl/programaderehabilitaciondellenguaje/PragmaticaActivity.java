@@ -99,27 +99,22 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
             LinearLayout optionsLayout = (LinearLayout) findViewById(R.id.layoutOptions);
             optionsLayout.removeAllViews();
 
-            Log.d(PragmaticaActivity.class.getName(), "Size: " + currentQuestion.getImages().size());
-
             if (currentQuestion.getImages().size() > 0) {
 
                 title.setText(currentQuestion.getText());
+
+                float dimen = getResources().getDimension(R.dimen.imgSize);
+                int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimen, getResources().getDisplayMetrics());
 
                 for (ImageFile img : currentQuestion.getImages()) {
 
                     ImageView image = new ImageView(this);
 
-                    image.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                    image.setLayoutParams(new ViewGroup.LayoutParams(size, size));
+
+                    image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
                     image.setImageResource(getResources().getIdentifier(img.getName(), "drawable", this.getPackageName()));
-
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);
-
-                    lp.setMargins(5, 5, 5, 5);
-
-                    image.setLayoutParams(lp);
 
                     questionLayout.addView(image);
 
@@ -167,7 +162,7 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
     private void showOptions () {
 
-        if (currentQuestion.getImages().size() == 1) {
+        if (currentQuestion.getImages().size() >= 1) {
 
             LinearLayout questionLayout = (LinearLayout) findViewById(R.id.layoutQuestion);
             questionLayout.removeAllViews();
