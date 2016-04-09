@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".QuizActivity"
+            android:name=".SemanticaActivity"
             android:label="@string/title_activity_quiz"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme">

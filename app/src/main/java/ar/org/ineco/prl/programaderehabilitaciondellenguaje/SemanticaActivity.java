@@ -3,7 +3,6 @@ package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -28,7 +27,7 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.Utils;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView;
 
-public class PragmaticaActivity extends Activity implements View.OnClickListener {
+public class SemanticaActivity extends Activity implements android.view.View.OnClickListener {
 
     private Question currentQuestion;
     private Iterator iterator;
@@ -45,13 +44,9 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
     protected void onCreate (Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pragmatica);
-
-        TextView qstText = (TextView) findViewById(R.id.textTitle);
-        qstText.setText(menu.getLabel());
+        setContentView(R.layout.activity_semantica);
 
         feedbackEnd = new FeedbackDialog(this, R.layout.activity_quiz_popup_end);
-        //feedbackEnd.findViewById(R.id.buttonReset).setOnClickListener(this);
         feedbackEnd.findViewById(R.id.buttonGoBack).setOnClickListener(this);
 
         feedbackCorrectAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_correctans);
@@ -68,8 +63,8 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
         if (allQuestions.size() > 0) {
 
-            totalQuestionNumber = menu.getCurrentLevel().getQuestions().size();
-            currentQuestionNumber = 0;
+            totalQuestionNumber = allQuestions.size();
+            currentQuestionNumber = 1;
             iterator = allQuestions.iterator();
             Log.d(PragmaticaActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
             currentQuestion = (Question) iterator.next();
@@ -83,7 +78,7 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
         }
     }
 
-    private void drawUI () {
+    private void drawUI() {
 
         if (currentQuestion != null) {
 
@@ -93,9 +88,6 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
             LinearLayout questionLayout = (LinearLayout) findViewById(R.id.layoutQuestion);
             questionLayout.removeAllViews();
 
-            LinearLayout nextButtonLayout = (LinearLayout) findViewById(R.id.layoutNextButton);
-            nextButtonLayout.removeAllViews();
-
             LinearLayout optionsLayout = (LinearLayout) findViewById(R.id.layoutOptions);
             optionsLayout.removeAllViews();
 
@@ -103,15 +95,15 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
                 title.setText(currentQuestion.getText());
 
-                float size = getResources().getDimension(R.dimen.imgSize);
+                float dimen = getResources().getDimensionPixelSize(R.dimen.imgSize);
                 int margin = getResources().getDimensionPixelSize(R.dimen.imgMargin);
-                //int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimen, getResources().getDisplayMetrics());
+                int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, dimen, getResources().getDisplayMetrics());
 
                 for (ImageFile img : currentQuestion.getImages()) {
 
                     ImageView image = new ImageView(this);
 
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, (int) size);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, size);
                     layoutParams.setMargins(margin, margin, margin, margin);
 
                     image.setLayoutParams(layoutParams);
@@ -124,83 +116,32 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
                     Log.d(PragmaticaActivity.class.getName(), "Adding ImageView " + img.getName());
                 }
+            }
 
-                VerdanaButton nextButton = new VerdanaButton(this, null);
+            for (Option option : currentQuestion.getOpts()) {
 
-                nextButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                VerdanaButton optionButton = new VerdanaButton(this, null);
+
+                optionButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                nextButton.setText(getResources().getString(R.string.buttonNext));
-                nextButton.setGravity(Gravity.CENTER_HORIZONTAL);
+                optionButton.setText(option.getStr());
+                optionButton.setGravity(Gravity.CENTER_HORIZONTAL);
 
-                nextButton.setOnClickListener(new View.OnClickListener() {
+                optionButton.setTag(option);
+
+                optionButton.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
 
-                        showOptions();
+                        Option optSelected = (Option) v.getTag();
+                        checkAnswer(optSelected);
                     }
                 });
 
-                nextButtonLayout.addView(nextButton);
-
-            } else {
-
-                title.setText(R.string.title_activity_pragmatica);
-
-                VerdanaTextView questionText = new VerdanaTextView(this, null);
-
-                questionText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT));
-
-                questionText.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.questionText));
-                questionText.setText(currentQuestion.getText());
-                questionText.setGravity(Gravity.CENTER_HORIZONTAL);
-
-                questionLayout.addView(questionText);
-
-                showOptions();
+                optionsLayout.addView(optionButton);
             }
-        }
-    }
-
-    private void showOptions () {
-
-        if (currentQuestion.getImages().size() >= 1) {
-
-            LinearLayout questionLayout = (LinearLayout) findViewById(R.id.layoutQuestion);
-            questionLayout.removeAllViews();
-
-            LinearLayout nextButtonLayout = (LinearLayout) findViewById(R.id.layoutNextButton);
-            nextButtonLayout.removeAllViews();
-        }
-
-        LinearLayout optionsLayout = (LinearLayout) findViewById(R.id.layoutOptions);
-        optionsLayout.removeAllViews();
-
-        for (Option option : currentQuestion.getOpts()) {
-
-            VerdanaButton optionButton = new VerdanaButton(this, null);
-
-            optionButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-
-            optionButton.setText(option.getStr());
-            optionButton.setGravity(Gravity.CENTER_HORIZONTAL);
-
-            optionButton.setTag(option);
-
-            optionButton.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick (View v) {
-
-                    Option optSelected = (Option) v.getTag();
-                    checkAnswer(optSelected);
-                }
-            });
-
-            optionsLayout.addView(optionButton);
         }
     }
 
@@ -223,7 +164,7 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
         } else {
 
-            Toast.makeText(this, getResources().getString(R.string.incorrectAns), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.incorrectAns), Toast.LENGTH_SHORT).show();   //puto el que lee
 
             if (Utils.withSound(this)) {
                 audioUtil.playSound(audioUtil.TRIVIA_WRONG_ANSWER);
@@ -283,7 +224,7 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
     }
 
     @Override
-    public void onClick (View v) {
+    public void onClick(View v) {
 
         switch (v.getId()) {
 
