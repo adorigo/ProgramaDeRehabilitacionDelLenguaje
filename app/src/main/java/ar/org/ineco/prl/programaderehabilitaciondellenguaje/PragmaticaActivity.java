@@ -2,6 +2,7 @@ package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -103,20 +104,19 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
                 title.setText(currentQuestion.getText());
 
-                float size = getResources().getDimension(R.dimen.imgSize);
                 int margin = getResources().getDimensionPixelSize(R.dimen.imgMargin);
-                //int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimen, getResources().getDisplayMetrics());
-
+                double size = getResources().getDisplayMetrics().heightPixels * 0.65;
+                //Log.d(PragmaticaActivity.class.getName(), "size: "+size);
                 for (ImageFile img : currentQuestion.getImages()) {
 
                     ImageView image = new ImageView(this);
 
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, (int) size);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) size);
                     layoutParams.setMargins(margin, margin, margin, margin);
 
                     image.setLayoutParams(layoutParams);
-                    image.setAdjustViewBounds(true);
                     image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    image.setAdjustViewBounds(true);
 
                     image.setImageResource(getResources().getIdentifier(img.getName(), "drawable", this.getPackageName()));
 

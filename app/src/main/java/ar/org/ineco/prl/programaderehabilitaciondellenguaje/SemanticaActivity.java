@@ -95,20 +95,19 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
 
                 title.setText(currentQuestion.getText());
 
-                float dimen = getResources().getDimensionPixelSize(R.dimen.imgSize);
                 int margin = getResources().getDimensionPixelSize(R.dimen.imgMargin);
-                int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, dimen, getResources().getDisplayMetrics());
+                double size = getResources().getDisplayMetrics().heightPixels * 0.65;
 
                 for (ImageFile img : currentQuestion.getImages()) {
 
                     ImageView image = new ImageView(this);
 
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, size);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, (int) size);
                     layoutParams.setMargins(margin, margin, margin, margin);
 
                     image.setLayoutParams(layoutParams);
-                    image.setAdjustViewBounds(true);
                     image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    image.setAdjustViewBounds(true);
 
                     image.setImageResource(getResources().getIdentifier(img.getName(), "drawable", this.getPackageName()));
 
