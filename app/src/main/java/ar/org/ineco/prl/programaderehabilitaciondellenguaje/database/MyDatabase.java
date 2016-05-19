@@ -64,6 +64,7 @@ public class MyDatabase extends SQLiteAssetHelper {
     public static final String TABLE_IMG = "imagen";
     public static final String IMG_COLUMN_ID = "_id";
     public static final String IMG_COLUMN_NAME = "img_nombre";
+    public static final String IMG_COLUMN_TXTIMG = "txt_nombre";
 
     public static final String TABLE_LVL = "nivel";
     public static final String LVL_COLUMN_ID = "_id";
@@ -92,7 +93,7 @@ public class MyDatabase extends SQLiteAssetHelper {
     public static String[] allLVLColumns = {LVL_COLUMN_ID, LVL_COLUMN_NUMBER, LVL_COLUMN_LVLDONE, LVL_COLUMN_CID};
 
     private static final String DATABASE_NAME = "database.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     public MyDatabase (Context context) {
 
