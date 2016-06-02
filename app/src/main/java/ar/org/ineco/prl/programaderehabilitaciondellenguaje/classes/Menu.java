@@ -123,6 +123,30 @@ public class Menu {
                 case 14:
                     activityName += "PragmaticaActivity";
                     break;
+                case 15:
+                case 24:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
+                case 32:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 38:
+                case 39:
+                case 40:
+                case 41:
+                case 42:
+                case 43:
+                case 44:
+                    activityName += "SemanticaActivity";
+                    break;
             }
         }
 

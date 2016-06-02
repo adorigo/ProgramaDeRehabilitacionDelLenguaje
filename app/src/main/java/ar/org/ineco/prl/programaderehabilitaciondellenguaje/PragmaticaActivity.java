@@ -105,6 +105,7 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
                 title.setText(currentQuestion.getText());
 
                 int margin = getResources().getDimensionPixelSize(R.dimen.imgMargin);
+                double maxwidth = getResources().getDisplayMetrics().widthPixels / currentQuestion.getImages().size();
                 double size = getResources().getDisplayMetrics().heightPixels * 0.65;
                 //Log.d(PragmaticaActivity.class.getName(), "size: "+size);
                 for (ImageFile img : currentQuestion.getImages()) {
@@ -115,6 +116,7 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
                     layoutParams.setMargins(margin, margin, margin, margin);
 
                     image.setLayoutParams(layoutParams);
+                    image.setMaxWidth((int) maxwidth);
                     image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                     image.setAdjustViewBounds(true);
 
@@ -218,7 +220,7 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
             feedbackCorrectAns.show();
 
             if (Utils.withSound(this)) {
-                audioUtil.playSound(audioUtil.TRIVIA_RIGHT_ANSWER);
+                audioUtil.playSound(R.raw.acierto);
             }
 
         } else {
@@ -226,7 +228,7 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
             Toast.makeText(this, getResources().getString(R.string.incorrectAns), Toast.LENGTH_SHORT).show();
 
             if (Utils.withSound(this)) {
-                audioUtil.playSound(audioUtil.TRIVIA_WRONG_ANSWER);
+                audioUtil.playSound(R.raw.error);
             }
         }
     }

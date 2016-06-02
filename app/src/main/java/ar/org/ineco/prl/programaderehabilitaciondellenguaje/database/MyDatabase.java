@@ -86,7 +86,7 @@ public class MyDatabase extends SQLiteAssetHelper {
 
     public static String[] allCategoryColumns = {CATEGORY_COLUMN_ID, CATEGORY_COLUMN_NAME, CATEGORY_COLUMN_CID};
 
-    public static String[] allIMGColumns = {IMG_COLUMN_ID, IMG_COLUMN_NAME};
+    public static String[] allIMGColumns = {IMG_COLUMN_ID, IMG_COLUMN_NAME, IMG_COLUMN_TXTIMG};
 
     public static String[] allSNDColumns = {SND_COLUMN_ID, SND_COLUMN_NAME};
 

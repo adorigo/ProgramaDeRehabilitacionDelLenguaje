@@ -8,48 +8,65 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".SemanticaActivity">
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="@color/black_overlay" >
-
-        <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/title_activity_quiz"
-            android:id="@+id/textTitle"
-            android:gravity="center_horizontal" />
-
-    </LinearLayout>
+    tools:context="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SemanticaActivity">
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/layoutQuestion"
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:padding="@dimen/abc_control_padding_material" />
+            android:layout_gravity="top"
+            android:background="@color/black_overlay">
+
+            <ImageView
+                android:layout_width="50px"
+                android:layout_height="match_parent"
+                android:id="@+id/audioAyuda"
+                android:layout_gravity="end"
+                android:src="@android:drawable/ic_media_play"
+                android:scaleType="centerInside" />
+
+            <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/title_activity_quiz"
+                android:id="@+id/textTitle"
+                android:gravity="center_horizontal" />
+
+        </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layoutOptions"
             android:orientation="vertical"
-            android:layout_width="@dimen/maxButtonLayoutSize"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="3"
-            android:gravity="center_horizontal" />
+            android:layout_gravity="center">
 
+            <LinearLayout
+                android:id="@+id/layoutQuestion"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:padding="@dimen/abc_control_padding_material"
+                android:gravity="center">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="@dimen/maxButtonLayoutSize"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/layoutOptions"
+                android:padding="@dimen/abc_control_padding_material"
+                android:gravity="center" />
+
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>

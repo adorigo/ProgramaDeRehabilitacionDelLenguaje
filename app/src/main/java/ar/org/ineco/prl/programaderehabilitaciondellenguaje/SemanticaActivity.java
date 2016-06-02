@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.MediaController;
 import android.widget.Toast;
 
 import java.util.Iterator;
@@ -54,6 +54,11 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
 
         audioUtil = new AudioUtil(this);
 
+        ImageView audioAyuda = (ImageView) findViewById(R.id.audioAyuda);
+        audioAyuda.setOnClickListener(this);
+
+        audioUtil.loadSound(R.raw.categorizacion_palabras);
+
         onCreateHelper();
     }
 
@@ -96,24 +101,42 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
                 title.setText(currentQuestion.getText());
 
                 int margin = getResources().getDimensionPixelSize(R.dimen.imgMargin);
-                double size = getResources().getDisplayMetrics().heightPixels * 0.65;
+                double maxwidth = getResources().getDisplayMetrics().widthPixels / currentQuestion.getImages().size();
+                double size = getResources().getDisplayMetrics().heightPixels * 0.45;
 
                 for (ImageFile img : currentQuestion.getImages()) {
 
-                    ImageView image = new ImageView(this);
+                    if (img.getName() != null) {
 
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, (int) size);
-                    layoutParams.setMargins(margin, margin, margin, margin);
+                        ImageView image = new ImageView(this);
 
-                    image.setLayoutParams(layoutParams);
-                    image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                    image.setAdjustViewBounds(true);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, (int) size);
+                        layoutParams.setMargins(margin, margin, margin, margin);
 
-                    image.setImageResource(getResources().getIdentifier(img.getName(), "drawable", this.getPackageName()));
+                        image.setLayoutParams(layoutParams);
+                        image.setMaxWidth((int) maxwidth);
+                        image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                        image.setAdjustViewBounds(true);
 
-                    questionLayout.addView(image);
+                        image.setImageResource(getResources().getIdentifier(img.getName(), "drawable", this.getPackageName()));
 
-                    Log.d(PragmaticaActivity.class.getName(), "Adding ImageView " + img.getName());
+                        questionLayout.addView(image);
+
+                        Log.d(SemanticaActivity.class.getName(), "Adding ImageView " + img.getName());
+                    } else {
+
+                        VerdanaTextView text = new VerdanaTextView(this, null);
+
+                        text.setText(img.getTxtImg());
+                        text.setWidth((int) maxwidth);
+                        text.setHeight((int) size);
+                        text.setGravity(Gravity.CENTER);
+                        text.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.text_size_large));
+
+                        questionLayout.addView(text);
+
+                        Log.d(SemanticaActivity.class.getName(), "Adding TextView " + img.getTxtImg());
+                    }
                 }
             }
 
@@ -158,7 +181,7 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
             feedbackCorrectAns.show();
 
             if (Utils.withSound(this)) {
-                audioUtil.playSound(audioUtil.TRIVIA_RIGHT_ANSWER);
+                audioUtil.playSound(R.raw.acierto);
             }
 
         } else {
@@ -166,7 +189,7 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
             Toast.makeText(this, getResources().getString(R.string.incorrectAns), Toast.LENGTH_SHORT).show();   //puto el que lee
 
             if (Utils.withSound(this)) {
-                audioUtil.playSound(audioUtil.TRIVIA_WRONG_ANSWER);
+                audioUtil.playSound(R.raw.error);
             }
         }
     }
@@ -237,6 +260,10 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
 
             case R.id.buttonNext:
                 nextQuestion();
+                break;
+
+            case R.id.audioAyuda:
+                audioUtil.playSound(R.raw.error);
                 break;
         }
     }

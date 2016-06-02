@@ -168,7 +168,8 @@ public class DatabaseLoader {
     private ImageFile cursorToImage (Cursor cursor) {
 
         return new ImageFile(cursor.getLong(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_ID)),
-                cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_NAME))
+                cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_NAME)),
+                cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_TXTIMG))
         );
     }
 

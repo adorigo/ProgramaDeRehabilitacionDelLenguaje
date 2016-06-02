@@ -46,10 +46,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:padding="@dimen/abc_control_padding_material"
-                android:gravity="center"
-                >
-
-            </LinearLayout>
+                android:gravity="center" />
 
             <LinearLayout
                 android:orientation="vertical"

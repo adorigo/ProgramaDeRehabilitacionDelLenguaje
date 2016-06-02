@@ -6,15 +6,17 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
+import android.util.Log;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.R;
 
 public class AudioUtil {
 
-    public final int TRIVIA_RIGHT_ANSWER;
-    public final int TRIVIA_WRONG_ANSWER;
-
     private SoundPool sndPool;
+    private Map<Integer, Integer> soundsIds;
     private Context pContext;
 
     public AudioUtil (Context thisContext) {
@@ -27,8 +29,17 @@ public class AudioUtil {
             sndPool = buildLollipop();
         }
 
-        TRIVIA_RIGHT_ANSWER = sndPool.load(thisContext, R.raw.acierto, 0);
-        TRIVIA_WRONG_ANSWER = sndPool.load(thisContext, R.raw.error, 0);
+        soundsIds = new HashMap<>();
+
+        sndPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                Log.d(AudioUtil.class.getName(), "Sample ready: " + sampleId);
+            }
+        });
+
+        soundsIds.put(R.raw.acierto, sndPool.load(thisContext, R.raw.acierto, 1));
+        soundsIds.put(R.raw.error, sndPool.load(thisContext, R.raw.error, 1));
 
         pContext = thisContext;
     }
@@ -50,17 +61,16 @@ public class AudioUtil {
         return sndPoolBuilder.build();
     }
 
-    public int loadSound (int soundResourceID) {
-
-        return sndPool.load(pContext, soundResourceID, 0);
+    public void loadSound(int soundResourceID) {
+        soundsIds.put(soundResourceID, sndPool.load(pContext, soundResourceID, 1));
     }
 
-    public void playSound (int soundID) {
+    public void playSound(int soundResourceID) {
 
         float rightVolume = 1.0f;
         float leftVolume = 1.0f;
         float rate = 1.0f;
-        sndPool.play(soundID, leftVolume, rightVolume, 1, 0, rate);
+        sndPool.play(soundsIds.get(soundResourceID), leftVolume, rightVolume, 1, 0, rate);
     }
 
     public void unloadAll () {
