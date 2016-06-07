@@ -40,7 +40,7 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
     private Menu menu = ApplicationContext.getMenu();
     private FeedbackDialog feedbackEnd;
     private FeedbackDialog feedbackCorrectAns;
-    private AudioUtil audioUtil;
+    private AudioUtil audioUtil = ApplicationContext.getSndUtil();
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -57,8 +57,6 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
         feedbackCorrectAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_correctans);
         feedbackCorrectAns.findViewById(R.id.buttonNext).setOnClickListener(this);
-
-        audioUtil = new AudioUtil(this);
 
         onCreateHelper();
     }
@@ -307,8 +305,6 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
     public void onResume () {
 
         super.onResume();
-
-        audioUtil = new AudioUtil(this);
 
         Log.d(PragmaticaActivity.class.getName(), "Loader Opened.");
     }

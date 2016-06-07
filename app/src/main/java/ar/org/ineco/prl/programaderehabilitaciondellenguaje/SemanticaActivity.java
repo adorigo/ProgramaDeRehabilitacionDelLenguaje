@@ -38,7 +38,7 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
     private Menu menu = ApplicationContext.getMenu();
     private FeedbackDialog feedbackEnd;
     private FeedbackDialog feedbackCorrectAns;
-    private AudioUtil audioUtil;
+    private AudioUtil audioUtil = ApplicationContext.getSndUtil();
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -52,12 +52,10 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
         feedbackCorrectAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_correctans);
         feedbackCorrectAns.findViewById(R.id.buttonNext).setOnClickListener(this);
 
-        audioUtil = new AudioUtil(this);
+        audioUtil.loadSound(R.raw.categorizacion_palabras);
 
         ImageView audioAyuda = (ImageView) findViewById(R.id.audioAyuda);
         audioAyuda.setOnClickListener(this);
-
-        audioUtil.loadSound(R.raw.categorizacion_palabras);
 
         onCreateHelper();
     }
@@ -263,7 +261,7 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
                 break;
 
             case R.id.audioAyuda:
-                audioUtil.playSound(R.raw.error);
+                audioUtil.playSound(R.raw.categorizacion_palabras);
                 break;
         }
     }
@@ -272,8 +270,6 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
     public void onResume () {
 
         super.onResume();
-
-        audioUtil = new AudioUtil(this);
 
         Log.d(PragmaticaActivity.class.getName(), "Loader Opened.");
     }
@@ -285,7 +281,6 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
 
         feedbackEnd.dismiss();
         feedbackCorrectAns.dismiss();
-        audioUtil.unloadAll();
 
         Log.d(PragmaticaActivity.class.getName(), "Loader Closed, FeedbackDialogs Dismissed.");
     }

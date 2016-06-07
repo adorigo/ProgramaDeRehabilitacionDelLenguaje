@@ -15,11 +15,21 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.R;
 
 public class AudioUtil {
 
-    private SoundPool sndPool;
-    private Map<Integer, Integer> soundsIds;
-    private Context pContext;
+    private static SoundPool sndPool;
+    private static Map<Integer, Integer> soundsIds;
+    private static Context pContext;
 
-    public AudioUtil (Context thisContext) {
+    private static AudioUtil ourInstance;
+
+    public static AudioUtil getInstance (Context context) {
+
+        if (ourInstance == null) {
+            ourInstance = new AudioUtil(context);
+        }
+        return ourInstance;
+    }
+
+    private AudioUtil (Context thisContext) {
 
         int sdkVersion = Build.VERSION.SDK_INT;
 
@@ -45,13 +55,13 @@ public class AudioUtil {
     }
 
     @SuppressWarnings("deprecation")
-    private SoundPool buildLessLollipop () {
+    private static SoundPool buildLessLollipop () {
 
         return new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private SoundPool buildLollipop () {
+    private static SoundPool buildLollipop () {
 
         SoundPool.Builder sndPoolBuilder = new SoundPool.Builder();
         sndPoolBuilder.setAudioAttributes(new AudioAttributes.Builder()
