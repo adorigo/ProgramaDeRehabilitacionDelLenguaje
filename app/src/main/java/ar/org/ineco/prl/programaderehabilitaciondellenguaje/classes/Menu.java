@@ -8,6 +8,7 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.database.DatabaseLoa
 public class Menu {
 
     private static Menu ourInstance;
+    private DatabaseLoader databaseLoader = DatabaseLoader.getInstance();
 
     public static Menu getInstance () {
 
@@ -19,7 +20,6 @@ public class Menu {
 
     private Menu () {
 
-        DatabaseLoader databaseLoader = DatabaseLoader.getInstance();
         currentCategory = databaseLoader.getCategories();
         topCategory = currentCategory;
         currentLevel = null;
@@ -60,6 +60,9 @@ public class Menu {
 
     public void setCurrentLevel (Level currentLevel) {
 
+        if (currentLevel.getQuestions().size() == 0) {
+            currentLevel.addAllQuestions(databaseLoader.getAllQuestions(currentLevel));
+        }
         this.currentLevel = currentLevel;
     }
 

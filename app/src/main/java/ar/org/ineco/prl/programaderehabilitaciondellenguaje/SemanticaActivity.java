@@ -22,6 +22,7 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Menu;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Option;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Question;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.AudioUtil;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.DragNDrop.LongClickListener;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.FeedbackDialog;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.Utils;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
@@ -44,7 +45,13 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
     protected void onCreate (Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_semantica);
+
+        if (menu.getCurrentLevel().getCatid() == 31 || menu.getCurrentLevel().getCatid() == 32) {
+            setContentView(R.layout.activity_intruso);
+        } else {
+            setContentView(R.layout.activity_semantica);
+        }
+
 
         feedbackEnd = new FeedbackDialog(this, R.layout.activity_quiz_popup_end);
         feedbackEnd.findViewById(R.id.buttonGoBack).setOnClickListener(this);
@@ -86,25 +93,30 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
         if (currentQuestion != null) {
 
             VerdanaTextView title = (VerdanaTextView) findViewById(R.id.textTitle);
-            title.setText("");
+            title.setText(currentQuestion.getText());
 
-            LinearLayout questionLayout = (LinearLayout) findViewById(R.id.layoutQuestion);
-            questionLayout.removeAllViews();
+            LinearLayout questionLayout, optionsLayout, optionsLayout1, optionsLayout2;
 
-            LinearLayout optionsLayout = (LinearLayout) findViewById(R.id.layoutOptions);
-            optionsLayout.removeAllViews();
+            if (menu.getCurrentLevel().getCatid() == 31 || menu.getCurrentLevel().getCatid() == 32) {
 
-            if (currentQuestion.getImages().size() > 0) {
+                optionsLayout1 = (LinearLayout) findViewById(R.id.layoutOptions1);
+                optionsLayout1.removeAllViews();
 
-                title.setText(currentQuestion.getText());
+                optionsLayout2 = (LinearLayout) findViewById(R.id.layoutOptions2);
+                optionsLayout2.removeAllViews();
 
-                int margin = getResources().getDimensionPixelSize(R.dimen.imgMargin);
-                double maxwidth = getResources().getDisplayMetrics().widthPixels / currentQuestion.getImages().size();
-                double size = getResources().getDisplayMetrics().heightPixels * 0.45;
+                boolean first = true;
 
-                for (ImageFile img : currentQuestion.getImages()) {
+                for (Option option : currentQuestion.getOpts()) {
 
-                    if (img.getName() != null) {
+                    Log.d(SemanticaActivity.class.getName(), "Amount Opts: " + currentQuestion.getOpts().size());
+
+                    View OptionDraggable;
+                    int margin = getResources().getDimensionPixelSize(R.dimen.imgMargin);
+                    double maxwidth = getResources().getDisplayMetrics().widthPixels / currentQuestion.getOpts().size();
+                    double size = getResources().getDisplayMetrics().heightPixels * 0.35;
+
+                    if (option.getImg() != null) {
 
                         ImageView image = new ImageView(this);
 
@@ -116,51 +128,116 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
                         image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                         image.setAdjustViewBounds(true);
 
-                        image.setImageResource(getResources().getIdentifier(img.getName(), "drawable", this.getPackageName()));
+                        image.setTag(option);
 
-                        questionLayout.addView(image);
+                        image.setOnLongClickListener(new LongClickListener());
 
-                        Log.d(SemanticaActivity.class.getName(), "Adding ImageView " + img.getName());
+                        image.setImageResource(getResources().getIdentifier(option.getImg().getName(), "drawable", this.getPackageName()));
+                        Log.d(SemanticaActivity.class.getName(), "Adding ImageView " + option.getImg().getName());
+
+                        OptionDraggable = image;
+
                     } else {
 
-                        VerdanaTextView text = new VerdanaTextView(this, null);
+                        VerdanaButton button = new VerdanaButton(this, null);
 
-                        text.setText(img.getTxtImg());
-                        text.setWidth((int) maxwidth);
-                        text.setHeight((int) size);
-                        text.setGravity(Gravity.CENTER);
-                        text.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.text_size_large));
+                        button.setText(option.getStr());
+                        button.setEms(3);
 
-                        questionLayout.addView(text);
+                        button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT));
 
-                        Log.d(SemanticaActivity.class.getName(), "Adding TextView " + img.getTxtImg());
+                        button.setGravity(Gravity.CENTER_HORIZONTAL);
+
+                        button.setTag(option);
+
+                        button.setOnLongClickListener(new LongClickListener());
+
+                        OptionDraggable = button;
+                    }
+
+                    if (first) {
+                        optionsLayout2.addView(OptionDraggable);
+                        first = false;
+                    } else {
+                        optionsLayout1.addView(OptionDraggable);
                     }
                 }
-            }
 
-            for (Option option : currentQuestion.getOpts()) {
+            } else {
 
-                VerdanaButton optionButton = new VerdanaButton(this, null);
+                questionLayout = (LinearLayout) findViewById(R.id.layoutQuestion);
+                questionLayout.removeAllViews();
 
-                optionButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT));
+                optionsLayout = (LinearLayout) findViewById(R.id.layoutOptions);
+                optionsLayout.removeAllViews();
 
-                optionButton.setText(option.getStr());
-                optionButton.setGravity(Gravity.CENTER_HORIZONTAL);
+                if (currentQuestion.getImages().size() > 0) {
 
-                optionButton.setTag(option);
+                    int margin = getResources().getDimensionPixelSize(R.dimen.imgMargin);
+                    double maxwidth = getResources().getDisplayMetrics().widthPixels / currentQuestion.getImages().size();
+                    double size = getResources().getDisplayMetrics().heightPixels * 0.45;
 
-                optionButton.setOnClickListener(new View.OnClickListener() {
+                    for (ImageFile img : currentQuestion.getImages()) {
 
-                    @Override
-                    public void onClick(View v) {
+                        if (img.getName() != null) {
 
-                        Option optSelected = (Option) v.getTag();
-                        checkAnswer(optSelected);
+                            ImageView image = new ImageView(this);
+
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, (int) size);
+                            layoutParams.setMargins(margin, margin, margin, margin);
+
+                            image.setLayoutParams(layoutParams);
+                            image.setMaxWidth((int) maxwidth);
+                            image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                            image.setAdjustViewBounds(true);
+
+                            image.setImageResource(getResources().getIdentifier(img.getName(), "drawable", this.getPackageName()));
+
+                            questionLayout.addView(image);
+
+                            Log.d(SemanticaActivity.class.getName(), "Adding ImageView " + img.getName());
+                        } else {
+
+                            VerdanaTextView text = new VerdanaTextView(this, null);
+
+                            text.setText(img.getTxtImg());
+                            text.setWidth((int) maxwidth);
+                            text.setHeight((int) size);
+                            text.setGravity(Gravity.CENTER);
+                            text.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.text_size_large));
+
+                            questionLayout.addView(text);
+
+                            Log.d(SemanticaActivity.class.getName(), "Adding TextView " + img.getTxtImg());
+                        }
                     }
-                });
+                }
 
-                optionsLayout.addView(optionButton);
+                for (Option option : currentQuestion.getOpts()) {
+
+                    VerdanaButton optionButton = new VerdanaButton(this, null);
+
+                    optionButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                    optionButton.setText(option.getStr());
+                    optionButton.setGravity(Gravity.CENTER_HORIZONTAL);
+
+                    optionButton.setTag(option);
+
+                    optionButton.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+
+                            Option optSelected = (Option) v.getTag();
+                            checkAnswer(optSelected);
+                        }
+                    });
+
+                    optionsLayout.addView(optionButton);
+                }
             }
         }
     }
@@ -271,7 +348,7 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
 
         super.onResume();
 
-        Log.d(PragmaticaActivity.class.getName(), "Loader Opened.");
+        Log.d(SemanticaActivity.class.getName(), "Loader Opened.");
     }
 
     @Override
@@ -282,6 +359,6 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
         feedbackEnd.dismiss();
         feedbackCorrectAns.dismiss();
 
-        Log.d(PragmaticaActivity.class.getName(), "Loader Closed, FeedbackDialogs Dismissed.");
+        Log.d(SemanticaActivity.class.getName(), "Loader Closed, FeedbackDialogs Dismissed.");
     }
 }

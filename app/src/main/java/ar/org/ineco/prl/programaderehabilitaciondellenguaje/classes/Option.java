@@ -6,13 +6,25 @@ public class Option {
     private String text;
     private boolean isCorrect;
     private long qid;
+    private ImageFile img;
+    private SoundFile snd;
 
-    public Option (long thisId, String thisText, int thisCorrect, long thisQid) {
+    public Option(long thisId, String thisText, int thisCorrect, long thisQid, ImageFile thisImg, SoundFile thisSnd) {
 
-        this.id = thisId;
-        this.text = thisText;
-        this.isCorrect = (thisCorrect == 1);
-        this.qid = thisQid;
+        id = thisId;
+        text = thisText;
+        isCorrect = (thisCorrect == 1);
+        qid = thisQid;
+        img = thisImg;
+        snd = thisSnd;
+    }
+
+    public ImageFile getImg() {
+        return img;
+    }
+
+    public SoundFile getSnd() {
+        return snd;
     }
 
     public String getStr () {

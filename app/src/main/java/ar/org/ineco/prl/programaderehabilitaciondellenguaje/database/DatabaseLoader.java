@@ -20,6 +20,7 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ImageFile;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Level;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Option;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Question;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.SoundFile;
 
 public class DatabaseLoader {
 
@@ -57,6 +58,8 @@ public class DatabaseLoader {
     }
 
     public List<Question> getAllQuestions (Level thisLevel) {
+
+        openReadable();
 
         Map<Long, Question> allQuestions = new HashMap<>();
 
@@ -103,6 +106,8 @@ public class DatabaseLoader {
                 questions.add(question);
             }
         }
+
+        close();
 
         return questions;
     }
@@ -166,10 +171,20 @@ public class DatabaseLoader {
     }
 
     private ImageFile cursorToImage (Cursor cursor) {
-
+        Log.d(DatabaseLoader.class.getName(), "Adding Image: " + cursor.getLong(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_ID)) + ' ' +
+                cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_NAME)) + ' ' +
+                cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_TXTIMG)));
         return new ImageFile(cursor.getLong(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_NAME)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_TXTIMG))
+        );
+    }
+
+    private SoundFile cursorToSound(Cursor cursor) {
+        Log.d(DatabaseLoader.class.getName(), "Adding Sound: " + cursor.getLong(cursor.getColumnIndex(MyDatabase.SND_COLUMN_ID)) + ' ' +
+                cursor.getString(cursor.getColumnIndex(MyDatabase.SND_COLUMN_NAME)));
+        return new SoundFile(cursor.getLong(cursor.getColumnIndex(MyDatabase.SND_COLUMN_ID)),
+                cursor.getString(cursor.getColumnIndex(MyDatabase.SND_COLUMN_NAME))
         );
     }
 
@@ -182,11 +197,16 @@ public class DatabaseLoader {
         );
     }
 
-    private List<Option> getAllOptions (Set<Long> idsQuestions) {
+    public List<Option> getAllOptions(Set<Long> idsQuestions) {
 
         List<Option> Options = new ArrayList<>();
 
-        String query = "SELECT * FROM " + MyDatabase.TABLE_OPTION;
+        String query = "SELECT *" +
+                " FROM " + MyDatabase.TABLE_OPTION + "" +
+                " LEFT JOIN " + MyDatabase.TABLE_IMG + " ON " + MyDatabase.TABLE_IMG + "." + MyDatabase.IMG_COLUMN_ID +
+                " = " + MyDatabase.TABLE_OPTION + "." + MyDatabase.OPTION_COLUMN_IMGID +
+                " LEFT JOIN " + MyDatabase.TABLE_SND + " ON " + MyDatabase.TABLE_SND + "." + MyDatabase.SND_COLUMN_ID +
+                " = " + MyDatabase.TABLE_OPTION + "." + MyDatabase.OPTION_COLUMN_SNDID;
         String condition = " WHERE " + MyDatabase.OPTION_COLUMN_QID + " IN (";
 
         for (Long idQst : idsQuestions) {
@@ -215,11 +235,14 @@ public class DatabaseLoader {
     }
 
     private Option cursorToOption (Cursor cursor) {
-
+        Log.d(DatabaseLoader.class.getName(), "For Option: " + cursor.getLong(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_ID)) + ' ' +
+                cursor.getString(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_TXT)));
         return new Option(cursor.getLong(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_TXT)),
                 cursor.getInt(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_CORR)),
-                cursor.getLong(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_QID))
+                cursor.getLong(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_QID)),
+                (cursor.getLong(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_ID)) == 0) ? null : cursorToImage(cursor),
+                (cursor.getLong(cursor.getColumnIndex(MyDatabase.SND_COLUMN_ID)) == 0) ? null : cursorToSound(cursor)
         );
     }
 
@@ -238,7 +261,7 @@ public class DatabaseLoader {
 
             Level lvl = cursorToLevel(cursor);
 
-            lvl.addAllQuestions(getAllQuestions(lvl));
+            //lvl.addAllQuestions(getAllQuestions(lvl));
 
             levels.add(lvl);
 
