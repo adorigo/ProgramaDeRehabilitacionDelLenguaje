@@ -70,11 +70,12 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/zonaLiberacion"
-                android:layout_width="150px"
-                android:layout_height="100px"
-                android:layout_gravity="bottom|center_horizontal"
-                android:background="#757575" />
+                android:id="@+id/dropArea"
+                android:layout_width="wrap_content"
+                android:layout_height="125px"
+                android:adjustViewBounds="true"
+                android:layout_gravity="bottom|right"
+                android:src="@drawable/closedbin"/>
 
         </LinearLayout>
     </LinearLayout>

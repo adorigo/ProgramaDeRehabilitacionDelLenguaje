@@ -2,22 +2,21 @@ package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
+import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.Toast;
 
 import java.util.Iterator;
 import java.util.List;
 
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ApplicationContext;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ImageFile;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Menu;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Option;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Question;
@@ -28,7 +27,7 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.Utils;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView;
 
-public class SemanticaActivity extends Activity implements android.view.View.OnClickListener {
+public class IntrusoActivity extends Activity implements android.view.View.OnClickListener {
 
     private Question currentQuestion;
     private Iterator iterator;
@@ -46,7 +45,7 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_semantica);
+        setContentView(R.layout.activity_intruso);
 
         feedbackEnd = new FeedbackDialog(this, R.layout.activity_quiz_popup_end);
         feedbackEnd.findViewById(R.id.buttonGoBack).setOnClickListener(this);
@@ -71,7 +70,7 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
             totalQuestionNumber = allQuestions.size();
             currentQuestionNumber = 1;
             iterator = allQuestions.iterator();
-            Log.d(SemanticaActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
+            Log.d(IntrusoActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
             currentQuestion = (Question) iterator.next();
             drawUI();
 
@@ -83,87 +82,111 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
         }
     }
 
-    private void drawUI() {
+    private void drawUI () {
 
         if (currentQuestion != null) {
+
+            Log.d(IntrusoActivity.class.getName(), "PregId: " + currentQuestion.getId());
 
             VerdanaTextView title = (VerdanaTextView) findViewById(R.id.textTitle);
             title.setText(currentQuestion.getText());
 
-            LinearLayout questionLayout, optionsLayout;
+            LinearLayout optionsLayout1 = (LinearLayout) findViewById(R.id.layoutOptions1);
+            optionsLayout1.removeAllViews();
 
-            questionLayout = (LinearLayout) findViewById(R.id.layoutQuestion);
-            questionLayout.removeAllViews();
+            LinearLayout optionsLayout2 = (LinearLayout) findViewById(R.id.layoutOptions2);
+            optionsLayout2.removeAllViews();
 
-            optionsLayout = (LinearLayout) findViewById(R.id.layoutOptions);
-            optionsLayout.removeAllViews();
+            ImageView dropLayout = (ImageView) findViewById(R.id.dropArea);
+            dropLayout.setOnDragListener(new View.OnDragListener() {
 
-            if (currentQuestion.getImages().size() > 0) {
+                @Override
+                public boolean onDrag (View v, DragEvent event) {
 
-                int margin = getResources().getDimensionPixelSize(R.dimen.imgMargin);
-                double maxwidth = getResources().getDisplayMetrics().widthPixels / currentQuestion.getImages().size();
-                double size = getResources().getDisplayMetrics().heightPixels * 0.45;
+                    int dragEvent = event.getAction();
+                    ImageView bin = (ImageView) v;
 
-                for (ImageFile img : currentQuestion.getImages()) {
+                    switch (dragEvent) {
+                        case DragEvent.ACTION_DRAG_EXITED:
 
-                    if (img.getName() != null) {
+                            bin.setImageResource(R.drawable.closedbin);
+                            break;
+                        case DragEvent.ACTION_DRAG_ENTERED:
 
-                        ImageView image = new ImageView(this);
+                            bin.setImageResource(R.drawable.openedbin);
+                            break;
+                        case DragEvent.ACTION_DROP:
 
-                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, (int) size);
-                        layoutParams.setMargins(margin, margin, margin, margin);
+                            View view = (View) event.getLocalState();
+                            Option option = (Option) view.getTag();
+                            bin.setImageResource(R.drawable.closedbin);
 
-                        image.setLayoutParams(layoutParams);
-                        image.setMaxWidth((int) maxwidth);
-                        image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                        image.setAdjustViewBounds(true);
-
-                        image.setImageResource(getResources().getIdentifier(img.getName(), "drawable", this.getPackageName()));
-
-                        questionLayout.addView(image);
-
-                        Log.d(SemanticaActivity.class.getName(), "Adding ImageView " + img.getName());
-
-                    } else {
-
-                        VerdanaTextView text = new VerdanaTextView(this, null);
-
-                        text.setText(img.getTxtImg());
-                        text.setWidth((int) maxwidth);
-                        text.setHeight((int) size);
-                        text.setGravity(Gravity.CENTER);
-                        text.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.text_size_large));
-
-                        questionLayout.addView(text);
-
-                        Log.d(SemanticaActivity.class.getName(), "Adding TextView " + img.getTxtImg());
+                            checkAnswer(option);
+                            break;
                     }
+
+                    return true;
                 }
-            }
+            });
+
+            boolean first = true;
+
+            int margin = getResources().getDimensionPixelSize(R.dimen.imgMargin);
+            double maxwidth = getResources().getDisplayMetrics().widthPixels / currentQuestion.getOpts().size();
+            double width = getResources().getDisplayMetrics().widthPixels * 0.20;
+            double size = getResources().getDisplayMetrics().heightPixels * 0.35;
 
             for (Option option : currentQuestion.getOpts()) {
 
-                VerdanaButton optionButton = new VerdanaButton(this, null);
+                if (option.getImg() != null) {
 
-                optionButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT));
+                    ImageView image = new ImageView(this);
 
-                optionButton.setText(option.getStr());
-                optionButton.setGravity(Gravity.CENTER_HORIZONTAL);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, (int) size);
+                    layoutParams.setMargins(margin, margin, margin, margin);
 
-                optionButton.setTag(option);
+                    image.setLayoutParams(layoutParams);
+                    image.setMaxWidth((int) maxwidth);
+                    image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    image.setAdjustViewBounds(true);
 
-                optionButton.setOnClickListener(new View.OnClickListener() {
+                    image.setTag(option);
 
-                    @Override
-                    public void onClick (View v) {
+                    image.setOnLongClickListener(new LongClickListener());
 
-                        Option optSelected = (Option) v.getTag();
-                        checkAnswer(optSelected);
+                    image.setImageResource(getResources().getIdentifier(option.getImg().getName(), "drawable", this.getPackageName()));
+
+                    if (first) {
+                        optionsLayout2.addView(image);
+                        first = false;
+                    } else {
+                        optionsLayout1.addView(image);
                     }
-                });
 
-                optionsLayout.addView(optionButton);
+                } else {
+
+                    VerdanaButton button = new VerdanaButton(this, null);
+
+                    button.setText(option.getStr());
+                    button.setWidth((int) width);
+                    button.setHeight((int) size);
+
+                    button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                    button.setGravity(Gravity.CENTER);
+
+                    button.setTag(option);
+
+                    button.setOnLongClickListener(new LongClickListener());
+
+                    if (first) {
+                        optionsLayout2.addView(button);
+                        first = false;
+                    } else {
+                        optionsLayout1.addView(button);
+                    }
+                }
             }
         }
     }
@@ -203,9 +226,9 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
 
         float completeRate = ((float) currentQuestionNumber) / totalQuestionNumber;
 
-        Log.d(SemanticaActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
+        Log.d(IntrusoActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
 
-        Log.d(SemanticaActivity.class.getName(),
+        Log.d(IntrusoActivity.class.getName(),
                 completeRate
                         + " <= "
                         + Utils.lvlRate(this)
@@ -247,7 +270,7 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick (View v) {
 
         switch (v.getId()) {
 
@@ -274,7 +297,7 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
 
         super.onResume();
 
-        Log.d(SemanticaActivity.class.getName(), "Loader Opened.");
+        Log.d(IntrusoActivity.class.getName(), "Loader Opened.");
     }
 
     @Override
@@ -285,6 +308,6 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
         feedbackEnd.dismiss();
         feedbackCorrectAns.dismiss();
 
-        Log.d(SemanticaActivity.class.getName(), "Loader Closed, FeedbackDialogs Dismissed.");
+        Log.d(IntrusoActivity.class.getName(), "Loader Closed, FeedbackDialogs Dismissed.");
     }
 }

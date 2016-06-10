@@ -171,9 +171,7 @@ public class DatabaseLoader {
     }
 
     private ImageFile cursorToImage (Cursor cursor) {
-        Log.d(DatabaseLoader.class.getName(), "Adding Image: " + cursor.getLong(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_ID)) + ' ' +
-                cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_NAME)) + ' ' +
-                cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_TXTIMG)));
+
         return new ImageFile(cursor.getLong(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_NAME)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_TXTIMG))
@@ -181,8 +179,7 @@ public class DatabaseLoader {
     }
 
     private SoundFile cursorToSound(Cursor cursor) {
-        Log.d(DatabaseLoader.class.getName(), "Adding Sound: " + cursor.getLong(cursor.getColumnIndex(MyDatabase.SND_COLUMN_ID)) + ' ' +
-                cursor.getString(cursor.getColumnIndex(MyDatabase.SND_COLUMN_NAME)));
+
         return new SoundFile(cursor.getLong(cursor.getColumnIndex(MyDatabase.SND_COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.SND_COLUMN_NAME))
         );
@@ -241,8 +238,23 @@ public class DatabaseLoader {
                 cursor.getString(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_TXT)),
                 cursor.getInt(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_CORR)),
                 cursor.getLong(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_QID)),
-                (cursor.getLong(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_ID)) == 0) ? null : cursorToImage(cursor),
-                (cursor.getLong(cursor.getColumnIndex(MyDatabase.SND_COLUMN_ID)) == 0) ? null : cursorToSound(cursor)
+                (cursor.getLong(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_IMGID)) == 0) ? null : cursorToOptionImage(cursor),
+                (cursor.getLong(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_SNDID)) == 0) ? null : cursorToOptionSound(cursor)
+        );
+    }
+
+    private ImageFile cursorToOptionImage (Cursor cursor) {
+
+        return new ImageFile(cursor.getLong(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_IMGID)),
+                cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_NAME)),
+                cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_TXTIMG))
+        );
+    }
+
+    private SoundFile cursorToOptionSound (Cursor cursor) {
+
+        return new SoundFile(cursor.getLong(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_SNDID)),
+                cursor.getString(cursor.getColumnIndex(MyDatabase.SND_COLUMN_NAME))
         );
     }
 
