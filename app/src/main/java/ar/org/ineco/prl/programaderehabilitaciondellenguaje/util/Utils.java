@@ -15,6 +15,12 @@ public class Utils {
         return sharedPref.getBoolean("pref_key_feedback", true);
     }
 
+    public static boolean withDragNDrop (Context context) {
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        return !sharedPref.getBoolean("pref_key_cpmotrices", false);
+    }
+
     public static float lvlRate (Context context) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);

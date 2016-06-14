@@ -2,7 +2,6 @@ package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import java.util.Iterator;
 import java.util.List;
@@ -38,6 +36,7 @@ public class IntrusoActivity extends Activity implements android.view.View.OnCli
     private Menu menu = ApplicationContext.getMenu();
     private FeedbackDialog feedbackEnd;
     private FeedbackDialog feedbackCorrectAns;
+    private FeedbackDialog feedbackWrongAns;
     private AudioUtil audioUtil = ApplicationContext.getSndUtil();
 
     @Override
@@ -52,6 +51,9 @@ public class IntrusoActivity extends Activity implements android.view.View.OnCli
 
         feedbackCorrectAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_correctans);
         feedbackCorrectAns.findViewById(R.id.buttonNext).setOnClickListener(this);
+
+        feedbackWrongAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_incorrectans);
+        feedbackWrongAns.findViewById(R.id.buttonTryAgain).setOnClickListener(this);
 
         audioUtil.loadSound(R.raw.categorizacion_palabras);
 
@@ -70,7 +72,6 @@ public class IntrusoActivity extends Activity implements android.view.View.OnCli
             totalQuestionNumber = allQuestions.size();
             currentQuestionNumber = 1;
             iterator = allQuestions.iterator();
-            Log.d(IntrusoActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
             currentQuestion = (Question) iterator.next();
             drawUI();
 
@@ -88,6 +89,12 @@ public class IntrusoActivity extends Activity implements android.view.View.OnCli
 
             Log.d(IntrusoActivity.class.getName(), "PregId: " + currentQuestion.getId());
 
+            int margin = getResources().getDimensionPixelSize(R.dimen.imgMargin);
+            double maxwidth = getResources().getDisplayMetrics().widthPixels / currentQuestion.getOpts().size();
+            double width = getResources().getDisplayMetrics().widthPixels * 0.20;
+            double size = getResources().getDisplayMetrics().heightPixels * 0.35;
+            double height = getResources().getDisplayMetrics().heightPixels * 0.20;
+
             VerdanaTextView title = (VerdanaTextView) findViewById(R.id.textTitle);
             title.setText(currentQuestion.getText());
 
@@ -98,43 +105,48 @@ public class IntrusoActivity extends Activity implements android.view.View.OnCli
             optionsLayout2.removeAllViews();
 
             ImageView dropLayout = (ImageView) findViewById(R.id.dropArea);
-            dropLayout.setOnDragListener(new View.OnDragListener() {
+            dropLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, (int) height));
+            dropLayout.setScaleType(ImageView.ScaleType.FIT_XY);
+            dropLayout.setAdjustViewBounds(true);
+            if (Utils.withDragNDrop(this)) {
 
-                @Override
-                public boolean onDrag (View v, DragEvent event) {
+                dropLayout.setOnDragListener(new View.OnDragListener() {
 
-                    int dragEvent = event.getAction();
-                    ImageView bin = (ImageView) v;
+                    @Override
+                    public boolean onDrag (View v, DragEvent event) {
 
-                    switch (dragEvent) {
-                        case DragEvent.ACTION_DRAG_EXITED:
+                        int dragEvent = event.getAction();
+                        ImageView bin = (ImageView) v;
 
-                            bin.setImageResource(R.drawable.closedbin);
-                            break;
-                        case DragEvent.ACTION_DRAG_ENTERED:
+                        switch (dragEvent) {
+                            case DragEvent.ACTION_DRAG_EXITED:
 
-                            bin.setImageResource(R.drawable.openedbin);
-                            break;
-                        case DragEvent.ACTION_DROP:
+                                bin.setImageResource(R.drawable.closedbin);
+                                break;
+                            case DragEvent.ACTION_DRAG_ENTERED:
 
-                            View view = (View) event.getLocalState();
-                            Option option = (Option) view.getTag();
-                            bin.setImageResource(R.drawable.closedbin);
+                                bin.setImageResource(R.drawable.openedbin);
+                                break;
+                            case DragEvent.ACTION_DROP:
 
-                            checkAnswer(option);
-                            break;
+                                View view = (View) event.getLocalState();
+                                Option option = (Option) view.getTag();
+                                bin.setImageResource(R.drawable.closedbin);
+
+                                checkAnswer(option);
+                                break;
+                        }
+
+                        return true;
                     }
+                });
 
-                    return true;
-                }
-            });
+            } else {
+                dropLayout.setVisibility(ImageView.GONE);
+            }
+
 
             boolean first = true;
-
-            int margin = getResources().getDimensionPixelSize(R.dimen.imgMargin);
-            double maxwidth = getResources().getDisplayMetrics().widthPixels / currentQuestion.getOpts().size();
-            double width = getResources().getDisplayMetrics().widthPixels * 0.20;
-            double size = getResources().getDisplayMetrics().heightPixels * 0.35;
 
             for (Option option : currentQuestion.getOpts()) {
 
@@ -152,7 +164,20 @@ public class IntrusoActivity extends Activity implements android.view.View.OnCli
 
                     image.setTag(option);
 
-                    image.setOnLongClickListener(new LongClickListener());
+                    if (Utils.withDragNDrop(this)) {
+                        image.setOnLongClickListener(new LongClickListener());
+                    } else {
+                        image.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick (View v) {
+
+                                Option optSelected = (Option) v.getTag();
+                                checkAnswer(optSelected);
+                            }
+                        });
+                    }
+
 
                     image.setImageResource(getResources().getIdentifier(option.getImg().getName(), "drawable", this.getPackageName()));
 
@@ -178,7 +203,20 @@ public class IntrusoActivity extends Activity implements android.view.View.OnCli
 
                     button.setTag(option);
 
-                    button.setOnLongClickListener(new LongClickListener());
+                    if (Utils.withDragNDrop(this)) {
+                        button.setOnLongClickListener(new LongClickListener());
+                    } else {
+                        button.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick (View v) {
+
+                                Option optSelected = (Option) v.getTag();
+                                checkAnswer(optSelected);
+                            }
+                        });
+                    }
+
 
                     if (first) {
                         optionsLayout2.addView(button);
@@ -210,7 +248,7 @@ public class IntrusoActivity extends Activity implements android.view.View.OnCli
 
         } else {
 
-            Toast.makeText(this, getResources().getString(R.string.incorrectAns), Toast.LENGTH_SHORT).show();
+            feedbackWrongAns.show();
 
             if (Utils.withSound(this)) {
                 audioUtil.playSound(R.raw.error);
@@ -225,15 +263,6 @@ public class IntrusoActivity extends Activity implements android.view.View.OnCli
         currentQuestionNumber++;
 
         float completeRate = ((float) currentQuestionNumber) / totalQuestionNumber;
-
-        Log.d(IntrusoActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
-
-        Log.d(IntrusoActivity.class.getName(),
-                completeRate
-                        + " <= "
-                        + Utils.lvlRate(this)
-        );
-
 
         if (iterator.hasNext() && completeRate <= Utils.lvlRate(this)) {
 
@@ -274,9 +303,9 @@ public class IntrusoActivity extends Activity implements android.view.View.OnCli
 
         switch (v.getId()) {
 
-            /*case R.id.buttonReset:
-                resetQuestions();
-                break;*/
+            case R.id.buttonTryAgain:
+                feedbackWrongAns.hide();
+                break;
 
             case R.id.buttonGoBack:
                 goBack();
@@ -293,20 +322,13 @@ public class IntrusoActivity extends Activity implements android.view.View.OnCli
     }
 
     @Override
-    public void onResume () {
-
-        super.onResume();
-
-        Log.d(IntrusoActivity.class.getName(), "Loader Opened.");
-    }
-
-    @Override
     public void onPause () {
 
         super.onPause();
 
         feedbackEnd.dismiss();
         feedbackCorrectAns.dismiss();
+        feedbackWrongAns.dismiss();
 
         Log.d(IntrusoActivity.class.getName(), "Loader Closed, FeedbackDialogs Dismissed.");
     }
