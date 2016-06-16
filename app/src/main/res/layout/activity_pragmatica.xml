@@ -22,6 +22,14 @@
             android:layout_gravity="top"
             android:background="@color/black_overlay">
 
+            <ImageView
+                android:layout_width="80px"
+                android:layout_height="match_parent"
+                android:id="@+id/audioAyuda"
+                android:layout_gravity="end"
+                android:src="@android:drawable/ic_media_play"
+                android:scaleType="centerInside" />
+
             <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

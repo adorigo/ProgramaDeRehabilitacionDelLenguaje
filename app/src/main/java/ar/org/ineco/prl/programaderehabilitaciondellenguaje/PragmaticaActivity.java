@@ -40,7 +40,9 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
     private Menu menu = ApplicationContext.getMenu();
     private FeedbackDialog feedbackEnd;
     private FeedbackDialog feedbackCorrectAns;
+    private FeedbackDialog feedbackWrongAns;
     private AudioUtil audioUtil = ApplicationContext.getSndUtil();
+    private int helpSnd;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -52,11 +54,27 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
         qstText.setText(menu.getLabel());
 
         feedbackEnd = new FeedbackDialog(this, R.layout.activity_quiz_popup_end);
-        //feedbackEnd.findViewById(R.id.buttonReset).setOnClickListener(this);
         feedbackEnd.findViewById(R.id.buttonGoBack).setOnClickListener(this);
 
         feedbackCorrectAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_correctans);
         feedbackCorrectAns.findViewById(R.id.buttonNext).setOnClickListener(this);
+
+        feedbackWrongAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_incorrectans);
+        feedbackWrongAns.findViewById(R.id.buttonTryAgain).setOnClickListener(this);
+
+        ImageView helpSndLayout = (ImageView) findViewById(R.id.audioAyuda);
+
+        if (menu.getAudioCategory() != null) {
+
+            helpSnd = getResources().getIdentifier(menu.getAudioCategory().getName(), "raw", this.getPackageName());
+            audioUtil.loadSound(helpSnd);
+
+            helpSndLayout.setOnClickListener(this);
+
+        } else {
+
+            helpSndLayout.setVisibility(ImageView.GONE);
+        }
 
         onCreateHelper();
     }
@@ -223,7 +241,7 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
         } else {
 
-            Toast.makeText(this, getResources().getString(R.string.incorrectAns), Toast.LENGTH_SHORT).show();
+            feedbackWrongAns.show();
 
             if (Utils.withSound(this)) {
                 audioUtil.playSound(R.raw.error);
@@ -287,9 +305,9 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
 
         switch (v.getId()) {
 
-            /*case R.id.buttonReset:
-                resetQuestions();
-                break;*/
+            case R.id.buttonTryAgain:
+                feedbackWrongAns.dismiss();
+                break;
 
             case R.id.buttonGoBack:
                 goBack();
@@ -298,15 +316,11 @@ public class PragmaticaActivity extends Activity implements View.OnClickListener
             case R.id.buttonNext:
                 nextQuestion();
                 break;
+
+            case R.id.audioAyuda:
+                audioUtil.playSound(helpSnd);
+                break;
         }
-    }
-
-    @Override
-    public void onResume () {
-
-        super.onResume();
-
-        Log.d(PragmaticaActivity.class.getName(), "Loader Opened.");
     }
 
     @Override

@@ -314,6 +314,28 @@ public class DatabaseLoader {
 
         cursor.close();
 
+        //Load Category sounds
+        query = "SELECT " + MyDatabase.TABLE_CATEGORY +'.'+MyDatabase.CATEGORY_COLUMN_ID + ", " + MyDatabase.CATEGORY_COLUMN_SND + ", " + MyDatabase.SND_COLUMN_NAME + ' ' +
+                "FROM " + MyDatabase.TABLE_CATEGORY + " LEFT JOIN " + MyDatabase.TABLE_SND + ' ' +
+                "ON " + MyDatabase.TABLE_SND +'.'+MyDatabase.SND_COLUMN_ID + " = " + MyDatabase.TABLE_CATEGORY +'.'+MyDatabase.CATEGORY_COLUMN_SND;
+        cursor = database.rawQuery(query, null);
+
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+
+            if(cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_SND)) != 0 ){
+
+                Long idCategory = cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_ID));
+                SoundFile snd = cursorToCategorySound(cursor);
+                categories.get(idCategory).setSnd(snd);
+            }
+
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+
         // Load Category hierarchy
         query = "SELECT " + MyDatabase.CATEGORY_COLUMN_ID + ", " + MyDatabase.CATEGORY_COLUMN_CID + " FROM " + MyDatabase.TABLE_CATEGORY;
         String condition = " WHERE " + MyDatabase.CATEGORY_COLUMN_CID + "!= ''";
@@ -325,11 +347,11 @@ public class DatabaseLoader {
             Long idChildCategory = cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_ID));
             Long idParentCategory = cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_CID));
 
+            Log.d(DatabaseLoader.class.getName(), "Adding " + idChildCategory.toString() + " to " + idParentCategory.toString());
+
             categories.get(idChildCategory).setParentCategory(categories.get(idParentCategory));
 
             categories.get(idParentCategory).addChildren(categories.get(idChildCategory));
-
-            Log.d(DatabaseLoader.class.getName(), "Adding " + idChildCategory.toString() + " to " + idParentCategory.toString());
 
             cursor.moveToNext();
         }
@@ -362,6 +384,13 @@ public class DatabaseLoader {
         return new Category(cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_NAME)),
                 null
+        );
+    }
+
+    private SoundFile cursorToCategorySound (Cursor cursor) {
+
+        return new SoundFile(cursor.getLong(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_SND)),
+                cursor.getString(cursor.getColumnIndex(MyDatabase.SND_COLUMN_NAME))
         );
     }
 

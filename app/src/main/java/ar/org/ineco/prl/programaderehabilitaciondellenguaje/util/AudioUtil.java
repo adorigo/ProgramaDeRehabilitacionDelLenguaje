@@ -72,7 +72,10 @@ public class AudioUtil {
     }
 
     public void loadSound(int soundResourceID) {
-        soundsIds.put(soundResourceID, sndPool.load(pContext, soundResourceID, 1));
+
+        if (!soundsIds.containsKey(soundResourceID)) {
+            soundsIds.put(soundResourceID, sndPool.load(pContext, soundResourceID, 1));
+        }
     }
 
     public void playSound(int soundResourceID) {

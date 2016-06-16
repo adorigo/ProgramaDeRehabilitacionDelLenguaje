@@ -2,6 +2,7 @@ package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
@@ -38,7 +39,7 @@ public class IntrusoActivity extends Activity implements android.view.View.OnCli
     private FeedbackDialog feedbackCorrectAns;
     private FeedbackDialog feedbackWrongAns;
     private AudioUtil audioUtil = ApplicationContext.getSndUtil();
-
+    private int helpSnd;
     @Override
     protected void onCreate (Bundle savedInstanceState) {
 
@@ -55,10 +56,19 @@ public class IntrusoActivity extends Activity implements android.view.View.OnCli
         feedbackWrongAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_incorrectans);
         feedbackWrongAns.findViewById(R.id.buttonTryAgain).setOnClickListener(this);
 
-        audioUtil.loadSound(R.raw.categorizacion_palabras);
+        ImageView helpSndLayout = (ImageView) findViewById(R.id.audioAyuda);
 
-        ImageView audioAyuda = (ImageView) findViewById(R.id.audioAyuda);
-        audioAyuda.setOnClickListener(this);
+        if (menu.getAudioCategory() != null) {
+
+            helpSnd = getResources().getIdentifier(menu.getAudioCategory().getName(), "raw", this.getPackageName());
+            audioUtil.loadSound(helpSnd);
+
+            helpSndLayout.setOnClickListener(this);
+
+        } else {
+
+            helpSndLayout.setVisibility(ImageView.GONE);
+        }
 
         onCreateHelper();
     }
@@ -316,7 +326,7 @@ public class IntrusoActivity extends Activity implements android.view.View.OnCli
                 break;
 
             case R.id.audioAyuda:
-                audioUtil.playSound(R.raw.categorizacion_palabras);
+                audioUtil.playSound(helpSnd);
                 break;
         }
     }

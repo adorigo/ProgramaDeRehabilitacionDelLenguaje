@@ -7,6 +7,7 @@ public class Category {
 
     private long id;
     private String name;
+    private SoundFile snd;
 
     private Category parentCategory;
     private List<Category> childCategories;
@@ -25,6 +26,10 @@ public class Category {
     public String getName () {
 
         return name;
+    }
+
+    public SoundFile getSnd() {
+        return snd;
     }
 
     public long getId () {
@@ -76,5 +81,9 @@ public class Category {
     public String toString () {
 
         return getName();
+    }
+
+    public void setSnd(SoundFile snd) {
+        this.snd = snd;
     }
 }

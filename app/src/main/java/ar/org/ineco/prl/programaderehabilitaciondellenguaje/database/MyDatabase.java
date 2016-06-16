@@ -60,6 +60,7 @@ public class MyDatabase extends SQLiteAssetHelper {
     public static final String CATEGORY_COLUMN_ID = "_id";
     public static final String CATEGORY_COLUMN_NAME = "cat_nombre";
     public static final String CATEGORY_COLUMN_CID = "cat_id";
+    public static final String CATEGORY_COLUMN_SND = "cat_snd";
 
     public static final String TABLE_IMG = "imagen";
     public static final String IMG_COLUMN_ID = "_id";
@@ -84,7 +85,8 @@ public class MyDatabase extends SQLiteAssetHelper {
 
     public static String[] allREGUSEColumns = {REGUSE_COLUMN_ID, REGUSE_COLUMN_QID, REGUSE_COLUMN_CORR};
 
-    public static String[] allCategoryColumns = {CATEGORY_COLUMN_ID, CATEGORY_COLUMN_NAME, CATEGORY_COLUMN_CID};
+    public static String[] allCategoryColumns = {CATEGORY_COLUMN_ID, CATEGORY_COLUMN_NAME, CATEGORY_COLUMN_CID,
+                                                CATEGORY_COLUMN_SND};
 
     public static String[] allIMGColumns = {IMG_COLUMN_ID, IMG_COLUMN_NAME, IMG_COLUMN_TXTIMG};
 
@@ -93,7 +95,7 @@ public class MyDatabase extends SQLiteAssetHelper {
     public static String[] allLVLColumns = {LVL_COLUMN_ID, LVL_COLUMN_NUMBER, LVL_COLUMN_LVLDONE, LVL_COLUMN_CID};
 
     private static final String DATABASE_NAME = "database.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     public MyDatabase (Context context) {
 

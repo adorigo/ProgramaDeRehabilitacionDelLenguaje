@@ -23,7 +23,7 @@
             android:background="@color/black_overlay">
 
             <ImageView
-                android:layout_width="50px"
+                android:layout_width="80px"
                 android:layout_height="match_parent"
                 android:id="@+id/audioAyuda"
                 android:layout_gravity="end"

@@ -1,7 +1,7 @@
 BEGIN TRANSACTION;
 
 
--- Creating table imagen from scratch (simple ALTER TABLE is not enough)
+-- Creating table catego from scratch (simple ALTER TABLE is not enough)
 
 CREATE TABLE temp_imagen_534011718
 (

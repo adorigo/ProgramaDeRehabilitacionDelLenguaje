@@ -60,7 +60,7 @@ public class Menu {
 
     public void setCurrentLevel (Level currentLevel) {
 
-        if (currentLevel.getQuestions().size() == 0) {
+        if (currentLevel != null && currentLevel.getQuestions().size() == 0) {
             currentLevel.addAllQuestions(databaseLoader.getAllQuestions(currentLevel));
         }
         this.currentLevel = currentLevel;
@@ -80,6 +80,17 @@ public class Menu {
         }
 
         return label;
+    }
+
+    public SoundFile getAudioCategory() {
+
+        SoundFile out = null;
+
+        if (currentCategory != null) {
+            out = currentCategory.getSnd();
+        }
+
+        return out;
     }
 
     public boolean canGoLower () {

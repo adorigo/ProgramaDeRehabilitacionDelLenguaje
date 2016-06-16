@@ -39,7 +39,9 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
     private Menu menu = ApplicationContext.getMenu();
     private FeedbackDialog feedbackEnd;
     private FeedbackDialog feedbackCorrectAns;
+    private FeedbackDialog feedbackWrongAns;
     private AudioUtil audioUtil = ApplicationContext.getSndUtil();
+    private int helpSnd;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -54,10 +56,22 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
         feedbackCorrectAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_correctans);
         feedbackCorrectAns.findViewById(R.id.buttonNext).setOnClickListener(this);
 
-        audioUtil.loadSound(R.raw.categorizacion_palabras);
+        feedbackWrongAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_incorrectans);
+        feedbackWrongAns.findViewById(R.id.buttonTryAgain).setOnClickListener(this);
 
-        ImageView audioAyuda = (ImageView) findViewById(R.id.audioAyuda);
-        audioAyuda.setOnClickListener(this);
+        ImageView helpSndLayout = (ImageView) findViewById(R.id.audioAyuda);
+
+        if (menu.getAudioCategory() != null) {
+
+            helpSnd = getResources().getIdentifier(menu.getAudioCategory().getName(), "raw", this.getPackageName());
+            audioUtil.loadSound(helpSnd);
+
+            helpSndLayout.setOnClickListener(this);
+
+        } else {
+
+            helpSndLayout.setVisibility(ImageView.GONE);
+        }
 
         onCreateHelper();
     }
@@ -187,7 +201,7 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
 
         } else {
 
-            Toast.makeText(this, getResources().getString(R.string.incorrectAns), Toast.LENGTH_SHORT).show();
+            feedbackWrongAns.show();
 
             if (Utils.withSound(this)) {
                 audioUtil.playSound(R.raw.error);
@@ -202,15 +216,6 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
         currentQuestionNumber++;
 
         float completeRate = ((float) currentQuestionNumber) / totalQuestionNumber;
-
-        Log.d(SemanticaActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
-
-        Log.d(SemanticaActivity.class.getName(),
-                completeRate
-                        + " <= "
-                        + Utils.lvlRate(this)
-        );
-
 
         if (iterator.hasNext() && completeRate <= Utils.lvlRate(this)) {
 
@@ -251,9 +256,9 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
 
         switch (v.getId()) {
 
-            /*case R.id.buttonReset:
-                resetQuestions();
-                break;*/
+            case R.id.buttonTryAgain:
+                feedbackWrongAns.dismiss();
+                break;
 
             case R.id.buttonGoBack:
                 goBack();
@@ -264,17 +269,9 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
                 break;
 
             case R.id.audioAyuda:
-                audioUtil.playSound(R.raw.categorizacion_palabras);
+                audioUtil.playSound(helpSnd);
                 break;
         }
-    }
-
-    @Override
-    public void onResume () {
-
-        super.onResume();
-
-        Log.d(SemanticaActivity.class.getName(), "Loader Opened.");
     }
 
     @Override
@@ -284,6 +281,7 @@ public class SemanticaActivity extends Activity implements android.view.View.OnC
 
         feedbackEnd.dismiss();
         feedbackCorrectAns.dismiss();
+        feedbackWrongAns.dismiss();
 
         Log.d(SemanticaActivity.class.getName(), "Loader Closed, FeedbackDialogs Dismissed.");
     }
