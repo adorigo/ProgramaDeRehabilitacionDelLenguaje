@@ -1,9 +1,5 @@
 package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.media.Image;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.Gravity;
@@ -12,88 +8,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import java.util.Iterator;
-import java.util.List;
-
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ApplicationContext;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Menu;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Option;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Question;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.AudioUtil;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.DragNDrop.LongClickListener;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.FeedbackDialog;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.Utils;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView;
 
-public class IntrusoActivity extends Activity implements android.view.View.OnClickListener {
+public class IntrusoActivity extends BaseActivity {
 
-    private Question currentQuestion;
-    private Iterator iterator;
-
-    private int currentQuestionNumber;
-    private int totalQuestionNumber;
-
-    private Menu menu = ApplicationContext.getMenu();
-    private FeedbackDialog feedbackEnd;
-    private FeedbackDialog feedbackCorrectAns;
-    private FeedbackDialog feedbackWrongAns;
-    private AudioUtil audioUtil = ApplicationContext.getSndUtil();
-    private int helpSnd;
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_intruso);
-
-        feedbackEnd = new FeedbackDialog(this, R.layout.activity_quiz_popup_end);
-        feedbackEnd.findViewById(R.id.buttonGoBack).setOnClickListener(this);
-
-        feedbackCorrectAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_correctans);
-        feedbackCorrectAns.findViewById(R.id.buttonNext).setOnClickListener(this);
-
-        feedbackWrongAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_incorrectans);
-        feedbackWrongAns.findViewById(R.id.buttonTryAgain).setOnClickListener(this);
-
-        ImageView helpSndLayout = (ImageView) findViewById(R.id.audioAyuda);
-
-        if (menu.getAudioCategory() != null) {
-
-            helpSnd = getResources().getIdentifier(menu.getAudioCategory().getName(), "raw", this.getPackageName());
-            audioUtil.loadSound(helpSnd);
-
-            helpSndLayout.setOnClickListener(this);
-
-        } else {
-
-            helpSndLayout.setVisibility(ImageView.GONE);
-        }
-
-        onCreateHelper();
+    public void loadActivityLayout() {
+    setContentView(R.layout.activity_intruso);
     }
 
-    private void onCreateHelper () {
-
-        List<Question> allQuestions = menu.getCurrentLevel().getPendingQuestions();
-
-        if (allQuestions.size() > 0) {
-
-            totalQuestionNumber = allQuestions.size();
-            currentQuestionNumber = 1;
-            iterator = allQuestions.iterator();
-            currentQuestion = (Question) iterator.next();
-            drawUI();
-
-        } else {
-
-            menu.getCurrentLevel().check();
-
-            showEndDialogOptions();
-        }
-    }
-
-    private void drawUI () {
+    @Override
+    public void drawUI () {
 
         if (currentQuestion != null) {
 
@@ -239,106 +168,10 @@ public class IntrusoActivity extends Activity implements android.view.View.OnCli
         }
     }
 
-    private void showEndDialogOptions () {
-
-        feedbackEnd.show();
-    }
-
-    private void checkAnswer (Option thisOption) {
-
-        if (thisOption.checkAns()) {
-
-            currentQuestion.check();
-
-            feedbackCorrectAns.show();
-
-            if (Utils.withSound(this)) {
-                audioUtil.playSound(R.raw.acierto);
-            }
-
-        } else {
-
-            feedbackWrongAns.show();
-
-            if (Utils.withSound(this)) {
-                audioUtil.playSound(R.raw.error);
-            }
-        }
-    }
-
-    public void nextQuestion () {
-
-        feedbackCorrectAns.hide();
-
-        currentQuestionNumber++;
-
-        float completeRate = ((float) currentQuestionNumber) / totalQuestionNumber;
-
-        if (iterator.hasNext() && completeRate <= Utils.lvlRate(this)) {
-
-            currentQuestion = (Question) iterator.next();
-            drawUI();
-
-        } else {
-
-            menu.getCurrentLevel().check();
-
-            showEndDialogOptions();
-        }
-    }
-
-    public void resetQuestions () {
-
-        feedbackEnd.hide();
-
-        menu.getCurrentLevel().resetQuestions();
-
-        onCreateHelper();
-    }
-
-    public void goBack () {
-
-        feedbackEnd.hide();
-
-        menu.setCurrentLevel(null);
-
-        Intent intent = new Intent(this, LevelsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        startActivity(intent);
-    }
-
-    @Override
-    public void onClick (View v) {
-
-        switch (v.getId()) {
-
-            case R.id.buttonTryAgain:
-                feedbackWrongAns.hide();
-                break;
-
-            case R.id.buttonGoBack:
-                goBack();
-                break;
-
-            case R.id.buttonNext:
-                nextQuestion();
-                break;
-
-            case R.id.audioAyuda:
-                audioUtil.playSound(helpSnd);
-                break;
-        }
-    }
-
     @Override
     public void onPause () {
 
         super.onPause();
-
-        feedbackEnd.dismiss();
-        feedbackCorrectAns.dismiss();
-        feedbackWrongAns.dismiss();
 
         Log.d(IntrusoActivity.class.getName(), "Loader Closed, FeedbackDialogs Dismissed.");
     }
