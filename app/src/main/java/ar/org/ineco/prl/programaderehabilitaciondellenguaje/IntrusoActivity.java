@@ -1,5 +1,6 @@
 package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.Gravity;
@@ -17,9 +18,17 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
 public class IntrusoActivity extends BaseActivity {
 
     @Override
-    public void loadActivityLayout() {
-    setContentView(R.layout.activity_intruso);
+    public void onCreate (Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
     }
+
+    @Override
+    protected int getLayoutResourceId () {
+
+        return R.layout.activity_intruso;
+    }
+
 
     @Override
     public void drawUI () {

@@ -25,6 +25,12 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity
+            android:name=".AsociacionActivity"
+            android:label="@string/title_activity_quiz"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
             android:name=".IntrusoActivity"
             android:label="@string/title_activity_quiz"
             android:screenOrientation="sensorLandscape"

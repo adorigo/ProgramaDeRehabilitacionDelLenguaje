@@ -151,13 +151,15 @@ public class Menu {
                 case 36:
                 case 37:
                 case 38:
+                    activityName += "SemanticaActivity";
+                    break;
                 case 39:
                 case 40:
                 case 41:
                 case 42:
                 case 43:
                 case 44:
-                    activityName += "SemanticaActivity";
+                    activityName += "AsociacionActivity";
                     break;
                 case 31:
                 case 32:

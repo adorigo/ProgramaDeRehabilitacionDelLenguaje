@@ -34,11 +34,11 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
     private int helpSnd;
 
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
+    public void onCreate (Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        loadActivityLayout();
+        setContentView(getLayoutResourceId());
 
         feedbackEnd = new FeedbackDialog(this, R.layout.activity_quiz_popup_end);
         feedbackEnd.findViewById(R.id.buttonGoBack).setOnClickListener(this);
@@ -66,7 +66,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
         onCreateHelper();
     }
 
-    public abstract void loadActivityLayout();
+    protected abstract int getLayoutResourceId ();
 
     private void onCreateHelper () {
 

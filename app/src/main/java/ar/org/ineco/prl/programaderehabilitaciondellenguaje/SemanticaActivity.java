@@ -1,5 +1,6 @@
 package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -16,8 +17,15 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
 public class SemanticaActivity extends BaseActivity {
 
     @Override
-    public void loadActivityLayout() {
-        setContentView(R.layout.activity_semantica);
+    public void onCreate (Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected int getLayoutResourceId () {
+
+        return R.layout.activity_semantica;
     }
 
     @Override
@@ -44,7 +52,7 @@ public class SemanticaActivity extends BaseActivity {
 
                 for (ImageFile img : currentQuestion.getImages()) {
 
-                    if (img.getName() != null) {
+                    if (img.getName() != null && !img.getName().isEmpty()) {
 
                         ImageView image = new ImageView(this);
 
