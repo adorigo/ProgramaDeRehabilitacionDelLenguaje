@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name">Programa de Rehabilitación del Lenguaje</string>
+    <string name="app_name">HABLAN</string>
 
     <string name="title_activity_semantica">Semantica</string>
     <string name="title_activity_pragmatica">Pragmática</string>
     <string name="title_activity_asociacion">Asociación</string>
     <string name="title_activity_intruso">Intruso Semantico</string>
+    <string name="title_activity_identificacion">Identificación/Definición de Atributos</string>
+    <string name="title_activity_lectura">Lectura</string>
 
     <string name="incorrectAns">Incorrecto</string>
     <string name="buttonTryAgain">Reintentar</string>
@@ -33,7 +35,5 @@
     <string name="textNoLevels">No hay Niveles</string>
 
     <string name="buttonGoBack">Atrás</string>
-    <string name="title_activity_lectura">Lectura</string>
-
 
 </resources>

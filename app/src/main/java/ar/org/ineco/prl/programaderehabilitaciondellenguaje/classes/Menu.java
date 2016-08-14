@@ -147,11 +147,13 @@ public class Menu {
                 case 30:
                 case 33:
                 case 34:
+                    activityName += "SemanticaActivity";
+                    break;
                 case 35:
                 case 36:
                 case 37:
                 case 38:
-                    activityName += "SemanticaActivity";
+                    activityName += "IdentificacionActivity";
                     break;
                 case 39:
                 case 40:

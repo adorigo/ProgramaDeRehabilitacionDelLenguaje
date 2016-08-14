@@ -9,7 +9,6 @@ public class ApplicationContext extends Application {
     private static ApplicationContext instance;
     private static Menu menu;
     private static AudioUtil sndUtil;
-
     public static ApplicationContext get () {
 
         return instance;

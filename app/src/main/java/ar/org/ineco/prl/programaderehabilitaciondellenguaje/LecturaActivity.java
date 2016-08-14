@@ -6,6 +6,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
@@ -48,9 +49,12 @@ public class LecturaActivity extends BaseActivity {
             Option oText = currentQuestion.getOpts().get(0);
             VerdanaTextView vText = new VerdanaTextView(this, null);
 
+            vText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
             vText.setText(oText.getStr());
-            vText.setGravity(Gravity.CENTER);
             vText.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.text_size_large));
+            textLayout.addView(vText);
+
 
             if (oText.getSnd() != null) {
 
