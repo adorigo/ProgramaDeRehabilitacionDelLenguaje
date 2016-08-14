@@ -14,6 +14,7 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ApplicationC
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Menu;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Option;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Question;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.SoundFile;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.AudioUtil;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.FeedbackDialog;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.Utils;
@@ -53,8 +54,14 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 
         if (menu.getAudioCategory() != null) {
 
-            helpSnd = getResources().getIdentifier(menu.getAudioCategory().getName(), "raw", this.getPackageName());
-            audioUtil.loadSound(helpSnd);
+            try {
+                helpSnd = getResources().getIdentifier(menu.getAudioCategory().getName(), "raw", this.getPackageName());
+                audioUtil.loadSound(helpSnd);
+            } catch (RuntimeException rE) {
+                Log.d(BaseActivity.class.getName(), rE.getMessage());
+                helpSnd = -1;
+            }
+
 
             helpSndLayout.setOnClickListener(this);
 
@@ -68,6 +75,28 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 
     protected abstract int getLayoutResourceId ();
 
+    public int loadSound (SoundFile sndFile) {
+
+        try {
+
+            int sndId = getResources().getIdentifier(sndFile.getName(), "raw", this.getPackageName());
+            audioUtil.loadSound(sndId);
+
+            return sndId;
+
+        } catch (RuntimeException rE) {
+            Log.d(BaseActivity.class.getName(), rE.getMessage());
+            return -1;
+        }
+
+
+    }
+
+    public void playSound (int sndId) {
+
+        if (sndId >= 0) audioUtil.playSound(sndId);
+    }
+
     private void onCreateHelper () {
 
         List<Question> allQuestions = menu.getCurrentLevel().getPendingQuestions();
@@ -77,7 +106,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
             totalQuestionNumber = allQuestions.size();
             currentQuestionNumber = 1;
             iterator = allQuestions.iterator();
-            Log.d(SemanticaActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
+            Log.d(BaseActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
             currentQuestion = (Question) iterator.next();
             drawUI();
 
@@ -178,7 +207,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
                 break;
 
             case R.id.audioAyuda:
-                audioUtil.playSound(helpSnd);
+                if (helpSnd >= 0) audioUtil.playSound(helpSnd);
                 break;
         }
     }

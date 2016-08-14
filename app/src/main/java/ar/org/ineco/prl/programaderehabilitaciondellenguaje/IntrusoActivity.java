@@ -53,7 +53,7 @@ public class IntrusoActivity extends BaseActivity {
             optionsLayout2.removeAllViews();
 
             ImageView dropLayout = (ImageView) findViewById(R.id.dropArea);
-            dropLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, (int) height));
+            //dropLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, (int) height));
             dropLayout.setScaleType(ImageView.ScaleType.FIT_XY);
             dropLayout.setAdjustViewBounds(true);
             if (Utils.withDragNDrop(this)) {

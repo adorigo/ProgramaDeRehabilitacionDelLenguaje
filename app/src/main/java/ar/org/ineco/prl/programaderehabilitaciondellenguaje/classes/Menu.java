@@ -165,6 +165,12 @@ public class Menu {
                 case 32:
                     activityName += "IntrusoActivity";
                     break;
+                case 45:
+                case 46:
+                case 47:
+                case 48:
+                    activityName += "LecturaActivity";
+                    break;
             }
         }
 

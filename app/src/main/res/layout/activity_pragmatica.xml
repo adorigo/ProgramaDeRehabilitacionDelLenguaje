@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <RelativeLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,10 +23,9 @@
             android:background="@color/black_overlay">
 
             <ImageView
-                android:layout_width="80px"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/helpButtonHeight"
                 android:id="@+id/audioAyuda"
-                android:layout_gravity="end"
                 android:src="@android:drawable/ic_media_play"
                 android:scaleType="centerInside" />
 
@@ -36,44 +35,54 @@
                 android:textSize="@dimen/categoriesTitle"
                 android:text="@string/title_activity_pragmatica"
                 android:id="@+id/textTitle"
-                android:gravity="center_horizontal" />
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
+                android:layout_centerInParent="true"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <LinearLayout
-                android:id="@+id/layoutQuestion"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:padding="@dimen/abc_control_padding_material"
-                android:gravity="center" />
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="@dimen/maxButtonLayoutSize"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+                <LinearLayout
+                    android:id="@+id/layoutQuestion"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:padding="@dimen/abc_control_padding_material"
+                    android:gravity="center"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="@dimen/maxButtonLayoutSize"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/layoutOptions"
+                    android:padding="@dimen/abc_control_padding_material"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/layoutNextButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/layoutOptions"
-                android:padding="@dimen/abc_control_padding_material"
-                android:gravity="center" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/layoutNextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:layout_gravity="bottom" />
+                android:gravity="right"
+                android:layout_gravity="bottom"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
 
     </LinearLayout>
 

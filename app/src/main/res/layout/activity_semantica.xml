@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <RelativeLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,22 +23,23 @@
             android:background="@color/black_overlay">
 
             <ImageView
-                android:layout_width="80px"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/helpButtonHeight"
                 android:id="@+id/audioAyuda"
-                android:layout_gravity="end"
                 android:src="@android:drawable/ic_media_play"
                 android:scaleType="centerInside" />
 
             <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/title_activity_quiz"
+                android:textSize="@dimen/categoriesTitle"
+                android:text="@string/title_activity_semantica"
                 android:id="@+id/textTitle"
-                android:gravity="center_horizontal" />
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
+                android:layout_centerInParent="true"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:orientation="vertical"
@@ -49,8 +50,8 @@
             <LinearLayout
                 android:id="@+id/layoutQuestion"
                 android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:padding="@dimen/abc_control_padding_material"
@@ -61,7 +62,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="@dimen/maxButtonLayoutSize"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/layoutOptions"
                 android:padding="@dimen/abc_control_padding_material"
