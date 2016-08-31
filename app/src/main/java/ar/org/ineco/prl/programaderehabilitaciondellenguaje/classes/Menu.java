@@ -147,21 +147,31 @@ public class Menu {
                 case 30:
                 case 33:
                 case 34:
+                    activityName += "SemanticaActivity";
+                    break;
                 case 35:
                 case 36:
                 case 37:
                 case 38:
+                    activityName += "IdentificacionActivity";
+                    break;
                 case 39:
                 case 40:
                 case 41:
                 case 42:
                 case 43:
                 case 44:
-                    activityName += "SemanticaActivity";
+                    activityName += "AsociacionActivity";
                     break;
                 case 31:
                 case 32:
                     activityName += "IntrusoActivity";
+                    break;
+                case 45:
+                case 46:
+                case 47:
+                case 48:
+                    activityName += "LecturaActivity";
                     break;
             }
         }

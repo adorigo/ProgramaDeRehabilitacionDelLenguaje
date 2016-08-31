@@ -1,5 +1,6 @@
 package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.Gravity;
@@ -17,9 +18,17 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
 public class IntrusoActivity extends BaseActivity {
 
     @Override
-    public void loadActivityLayout() {
-    setContentView(R.layout.activity_intruso);
+    public void onCreate (Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
     }
+
+    @Override
+    protected int getLayoutResourceId () {
+
+        return R.layout.activity_intruso;
+    }
+
 
     @Override
     public void drawUI () {
@@ -44,7 +53,7 @@ public class IntrusoActivity extends BaseActivity {
             optionsLayout2.removeAllViews();
 
             ImageView dropLayout = (ImageView) findViewById(R.id.dropArea);
-            dropLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, (int) height));
+            //dropLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, (int) height));
             dropLayout.setScaleType(ImageView.ScaleType.FIT_XY);
             dropLayout.setAdjustViewBounds(true);
             if (Utils.withDragNDrop(this)) {
