@@ -173,6 +173,17 @@ public class Menu {
                 case 48:
                     activityName += "LecturaActivity";
                     break;
+                case 50:
+                case 51:
+                case 52:
+                case 54:
+                case 55:
+                case 56:
+                case 58:
+                case 59:
+                case 60:
+                    activityName += "DiscriminacionActivity";
+                    break;
             }
         }
 

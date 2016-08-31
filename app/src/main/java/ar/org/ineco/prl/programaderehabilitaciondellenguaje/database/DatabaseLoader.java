@@ -63,7 +63,9 @@ public class DatabaseLoader {
 
         Map<Long, Question> allQuestions = new HashMap<>();
 
-        String query = "SELECT * FROM " + MyDatabase.TABLE_QUESTION;
+        String query = "SELECT " + MyDatabase.TABLE_QUESTION + ".*, " + MyDatabase.TABLE_SND + "." + MyDatabase.SND_COLUMN_NAME + " FROM " + MyDatabase.TABLE_QUESTION + ' ' +
+                "LEFT JOIN " + MyDatabase.TABLE_SND + ' ' +
+                "ON " + MyDatabase.TABLE_SND + '.' + MyDatabase.SND_COLUMN_ID + " = " + MyDatabase.TABLE_QUESTION + '.' + MyDatabase.QUESTION_COLUMN_SND;
         String condition = " WHERE " + MyDatabase.QUESTION_COLUMN_CHECK + " = 0";
         condition += " AND " + MyDatabase.QUESTION_COLUMN_LVLID + " = " + thisLevel.getId();
         Cursor cursor = database.rawQuery(query + condition, null);
@@ -185,12 +187,20 @@ public class DatabaseLoader {
         );
     }
 
+    private SoundFile cursorToQuestionSound(Cursor cursor) {
+
+        return new SoundFile(cursor.getLong(cursor.getColumnIndex(MyDatabase.QUESTION_COLUMN_SND)),
+                cursor.getString(cursor.getColumnIndex(MyDatabase.SND_COLUMN_NAME))
+        );
+    }
+
     private Question cursorToQuestion (Cursor cursor) {
 
         return new Question(cursor.getLong(cursor.getColumnIndex(MyDatabase.QUESTION_COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.QUESTION_COLUMN_TXT)),
                 cursor.getInt(cursor.getColumnIndex(MyDatabase.QUESTION_COLUMN_CHECK)),
-                cursor.getLong(cursor.getColumnIndex(MyDatabase.QUESTION_COLUMN_QID))
+                cursor.getLong(cursor.getColumnIndex(MyDatabase.QUESTION_COLUMN_QID)),
+                (cursor.getLong(cursor.getColumnIndex(MyDatabase.QUESTION_COLUMN_SND)) == 0) ? null : cursorToQuestionSound(cursor)
         );
     }
 
@@ -315,7 +325,7 @@ public class DatabaseLoader {
         cursor.close();
 
         //Load Category sounds
-        query = "SELECT " + MyDatabase.TABLE_CATEGORY +'.'+MyDatabase.CATEGORY_COLUMN_ID + ", " + MyDatabase.CATEGORY_COLUMN_SND + ", " + MyDatabase.SND_COLUMN_NAME + ' ' +
+        query = "SELECT " + MyDatabase.TABLE_CATEGORY + '.' + MyDatabase.CATEGORY_COLUMN_ID + ", " + MyDatabase.TABLE_CATEGORY + '.' + MyDatabase.CATEGORY_COLUMN_SND + ", " + MyDatabase.SND_COLUMN_NAME + ' ' +
                 "FROM " + MyDatabase.TABLE_CATEGORY + " LEFT JOIN " + MyDatabase.TABLE_SND + ' ' +
                 "ON " + MyDatabase.TABLE_SND +'.'+MyDatabase.SND_COLUMN_ID + " = " + MyDatabase.TABLE_CATEGORY +'.'+MyDatabase.CATEGORY_COLUMN_SND;
         cursor = database.rawQuery(query, null);

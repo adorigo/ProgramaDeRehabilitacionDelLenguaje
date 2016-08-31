@@ -16,8 +16,9 @@ public class Question {
     private List<ImageFile> imgs;
     private long parentQuestion;
     private List<Question> childQuestions;
+    private SoundFile sound;
 
-    public Question (long thisId, String thisText, int thisQuestionDone, long thisParentQuestion) {
+    public Question(long thisId, String thisText, int thisQuestionDone, long thisParentQuestion, SoundFile sndFile) {
 
         text = thisText;
         id = thisId;
@@ -26,6 +27,7 @@ public class Question {
         imgs = new ArrayList<>();
         opts = new ArrayList<>();
         childQuestions = new ArrayList<>();
+        sound = sndFile;
     }
 
     public List<Option> getOpts () {
@@ -33,6 +35,10 @@ public class Question {
         long seed = System.nanoTime();
         Collections.shuffle(opts, new Random(seed));
         return opts;
+    }
+
+    public SoundFile getSound() {
+        return sound;
     }
 
     public void addOption (Option thisOpt) {
