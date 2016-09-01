@@ -184,6 +184,26 @@ public class Menu {
                 case 60:
                     activityName += "DiscriminacionActivity";
                     break;
+                case 61:
+                case 62:
+                case 63:
+                case 72:
+                case 73:
+                case 74:
+                case 75:
+                case 76:
+                case 77:
+                case 78:
+                case 79:
+                case 80:
+                case 81:
+                case 82:
+                case 83:
+                case 69:
+                case 70:
+                case 71:
+                    activityName += "DenominacionActivity";
+                    break;
             }
         }
 

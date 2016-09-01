@@ -3,7 +3,7 @@
     <string name="pref_summary_pregcomprension">Se realizará una pregunta de comprensión al final del ejercicio</string>
     <string name="pref_title_pregcomprension">Preguntas de Comprensión</string>
 
-    <string name="pref_modulo_lectura">Modulo Lectura</string>
+    <string name="pref_modulo_lectura">Módulo Lectura</string>
 
     <string name="pref_title_estimulos">Estimulos Sonoros</string>
     <string name="pref_summary_estimulos">Se utilizarán consignas auditivas</string>

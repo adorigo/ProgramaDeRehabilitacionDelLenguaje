@@ -129,21 +129,31 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 
         if (thisOption.checkAns()) {
 
-            currentQuestion.check();
-
-            feedbackCorrectAns.show();
-
-            if (Utils.withSound(this)) {
-                audioUtil.playSound(R.raw.acierto);
-            }
+            answerCorrect();
 
         } else {
 
-            feedbackWrongAns.show();
+            answerIncorrect();
+        }
+    }
 
-            if (Utils.withSound(this)) {
-                audioUtil.playSound(R.raw.error);
-            }
+    public void answerCorrect() {
+
+        currentQuestion.check();
+
+        feedbackCorrectAns.show();
+
+        if (Utils.withSound(this)) {
+            audioUtil.playSound(R.raw.acierto);
+        }
+    }
+
+    public void answerIncorrect() {
+
+        feedbackWrongAns.show();
+
+        if (Utils.withSound(this)) {
+            audioUtil.playSound(R.raw.error);
         }
     }
 

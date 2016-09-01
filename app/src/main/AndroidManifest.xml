@@ -68,6 +68,18 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity
+            android:name=".DiscriminacionActivity"
+            android:label="@string/title_activity_discriminacion"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".DenominacionActivity"
+            android:label="@string/title_activity_denominacion"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="sensorLandscape"

@@ -7,6 +7,8 @@
     <string name="title_activity_intruso">Intruso Semantico</string>
     <string name="title_activity_identificacion">Identificación/Definición de Atributos</string>
     <string name="title_activity_lectura">Lectura</string>
+    <string name="title_activity_discriminacion">Discriminación Auditiva</string>
+    <string name="title_activity_denominacion">Denominación</string>
 
     <string name="incorrectAns">Incorrecto</string>
     <string name="buttonTryAgain">Reintentar</string>
@@ -35,5 +37,7 @@
     <string name="textNoLevels">No hay Niveles</string>
 
     <string name="buttonGoBack">Atrás</string>
+    <string name="buttonYes">Si</string>
+    <string name="buttonNo">No</string>
 
 </resources>
