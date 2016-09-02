@@ -9,6 +9,7 @@
     <string name="title_activity_lectura">Lectura</string>
     <string name="title_activity_discriminacion">Discriminación Auditiva</string>
     <string name="title_activity_denominacion">Denominación</string>
+    <string name="title_activity_verdaderofalso">Verdadero o Falso</string>
 
     <string name="incorrectAns">Incorrecto</string>
     <string name="buttonTryAgain">Reintentar</string>

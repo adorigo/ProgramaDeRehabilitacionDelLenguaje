@@ -204,6 +204,9 @@ public class Menu {
                 case 71:
                     activityName += "DenominacionActivity";
                     break;
+                case 84:
+                    activityName += "VerdaderoFalsoActivity";
+                    break;
             }
         }
 

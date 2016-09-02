@@ -215,8 +215,10 @@ public class DenominacionActivity extends BaseActivity {
 
             VerdanaButton yesButton = new VerdanaButton(this, null);
 
-            yesButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
+
+            yesButton.setLayoutParams(params);
 
             yesButton.setText(getResources().getString(R.string.buttonYes));
             yesButton.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -232,8 +234,7 @@ public class DenominacionActivity extends BaseActivity {
 
             VerdanaButton noButton = new VerdanaButton(this, null);
 
-            noButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            noButton.setLayoutParams(params);
 
             noButton.setText(getResources().getString(R.string.buttonNo));
             noButton.setGravity(Gravity.CENTER_HORIZONTAL);
