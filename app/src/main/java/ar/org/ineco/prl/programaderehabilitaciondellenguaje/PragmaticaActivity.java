@@ -16,11 +16,6 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
 
 public class PragmaticaActivity extends BaseActivity {
 
-    @Override
-    public void onCreate (Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     protected int getLayoutResourceId () {
