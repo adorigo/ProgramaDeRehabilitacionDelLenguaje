@@ -1,0 +1,79 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/activity_quiz"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             android:paddingLeft="@dimen/activity_horizontal_margin"
+             android:paddingRight="@dimen/activity_horizontal_margin"
+             android:paddingTop="@dimen/activity_vertical_margin"
+             android:paddingBottom="@dimen/activity_vertical_margin"
+             tools:context="ar.org.ineco.prl.programaderehabilitaciondellenguaje.UnirConFlechasActivity"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@color/black_overlay">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/helpButtonHeight"
+                android:id="@+id/audioAyuda"
+                android:src="@android:drawable/ic_media_play"
+                android:scaleType="centerInside" />
+
+            <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/categoriesTitle"
+                android:text="@string/title_activity_unirconflechas"
+                android:id="@+id/textTitle"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+                <LinearLayout
+                    android:id="@+id/layoutQuestion"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/abc_control_padding_material"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|left"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/layoutOptions"
+                    android:padding="@dimen/abc_control_padding_material"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|right"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

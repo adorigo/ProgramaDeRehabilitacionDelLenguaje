@@ -73,6 +73,20 @@ public class Question {
         return imgs;
     }
 
+    public boolean hasOption(Option thisOption) {
+
+        boolean has = false;
+
+        for (Option option : opts) {
+            if (option.getId() == thisOption.getId()) {
+                has = true;
+                break;
+            }
+        }
+
+        return has;
+    }
+
     public long getId () {
 
         return id;
@@ -108,6 +122,12 @@ public class Question {
 
         this.done = true;
         DatabaseLoader.getInstance().checkQuestion(this);
+
+        if (childQuestions.size() > 0) {
+            for (Question child : childQuestions) {
+                child.check();
+            }
+        }
     }
 
     public void reset () {

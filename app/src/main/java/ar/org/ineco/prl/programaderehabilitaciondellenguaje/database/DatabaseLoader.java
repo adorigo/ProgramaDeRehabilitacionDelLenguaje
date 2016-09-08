@@ -101,6 +101,7 @@ public class DatabaseLoader {
 
             if (question.hasParent()) {
 
+                Log.d(DatabaseLoader.class.getName(), question.getId()+" - parent: "+question.getParentQuestion());
                 allQuestions.get(question.getParentQuestion()).addChildQuestion(question);
 
             } else {

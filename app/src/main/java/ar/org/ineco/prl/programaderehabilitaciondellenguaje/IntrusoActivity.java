@@ -1,6 +1,5 @@
 package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 
-import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.Gravity;
