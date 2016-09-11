@@ -48,7 +48,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
         feedbackCorrectAns.findViewById(R.id.buttonNext).setOnClickListener(this);
 
         feedbackWrongAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_incorrectans);
-        feedbackWrongAns.findViewById(R.id.buttonTryAgain).setOnClickListener(this);
+        feedbackWrongAns.findViewById(R.id.buttonNext).setOnClickListener(this);
 
         ImageView helpSndLayout = (ImageView) findViewById(R.id.audioAyuda);
 
@@ -212,10 +212,6 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
     public void onClick(View v) {
 
         switch (v.getId()) {
-
-            case R.id.buttonTryAgain:
-                feedbackWrongAns.dismiss();
-                break;
 
             case R.id.buttonGoBack:
                 goBack();
