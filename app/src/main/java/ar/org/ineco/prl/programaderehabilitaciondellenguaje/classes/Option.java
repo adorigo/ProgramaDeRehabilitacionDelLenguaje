@@ -1,5 +1,7 @@
 package ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes;
 
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.database.DatabaseLoader;
+
 public class Option {
 
     private long id;
@@ -44,6 +46,7 @@ public class Option {
 
     public boolean checkAns () {
 
+        DatabaseLoader.getInstance().createLogRecord(this, isCorrect);
         return isCorrect;
     }
 

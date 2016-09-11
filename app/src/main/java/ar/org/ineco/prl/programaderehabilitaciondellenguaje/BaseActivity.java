@@ -127,7 +127,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 
     public void checkAnswer (Option thisOption) {
 
-        if (thisOption.checkAns()) {
+        if (currentQuestion.makeTry(thisOption)) {
 
             answerCorrect();
 
@@ -159,9 +159,18 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 
     public void nextQuestion () {
 
-        feedbackCorrectAns.hide();
+        if (feedbackCorrectAns.isShowing()) {
 
-        currentQuestionNumber++;
+            feedbackCorrectAns.hide();
+
+        } else if (feedbackWrongAns.isShowing()) {
+
+            feedbackWrongAns.hide();
+        }
+
+        if (currentQuestion.isFirstTry() && currentQuestion.isDone()) {
+            currentQuestionNumber++;
+        }
 
         float completeRate = ((float) currentQuestionNumber) / totalQuestionNumber;
 

@@ -12,6 +12,7 @@ public class Question {
     private long id;
     private String text;
     private boolean done;
+    private int tries;
     private List<Option> opts;
     private List<ImageFile> imgs;
     private long parentQuestion;
@@ -23,6 +24,7 @@ public class Question {
         text = thisText;
         id = thisId;
         done = (thisQuestionDone == 1);
+        tries = 0;
         parentQuestion = thisParentQuestion;
         imgs = new ArrayList<>();
         opts = new ArrayList<>();
@@ -42,27 +44,22 @@ public class Question {
     }
 
     public void addOption (Option thisOpt) {
-
         opts.add(thisOpt);
     }
 
     public int getNOpts () {
-
         return opts.size();
     }
 
     public String getText () {
-
         return text;
     }
 
     public void addImage (ImageFile thisImage) {
-
         imgs.add(thisImage);
     }
 
     public void addImages (List<ImageFile> allQuestionsImages) {
-
         imgs.addAll(allQuestionsImages);
     }
 
@@ -88,33 +85,27 @@ public class Question {
     }
 
     public long getId () {
-
         return id;
     }
 
     @Override
     public String toString () {
-
         return text;
     }
 
     public List<Question> getChildQuestions () {
-
         return childQuestions;
     }
 
     public void addChildQuestion (Question thisQuestion) {
-
         childQuestions.add(thisQuestion);
     }
 
     public Long getParentQuestion () {
-
         return parentQuestion;
     }
 
     public boolean hasParent () {
-
         return getParentQuestion() != null && getParentQuestion() != 0;
     }
 
@@ -131,12 +122,19 @@ public class Question {
     }
 
     public void reset () {
-
         this.done = false;
     }
 
     public boolean isDone () {
-
         return done;
+    }
+
+    public boolean makeTry (Option opt) {
+        tries++;
+        return opt.checkAns();
+    }
+
+    public boolean isFirstTry() {
+        return tries <= 1;
     }
 }

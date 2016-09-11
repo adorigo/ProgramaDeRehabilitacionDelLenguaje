@@ -450,4 +450,19 @@ public class DatabaseLoader {
 
         close();
     }
+
+    public void createLogRecord (Option option, boolean isCorrect) {
+
+        openWritable();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MyDatabase.REGUSE_COLUMN_QID, option.getQid());
+        contentValues.put(MyDatabase.REGUSE_COLUMN_CORR, isCorrect);
+
+        long rowId = database.insert(MyDatabase.TABLE_REGUSE, null, contentValues);
+        Log.d(DatabaseLoader.class.getName(), "Loggin use for option " + option.getId()
+                + " with question id " + option.getQid() + " and correct answer set to " + option.checkAns() + ".");
+
+        close();
+    }
 }
