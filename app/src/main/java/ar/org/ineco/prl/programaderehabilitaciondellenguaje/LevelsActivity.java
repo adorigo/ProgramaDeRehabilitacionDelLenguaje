@@ -16,8 +16,7 @@ import java.util.List;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ApplicationContext;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Level;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Menu;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.*;
 
 public class LevelsActivity extends Activity {
 

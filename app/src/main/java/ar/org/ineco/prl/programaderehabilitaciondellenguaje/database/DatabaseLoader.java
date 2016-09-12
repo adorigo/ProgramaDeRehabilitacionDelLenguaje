@@ -209,7 +209,8 @@ public class DatabaseLoader {
 
         List<Option> Options = new ArrayList<>();
 
-        String query = "SELECT *" +
+        String query = "SELECT "+MyDatabase.TABLE_OPTION+".* ," + MyDatabase.TABLE_IMG +"."+MyDatabase.IMG_COLUMN_NAME + "," + MyDatabase.TABLE_IMG +"."+MyDatabase.IMG_COLUMN_TXTIMG +
+                "," + MyDatabase.TABLE_SND +"."+MyDatabase.SND_COLUMN_NAME +
                 " FROM " + MyDatabase.TABLE_OPTION + "" +
                 " LEFT JOIN " + MyDatabase.TABLE_IMG + " ON " + MyDatabase.TABLE_IMG + "." + MyDatabase.IMG_COLUMN_ID +
                 " = " + MyDatabase.TABLE_OPTION + "." + MyDatabase.OPTION_COLUMN_IMGID +

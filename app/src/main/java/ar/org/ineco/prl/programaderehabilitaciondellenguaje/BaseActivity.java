@@ -104,7 +104,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
         if (allQuestions.size() > 0) {
 
             totalQuestionNumber = allQuestions.size();
-            currentQuestionNumber = 1;
+            currentQuestionNumber = 0;
             iterator = allQuestions.iterator();
             Log.d(BaseActivity.class.getName(), "QNumber: " + currentQuestionNumber + ", TotalQ: " + totalQuestionNumber);
             currentQuestion = (Question) iterator.next();
@@ -163,7 +163,9 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 
             feedbackCorrectAns.hide();
 
-        } else if (feedbackWrongAns.isShowing()) {
+        }
+
+        if (feedbackWrongAns.isShowing()) {
 
             feedbackWrongAns.hide();
         }
@@ -173,6 +175,9 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
         }
 
         float completeRate = ((float) currentQuestionNumber) / totalQuestionNumber;
+
+        Log.d(BaseActivity.class.getName(), "Current Questions done: "+ currentQuestionNumber);
+        Log.d(BaseActivity.class.getName(), completeRate + "% done of " + Utils.lvlRate(this));
 
         if (iterator.hasNext() && completeRate <= Utils.lvlRate(this)) {
 
