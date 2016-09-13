@@ -41,5 +41,8 @@
     <string name="buttonGoBack">Atrás</string>
     <string name="buttonYes">Si</string>
     <string name="buttonNo">No</string>
+    <string name="pref_title_semantica">Semántica</string>
+    <string name="pref_title_lectura">Lectura</string>
+    <string name="pref_title_pragmatica">Pragmática</string>
 
 </resources>
