@@ -177,9 +177,9 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
         float completeRate = ((float) currentQuestionNumber) / totalQuestionNumber;
 
         Log.d(BaseActivity.class.getName(), "Current Questions done: "+ currentQuestionNumber);
-        Log.d(BaseActivity.class.getName(), completeRate + "% done of " + Utils.lvlRate(this));
+        Log.d(BaseActivity.class.getName(), completeRate + "% done of " + Utils.lvlRate(this, menu.getCurrentCategory()));
 
-        if (iterator.hasNext() && completeRate <= Utils.lvlRate(this)) {
+        if (iterator.hasNext() && completeRate < Utils.lvlRate(this, menu.getCurrentCategory())) {
 
             currentQuestion = (Question) iterator.next();
             drawUI();

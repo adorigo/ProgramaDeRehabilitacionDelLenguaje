@@ -9,6 +9,6 @@
         android:title="@string/pref_modulo_lectura" />
 
     <header
-        android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$AvanzeDeNivelFragment"
+        android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$AvanceDeNivelFragment"
         android:title="@string/pref_title_lvlrate"/>
 </preference-headers>

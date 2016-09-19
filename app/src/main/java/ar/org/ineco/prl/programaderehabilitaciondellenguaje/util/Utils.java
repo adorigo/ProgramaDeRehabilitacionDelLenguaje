@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Category;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Level;
+
 public class Utils {
 
     private static final String pinNumber = "1234";
@@ -21,10 +24,15 @@ public class Utils {
         return !sharedPref.getBoolean("pref_key_cpmotrices", false);
     }
 
-    public static float lvlRate (Context context) {
+    public static float lvlRate (Context context, Category cat) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        String value = sharedPref.getString("pref_key_lvlrate", "15");
+        String value = "50";
+        String key = String.valueOf(cat.getId());
+
+        if (sharedPref.contains(key)) {
+            value = sharedPref.getString(key, "50");
+        }
 
         Log.d(Utils.class.getName(), value);
 

@@ -86,4 +86,25 @@ public class Category {
     public void setSnd(SoundFile snd) {
         this.snd = snd;
     }
+
+    public List<Category> getAllLeafs() {
+
+        List<Category> categories = new ArrayList<>();
+
+        if (getChildCategories().size() == 0) {
+            categories.add(this);
+
+        } else {
+            for (Category child : this.getChildCategories()) {
+                categories.addAll(child.getAllLeafs());
+            }
+        }
+
+        return categories;
+    }
+
+    public String getPath() {
+
+        return (parentCategory != null) ? parentCategory.getPath() +" -> "+ getName() : getName();
+    }
 }

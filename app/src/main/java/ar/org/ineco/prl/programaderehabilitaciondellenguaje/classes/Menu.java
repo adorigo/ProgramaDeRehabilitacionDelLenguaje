@@ -57,6 +57,9 @@ public class Menu {
 
         this.currentCategory = currentCategory;
     }
+    public Category getCurrentCategory() {
+        return currentCategory;
+    }
 
     public void setCurrentLevel (Level currentLevel) {
 
@@ -214,5 +217,13 @@ public class Menu {
         }
 
         return activityName;
+    }
+
+    public Category getTopCategory() {
+        return topCategory;
+    }
+
+    public List<Category> getFirstCategories() {
+        return topCategory.getChildCategories();
     }
 }
