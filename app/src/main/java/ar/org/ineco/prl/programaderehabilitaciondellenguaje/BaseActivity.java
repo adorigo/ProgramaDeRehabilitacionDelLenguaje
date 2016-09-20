@@ -48,7 +48,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
         feedbackCorrectAns.findViewById(R.id.buttonNext).setOnClickListener(this);
 
         feedbackWrongAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_incorrectans);
-        feedbackWrongAns.findViewById(R.id.buttonNext).setOnClickListener(this);
+        feedbackWrongAns.findViewById(R.id.buttonTryAgain).setOnClickListener(this);
 
         ImageView helpSndLayout = (ImageView) findViewById(R.id.audioAyuda);
 
@@ -126,7 +126,6 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
     }
 
     public void checkAnswer (Option thisOption) {
-
         if (currentQuestion.makeTry(thisOption)) {
 
             answerCorrect();
@@ -140,6 +139,10 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
     public void answerCorrect() {
 
         currentQuestion.check();
+
+        if (currentQuestion.isFirstTry()) {
+            currentQuestionNumber++;
+        }
 
         feedbackCorrectAns.show();
 
@@ -162,16 +165,6 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
         if (feedbackCorrectAns.isShowing()) {
 
             feedbackCorrectAns.hide();
-
-        }
-
-        if (feedbackWrongAns.isShowing()) {
-
-            feedbackWrongAns.hide();
-        }
-
-        if (currentQuestion.isFirstTry() && currentQuestion.isDone()) {
-            currentQuestionNumber++;
         }
 
         float completeRate = ((float) currentQuestionNumber) / totalQuestionNumber;
@@ -228,6 +221,10 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 
             case R.id.audioAyuda:
                 if (helpSnd >= 0) audioUtil.playSound(helpSnd);
+                break;
+
+            case R.id.buttonTryAgain:
+                feedbackWrongAns.dismiss();
                 break;
         }
     }

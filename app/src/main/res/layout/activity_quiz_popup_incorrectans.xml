@@ -23,7 +23,7 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/buttonNext"
-            android:id="@+id/buttonNext" />
+            android:text="@string/buttonTryAgain"
+            android:id="@+id/buttonTryAgain"/>
     </LinearLayout>
 </LinearLayout>

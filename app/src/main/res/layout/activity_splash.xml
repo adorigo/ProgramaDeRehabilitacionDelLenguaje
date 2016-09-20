@@ -25,7 +25,8 @@
                 android:src="@drawable/favaloro"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:layout_margin="@dimen/abc_action_bar_subtitle_bottom_margin_material"/>
+                android:layout_margin="@dimen/abc_action_bar_subtitle_bottom_margin_material"
+                android:layout_gravity="left|center_vertical" />
 
             <ImageView
                 android:layout_width="wrap_content"

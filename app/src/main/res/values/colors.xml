@@ -4,4 +4,5 @@
     <color name="crema_background">#FAFAC8</color>
     <color name="level_complete">#b3e9b5</color>
     <color name="holo_light_primary">#9e9e9e</color>
+    <color name="level_unavailable">#bdbdbd</color>
 </resources>

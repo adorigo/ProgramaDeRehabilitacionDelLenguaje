@@ -3,10 +3,6 @@
     <PreferenceCategory
         android:title="@string/pref_modulo_lectura"
         android:key="pref_key_modulo_lectura">
-        <CheckBoxPreference
-            android:key="pref_key_pregcomprension"
-            android:summary="@string/pref_summary_pregcomprension"
-            android:title="@string/pref_title_pregcomprension"
-            android:defaultValue="true" />
+
     </PreferenceCategory>
 </PreferenceScreen>

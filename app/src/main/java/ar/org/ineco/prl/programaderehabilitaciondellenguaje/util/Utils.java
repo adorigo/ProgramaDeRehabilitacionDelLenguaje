@@ -10,7 +10,7 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Level;
 
 public class Utils {
 
-    private static final String pinNumber = "1234";
+    private static final String pinNumber = "2785";
 
     public static boolean withSound (Context context) {
 

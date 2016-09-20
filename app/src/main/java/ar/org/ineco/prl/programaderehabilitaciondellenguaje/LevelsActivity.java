@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,9 @@ public class LevelsActivity extends Activity {
         LinearLayout levelsLayout = (LinearLayout) findViewById(R.id.layoutLevels);
         levelsLayout.removeAllViews();
 
+        Level lastLevel = null;
+        int sdkVersion = Build.VERSION.SDK_INT;
+
         for (Level lvl : levels) {
 
             VerdanaButton lvlButton = new VerdanaButton(this, null);
@@ -52,29 +56,32 @@ public class LevelsActivity extends Activity {
 
             if (lvl.isDone()) {
 
-                int sdkVersion = Build.VERSION.SDK_INT;
-
-                if (sdkVersion < Build.VERSION_CODES.M) {
-                    lvlButton.setBackgroundColor(getResources().getColor(R.color.level_complete));
-                } else {
-                    lvlButton.setBackgroundColor(ContextCompat.getColor(this, R.color.level_complete));
-                }
-
+                ViewCompat.setBackgroundTintList(lvlButton, ContextCompat.getColorStateList(this, R.color.level_complete));
 
             } else {
 
-                lvlButton.setTag(lvl);
+                if (lastLevel == null || lastLevel.isDone()) {
 
-                lvlButton.setOnClickListener(new View.OnClickListener() {
+                    lvlButton.setTag(lvl);
 
-                    @Override
-                    public void onClick (View v) {
+                    lvlButton.setOnClickListener(new View.OnClickListener() {
 
-                        startLevel(v.getTag());
-                    }
-                });
+                        @Override
+                        public void onClick (View v) {
+
+                            startLevel(v.getTag());
+                        }
+                    });
+
+                } else {
+
+                    ViewCompat.setBackgroundTintList(lvlButton, ContextCompat.getColorStateList(this, R.color.level_unavailable));
+                }
             }
+
             levelsLayout.addView(lvlButton);
+
+            lastLevel = lvl;
             Log.d(LevelsActivity.class.getName(), "Adding " + lvl.getLvlName());
         }
 
