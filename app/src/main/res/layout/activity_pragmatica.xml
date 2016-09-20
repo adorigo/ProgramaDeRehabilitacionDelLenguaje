@@ -27,7 +27,8 @@
                 android:layout_height="@dimen/helpButtonHeight"
                 android:id="@+id/audioAyuda"
                 android:src="@android:drawable/ic_media_play"
-                android:scaleType="centerInside" />
+                android:scaleType="centerInside"
+                android:layout_margin="@dimen/imgMargin" />
 
             <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
                 android:layout_width="match_parent"
@@ -57,7 +58,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
                     android:padding="@dimen/abc_control_padding_material"
                     android:gravity="center"/>
 
@@ -65,10 +65,10 @@
                     android:orientation="vertical"
                     android:layout_width="@dimen/maxButtonLayoutSize"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_gravity="center"
                     android:id="@+id/layoutOptions"
                     android:padding="@dimen/abc_control_padding_material"
-                    android:gravity="center"/>
+                    android:gravity="center" />
 
             </LinearLayout>
 

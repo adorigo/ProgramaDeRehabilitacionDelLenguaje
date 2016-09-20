@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="text_sizes">
+        <item>Grande</item>
+        <item>Mediano</item>
+        <item>Chico</item>
+    </string-array>
+
+    <string-array name="text_sizes_values">
+        <item>"gra"</item>
+        <item>"med"</item>
+        <item>"chi"</item>
+    </string-array>
+
+    <string-array name="time_shown">
+        <item>2 seg</item>
+        <item>4 seg</item>
+        <item>6 seg</item>
+        <item>8 seg</item>
+        <item>10 seg</item>
+    </string-array>
+
+    <string-array name="time_shown_values">
+        <item>2</item>
+        <item>4</item>
+        <item>6</item>
+        <item>8</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="text_types">
+        <item>Mayúscula</item>
+        <item>Minúscula</item>
+        <item>Normal</item>
+    </string-array>
+
+    <string-array name="text_types_values">
+        <item>may</item>
+        <item>min</item>
+        <item>nor</item>
+    </string-array>
+
+</resources>

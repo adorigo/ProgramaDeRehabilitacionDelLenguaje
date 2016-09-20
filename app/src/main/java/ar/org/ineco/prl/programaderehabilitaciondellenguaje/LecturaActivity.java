@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Option;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.Utils;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView;
 
@@ -46,8 +47,20 @@ public class LecturaActivity extends BaseActivity {
 
             vText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
-            vText.setText(oText.getStr());
-            vText.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.text_size_large));
+
+            String textToShow = oText.getStr();
+            switch (Utils.getTextType(this)) {
+                case "may":
+                    textToShow = textToShow.toUpperCase();
+                    break;
+                case "min":
+                    textToShow = textToShow.toLowerCase();
+                    break;
+                case "amb":
+                    break;
+            }
+            vText.setText(textToShow);
+            vText.setTextSize(TypedValue.COMPLEX_UNIT_PX, Utils.getTextSize(this));
             textLayout.addView(vText);
 
 
@@ -57,7 +70,7 @@ public class LecturaActivity extends BaseActivity {
                 vText.setOnLongClickListener(new View.OnLongClickListener() {
 
                     @Override
-                    public boolean onLongClick (View v) {
+                    public boolean onLongClick(View v) {
 
                         playSound(sndId);
                         return false;
@@ -75,7 +88,7 @@ public class LecturaActivity extends BaseActivity {
                 }
             };
 
-            handler.postDelayed(run, 2000);
+            handler.postDelayed(run, Utils.getTimeWait(this) * 1000);
         }
     }
 
@@ -90,6 +103,8 @@ public class LecturaActivity extends BaseActivity {
             @Override
             public void onClick (View v) {
 
+                currentQuestion.check();
+                currentQuestionNumber++;
                 nextQuestion();
             }
         });

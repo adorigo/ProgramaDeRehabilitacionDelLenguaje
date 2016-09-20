@@ -94,7 +94,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 
     public void playSound (int sndId) {
 
-        if (sndId >= 0) audioUtil.playSound(sndId);
+        if (sndId >= 0 && Utils.getSoundStimulus(this)) audioUtil.playSound(sndId);
     }
 
     private void onCreateHelper () {

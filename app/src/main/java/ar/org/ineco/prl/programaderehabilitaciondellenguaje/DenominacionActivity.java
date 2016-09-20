@@ -1,5 +1,6 @@
 package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -79,7 +80,11 @@ public class DenominacionActivity extends BaseActivity {
                     });
                 }
 
-                image.setImageResource(getResources().getIdentifier(img.getName(), "drawable", this.getPackageName()));
+                if (currentQuestion.getSound() != null) {
+                    image.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_media_play));
+                } else {
+                    image.setImageResource(getResources().getIdentifier(img.getName(), "drawable", this.getPackageName()));
+                }
 
                 questionLayout.addView(image);
 
@@ -241,6 +246,14 @@ public class DenominacionActivity extends BaseActivity {
                     nextQuestion();
                 }
             });
+
+            VerdanaTextView pregunta = new VerdanaTextView(this, null);
+            pregunta.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            pregunta.setText(getResources().getString(R.string.textPreguntaDenominacion));
+            pregunta.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.text_size_large));
+
+            optionsLayout.addView(pregunta);
 
             yesNoLayout.addView(yesButton);
             yesNoLayout.addView(noButton);

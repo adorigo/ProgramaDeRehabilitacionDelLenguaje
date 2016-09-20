@@ -1,16 +1,16 @@
 <resources>
     <string name="app_name">HABLAN</string>
 
-    <string name="title_activity_semantica">Semantica</string>
+    <string name="title_activity_semantica">Semántica</string>
     <string name="title_activity_pragmatica">Pragmática</string>
     <string name="title_activity_asociacion">Asociación</string>
-    <string name="title_activity_intruso">Intruso Semantico</string>
-    <string name="title_activity_identificacion">Identificación/Definición de Atributos</string>
+    <string name="title_activity_intruso">Intruso semántico</string>
+    <string name="title_activity_identificacion">Identificación/Definición de atributos</string>
     <string name="title_activity_lectura">Lectura</string>
-    <string name="title_activity_discriminacion">Discriminación Auditiva</string>
+    <string name="title_activity_discriminacion">Discriminación auditiva</string>
     <string name="title_activity_denominacion">Denominación</string>
-    <string name="title_activity_verdaderofalso">Verdadero o Falso</string>
-    <string name="title_activity_unirconflechas">Unir con Flechas</string>
+    <string name="title_activity_verdaderofalso">Verdadero o falso</string>
+    <string name="title_activity_unirconflechas">Unir con flechas</string>
 
     <string name="incorrectAns">Incorrecto</string>
     <string name="buttonTryAgain">Reintentar</string>
@@ -18,8 +18,8 @@
     <string name="correctAns">Correcto</string>
     <string name="buttonNext">Siguiente</string>
 
-    <string name="levelCompleted">Nivel Completado</string>
-    <string name="buttonNextLevel">Siguiente Nivel</string>
+    <string name="levelCompleted">Nivel completado</string>
+    <string name="buttonNextLevel">Siguiente nivel</string>
     <string name="buttonReset">Reset</string>
 
     <string name="buttonModules">Iniciar</string>
@@ -27,22 +27,27 @@
     <string name="buttonExit">Salir</string>
 
     <string name="title_activity_settings">Configuración</string>
-    <string name="titleConfiguration">Configuración de la Aplicación</string>
-    <string name="hintPIN">PIN de Seguridad</string>
-    <string name="buttonLoginBack">Menú Principal</string>
+    <string name="titleConfiguration">Configuración de la aplicación</string>
+    <string name="hintPIN">PIN de seguridad</string>
+    <string name="buttonLoginBack">Menú principal</string>
     <string name="buttonLoginNext">Acceder</string>
 
     <string name="title_activity_categories">Categorías</string>
-    <string name="textNoCategories">No hay Categorías</string>
+    <string name="textNoCategories">No hay categorías</string>
 
     <string name="title_activity_levels">Niveles</string>
-    <string name="textNoLevels">No hay Niveles</string>
+    <string name="textNoLevels">No hay niveles</string>
 
     <string name="buttonGoBack">Atrás</string>
     <string name="buttonYes">Si</string>
     <string name="buttonNo">No</string>
+
     <string name="pref_title_semantica">Semántica</string>
     <string name="pref_title_lectura">Lectura</string>
     <string name="pref_title_pragmatica">Pragmática</string>
 
+    <string name="pref_title_text_size">Tamaño</string>
+    <string name="pref_title_time_shown">Tiempo</string>
+    <string name="pref_title_text_type">Tipo</string>
+    <string name="textPreguntaDenominacion">¿Contestó correctamente?</string>
 </resources>

@@ -87,9 +87,6 @@ public class IntrusoActivity extends BaseActivity {
                 dropLayout.setVisibility(ImageView.GONE);
             }
 
-
-            boolean first = true;
-
             for (Option option : currentQuestion.getOpts()) {
 
                 if (option.getImg() != null) {
@@ -120,15 +117,9 @@ public class IntrusoActivity extends BaseActivity {
                         });
                     }
 
-
                     image.setImageResource(getResources().getIdentifier(option.getImg().getName(), "drawable", this.getPackageName()));
 
-                    if (first) {
-                        optionsLayout2.addView(image);
-                        first = false;
-                    } else {
-                        optionsLayout1.addView(image);
-                    }
+                    optionsLayout1.addView(image);
 
                 } else {
 
@@ -159,13 +150,7 @@ public class IntrusoActivity extends BaseActivity {
                         });
                     }
 
-
-                    if (first) {
-                        optionsLayout2.addView(button);
-                        first = false;
-                    } else {
-                        optionsLayout1.addView(button);
-                    }
+                    optionsLayout1.addView(button);
                 }
             }
         }

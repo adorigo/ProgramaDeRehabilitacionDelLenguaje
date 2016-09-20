@@ -3,6 +3,26 @@
     <PreferenceCategory
         android:title="@string/pref_modulo_lectura"
         android:key="pref_key_modulo_lectura">
-
+        <ListPreference
+            android:key="pref_key_text_size"
+            android:title="@string/pref_title_text_size"
+            android:entries="@array/text_sizes"
+            android:entryValues="@array/text_sizes_values"
+            android:defaultValue="med">
+        </ListPreference>
+        <ListPreference
+            android:key="pref_key_time_shown"
+            android:title="@string/pref_title_time_shown"
+            android:entries="@array/time_shown"
+            android:entryValues="@array/time_shown_values"
+            android:defaultValue="6">
+        </ListPreference>
+        <ListPreference
+            android:key="pref_key_text_type"
+            android:title="@string/pref_title_text_type"
+            android:entries="@array/text_types"
+            android:entryValues="@array/text_types_values"
+            android:defaultValue="nor">
+        </ListPreference>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -28,7 +28,8 @@
                 android:layout_height="@dimen/helpButtonHeight"
                 android:id="@+id/audioAyuda"
                 android:src="@android:drawable/ic_media_play"
-                android:scaleType="centerInside" />
+                android:scaleType="centerInside"
+                android:layout_margin="@dimen/imgMargin" />
 
             <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
                 android:layout_width="match_parent"
