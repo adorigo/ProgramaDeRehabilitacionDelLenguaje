@@ -20,6 +20,7 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ImageFile;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Level;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Option;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Question;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ReportLine;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.SoundFile;
 
 public class DatabaseLoader {
@@ -465,5 +466,52 @@ public class DatabaseLoader {
                 + " with question id " + option.getQid() + " and correct answer set to " + isCorrect + ".");
 
         close();
+    }
+
+    public List<ReportLine> getReportData () {
+
+        openReadable();
+
+        List<ReportLine> reportData = new ArrayList<>();
+
+        String query = "SELECT [categoria].[cat_nombre], count(*) AS total, sum([ru_correcto]) AS correct " +
+                "FROM [registro_de_uso] " +
+                "  INNER JOIN [pregunta] ON [pregunta].[_id] = " +
+                "    [registro_de_uso].[preg_id] " +
+                "  INNER JOIN [nivel] ON [nivel].[_id] = [pregunta].[niv_id] " +
+                "  INNER JOIN [categoria] ON [categoria].[_id] = " +
+                "    [nivel].[cat_id] " +
+                "GROUP BY [categoria].[cat_nombre] ";
+
+        Cursor cursor = database.rawQuery(query, null);
+
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+
+            ReportLine line = cursorToReportLine(cursor);
+
+            reportData.add(line);
+
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+
+        return reportData;
+    }
+
+    private ReportLine cursorToReportLine (Cursor cursor) {
+        return new ReportLine(cursorToReportCategory(cursor),
+                cursor.getInt(cursor.getColumnIndex("correct")),
+                cursor.getInt(cursor.getColumnIndex("total")) - cursor.getInt(cursor.getColumnIndex("correct"))
+        );
+    }
+
+    private Category cursorToReportCategory (Cursor cursor) {
+        return new Category(0,
+                cursor.getString(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_NAME)),
+                null
+        );
     }
 }

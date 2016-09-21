@@ -87,4 +87,5 @@ public class Utils {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPref.getBoolean("pref_key_estimulos", true);
     }
+
 }
