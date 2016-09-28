@@ -1,9 +1,6 @@
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
 
     <header
-        android:title="@string/titleConfiguration"/>
-
-    <header
         android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_general" />
 
@@ -14,9 +11,7 @@
     <header
         android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$AvanceDeNivelFragment"
         android:title="@string/pref_title_lvlrate"/>
-
     <header
         android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$ObtenerReporteFragment"
         android:title="@string/pref_title_obtenerReporte"/>
-
 </preference-headers>

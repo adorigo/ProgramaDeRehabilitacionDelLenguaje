@@ -17,7 +17,6 @@ import android.support.v4.content.FileProvider;
 import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -28,42 +27,11 @@ import java.util.List;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ApplicationContext;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Category;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Menu;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.PrefsHeaderAdapter;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.ReportCreator;
 
 public class SettingsActivity extends PreferenceActivity {
 
-    private static List<Header> _headers;
-
     @Override
-    public void setListAdapter(ListAdapter adapter) {
-        if (adapter == null) {
-            super.setListAdapter(null);
-        } else {
-            super.setListAdapter(new PrefsHeaderAdapter(this, _headers));
-        }
-    }
-
-    @Override
-    public void onBuildHeaders(List<Header> target) {
-        _headers = target;
-        loadHeadersFromResource(R.xml.pref_headers, target);
-    }
-    @Override
-    public Header onGetInitialHeader() {
-        super.onResume();
-        if (SettingsActivity._headers != null) {
-            for (int i = 0; i < SettingsActivity._headers.size(); i++) {
-                Header h = SettingsActivity._headers.get(i);
-                if (PrefsHeaderAdapter.getHeaderType(h) != PrefsHeaderAdapter.HEADER_TYPE_CATEGORY) {
-                    return h;
-                }
-            }
-        }
-        return null;
-    }
-
-    /*@Override
     public boolean onIsMultiPane () {
 
         return isXLargeTablet(this);
@@ -73,7 +41,7 @@ public class SettingsActivity extends PreferenceActivity {
 
         return (context.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
-    }*/
+    }
 
     @Override
     public boolean isValidFragment (String fragmentName) {
@@ -85,14 +53,15 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
 
-    /*@Override
+    @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders (List<Header> target) {
 
         super.onBuildHeaders(target);
         loadHeadersFromResource(R.xml.pref_headers, target);
-    }*/
+    }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
 
         @Override
@@ -103,6 +72,7 @@ public class SettingsActivity extends PreferenceActivity {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class ModuloLecturaPreferenceFragment extends PreferenceFragment {
 
         @Override
@@ -113,6 +83,7 @@ public class SettingsActivity extends PreferenceActivity {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class AvanceDeNivelFragment extends PreferenceFragment {
 
         private PreferenceScreen avanceNivel;
