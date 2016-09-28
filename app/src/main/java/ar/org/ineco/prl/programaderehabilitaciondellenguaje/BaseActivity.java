@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import java.util.Iterator;
 import java.util.List;
@@ -26,11 +27,14 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 
     public int currentQuestionNumber;
     public int totalQuestionNumber;
+    public float completeRate;
+    public float lvlRate;
 
     private Menu menu = ApplicationContext.getMenu();
     private FeedbackDialog feedbackEnd;
     private FeedbackDialog feedbackCorrectAns;
     private FeedbackDialog feedbackWrongAns;
+    private ProgressBar vProgress;
     private AudioUtil audioUtil = ApplicationContext.getSndUtil();
     private int helpSnd;
 
@@ -49,6 +53,11 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 
         feedbackWrongAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_incorrectans);
         feedbackWrongAns.findViewById(R.id.buttonTryAgain).setOnClickListener(this);
+
+        lvlRate = Utils.lvlRate(this, menu.getCurrentCategory());
+
+        vProgress = (ProgressBar) findViewById(R.id.progressBar);
+        vProgress.setProgress(Math.round(completeRate * 100 / lvlRate));
 
         ImageView helpSndLayout = (ImageView) findViewById(R.id.audioAyuda);
 
@@ -167,12 +176,20 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
             feedbackCorrectAns.hide();
         }
 
-        float completeRate = ((float) currentQuestionNumber) / totalQuestionNumber;
+        completeRate = ((float) currentQuestionNumber) / totalQuestionNumber;
+
+        if (Float.isNaN(lvlRate)) {
+            lvlRate = Utils.lvlRate(this, menu.getCurrentCategory());
+        }
+
+        int percentDone = Math.round(completeRate * 100 / lvlRate);
+
+        vProgress.setProgress(percentDone);
 
         Log.d(BaseActivity.class.getName(), "Current Questions done: "+ currentQuestionNumber);
-        Log.d(BaseActivity.class.getName(), completeRate + "% done of " + Utils.lvlRate(this, menu.getCurrentCategory()));
+        Log.d(BaseActivity.class.getName(), completeRate + "% done of " + lvlRate);
 
-        if (iterator.hasNext() && completeRate < Utils.lvlRate(this, menu.getCurrentCategory())) {
+        if (iterator.hasNext() && completeRate < lvlRate) {
 
             currentQuestion = (Question) iterator.next();
             drawUI();

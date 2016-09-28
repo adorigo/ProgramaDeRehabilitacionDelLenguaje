@@ -37,7 +37,12 @@ public class Utils {
 
         Log.d(Utils.class.getName(), value);
 
-        return Integer.valueOf(value) / 100.0f;
+        int val = Integer.valueOf(value);
+        if (val == 0) {
+            val = 1;
+        }
+
+        return val / 100.0f;
     }
 
     public static float getTextSize(Context context) {
