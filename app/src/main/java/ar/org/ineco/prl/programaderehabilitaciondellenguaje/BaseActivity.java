@@ -57,7 +57,9 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
         lvlRate = Utils.lvlRate(this, menu.getCurrentCategory());
 
         vProgress = (ProgressBar) findViewById(R.id.progressBar);
-        vProgress.setProgress(Math.round(completeRate * 100 / lvlRate));
+        if (vProgress != null) {
+            vProgress.setProgress(Math.round(completeRate * 100 / lvlRate));
+        }
 
         ImageView helpSndLayout = (ImageView) findViewById(R.id.audioAyuda);
 
@@ -184,7 +186,9 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 
         int percentDone = Math.round(completeRate * 100 / lvlRate);
 
-        vProgress.setProgress(percentDone);
+        if (vProgress != null) {
+            vProgress.setProgress(percentDone);
+        }
 
         Log.d(BaseActivity.class.getName(), "Current Questions done: "+ currentQuestionNumber);
         Log.d(BaseActivity.class.getName(), completeRate + "% done of " + lvlRate);

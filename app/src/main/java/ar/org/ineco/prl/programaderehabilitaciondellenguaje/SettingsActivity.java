@@ -135,13 +135,15 @@ public class SettingsActivity extends PreferenceActivity {
 
             obtenerReporte = (PreferenceScreen) this.findPreference("obtenerReporte");
 
+            PreferenceCategory category = (PreferenceCategory) this.findPreference("pref_key_ot");
+
             Intent i = new Intent(Intent.ACTION_SEND);
             i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             i.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             i.setType("plain/text");
 
-            String body = "Reporte";
-            String subject = "Asunto";
+            String body = getResources().getString(R.string.bodyReport);
+            String subject = getResources().getString(R.string.subjectReport);
 
             Uri contentUri = ReportCreator.generateCsvReport();
 
@@ -151,19 +153,20 @@ public class SettingsActivity extends PreferenceActivity {
             startActivity(Intent.createChooser(i, "E-mail"));
 
             Preference back = new Preference(obtenerReporte.getContext());
-            back.setTitle("Atras");
+            back.setTitle("Atrás");
             back.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
                 @Override
                 public boolean onPreferenceClick (Preference preference) {
-                    Intent intent = new Intent(obtenerReporte.getContext(), MainMenuActivity.class);
+                    Intent intent = new Intent(obtenerReporte.getContext(), SettingsActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                     startActivity(intent);
                     return true;
                 }
             });
-            obtenerReporte.addPreference(back);
+
+            category.addPreference(back);
         }
     }
 }

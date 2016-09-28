@@ -51,4 +51,6 @@
     <string name="pref_title_text_type">Tipo</string>
     <string name="textPreguntaDenominacion">¿Contestó correctamente?</string>
     <string name="pref_title_obtenerReporte">Obtener reporte</string>
+    <string name="subjectReport">Reporte generado automaticamente.</string>
+    <string name="bodyReport">Reporte</string>
 </resources>

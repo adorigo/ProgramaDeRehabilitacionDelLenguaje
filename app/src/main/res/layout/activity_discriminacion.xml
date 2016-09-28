@@ -40,6 +40,19 @@
                 android:layout_gravity="center_vertical"
                 android:layout_centerInParent="true" />
 
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/helpButtonHeight"
+                android:id="@+id/progressBar"
+                android:layout_alignParentRight="true"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:padding="@dimen/abc_control_padding_material"
+                android:layout_margin="@dimen/imgMargin"
+                android:progressBackgroundTint="@color/material_blue_grey_800"
+                android:progressBackgroundTintMode="multiply"
+                android:indeterminateOnly="false"
+                android:max="100" />
+
         </RelativeLayout>
 
         <LinearLayout
