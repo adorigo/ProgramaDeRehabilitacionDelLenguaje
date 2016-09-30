@@ -23,7 +23,7 @@ public class LoginActivity extends Activity {
 
     public void doLogin (View v) {
 
-        if (pinView.getText().toString().equals(Utils.getPinPassword())) {
+        if (Utils.md5(pinView.getText().toString()).equals(Utils.getPinPassword())) {
             Intent intent = new Intent(this, SettingsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

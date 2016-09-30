@@ -15,7 +15,7 @@ public class ReportLine {
         correctAns = correct;
         wrongAns = wrong;
         totalTries = correct + wrong;
-        correctPerAns = correct*100/totalTries;
-        wrongPerAns = wrong*100/totalTries;
+        correctPerAns = (float) correct * 100 / (float) totalTries;
+        wrongPerAns = (float) wrong * 100 / (float) totalTries;
     }
 }

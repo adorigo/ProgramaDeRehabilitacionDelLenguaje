@@ -73,6 +73,11 @@ public class MyDatabase extends SQLiteAssetHelper {
     public static final String LVL_COLUMN_LVLDONE = "niv_term";
     public static final String LVL_COLUMN_CID = "cat_id";
 
+    public static final String TABLE_SETTING = "configuracion";
+    public static final String SETTING_COLUMN_ID = "_id";
+    public static final String SETTING_COLUMN_NAME = "conf_nombre";
+    public static final String SETTING_COLUMN_VALUE = "conf_valor";
+
 
     public static String[] allOptColumns = {OPTION_COLUMN_ID, OPTION_COLUMN_SNDID,
             OPTION_COLUMN_IMGID, OPTION_COLUMN_TXT, OPTION_COLUMN_CORR, OPTION_COLUMN_QID};
@@ -95,7 +100,7 @@ public class MyDatabase extends SQLiteAssetHelper {
     public static String[] allLVLColumns = {LVL_COLUMN_ID, LVL_COLUMN_NUMBER, LVL_COLUMN_LVLDONE, LVL_COLUMN_CID};
 
     private static final String DATABASE_NAME = "database.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 1;
 
     public MyDatabase (Context context) {
 

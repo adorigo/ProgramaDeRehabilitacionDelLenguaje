@@ -474,14 +474,19 @@ public class DatabaseLoader {
 
         List<ReportLine> reportData = new ArrayList<>();
 
-        String query = "SELECT [categoria].[cat_nombre], count(*) AS total, sum([ru_correcto]) AS correct " +
-                "FROM [registro_de_uso] " +
-                "  INNER JOIN [pregunta] ON [pregunta].[_id] = " +
-                "    [registro_de_uso].[preg_id] " +
-                "  INNER JOIN [nivel] ON [nivel].[_id] = [pregunta].[niv_id] " +
-                "  INNER JOIN [categoria] ON [categoria].[_id] = " +
-                "    [nivel].[cat_id] " +
-                "GROUP BY [categoria].[cat_nombre] ";
+        String query = "SELECT "+MyDatabase.TABLE_CATEGORY+"."+MyDatabase.CATEGORY_COLUMN_NAME+","+
+                            " count(*) AS total, sum("+MyDatabase.REGUSE_COLUMN_CORR+") AS correct" +
+                        " FROM "+MyDatabase.TABLE_REGUSE+
+                            " INNER JOIN "+MyDatabase.TABLE_QUESTION+" ON "+MyDatabase.TABLE_QUESTION+"."+MyDatabase.QUESTION_COLUMN_ID+
+                                " = " +
+                                MyDatabase.TABLE_REGUSE+"."+MyDatabase.REGUSE_COLUMN_QID +
+                            " INNER JOIN "+MyDatabase.TABLE_LVL+" ON "+MyDatabase.TABLE_LVL+"."+MyDatabase.LVL_COLUMN_ID+
+                                " = "+
+                                MyDatabase.TABLE_QUESTION+"."+MyDatabase.QUESTION_COLUMN_LVLID+
+                            " INNER JOIN "+MyDatabase.TABLE_CATEGORY+" ON "+MyDatabase.TABLE_CATEGORY+"."+MyDatabase.CATEGORY_COLUMN_ID+
+                                " = " +
+                                MyDatabase.TABLE_LVL+"."+MyDatabase.LVL_COLUMN_CID+
+                        " GROUP BY "+MyDatabase.TABLE_CATEGORY+"."+MyDatabase.CATEGORY_COLUMN_NAME;
 
         Cursor cursor = database.rawQuery(query, null);
 
@@ -513,5 +518,32 @@ public class DatabaseLoader {
                 cursor.getString(cursor.getColumnIndex(MyDatabase.CATEGORY_COLUMN_NAME)),
                 null
         );
+    }
+
+    public String getConfigValue(String conf) {
+
+        String value = "";
+
+        if (conf == null || conf.isEmpty()) {
+            return value;
+        }
+
+        openReadable();
+
+        String query = "SELECT "+ MyDatabase.SETTING_COLUMN_VALUE +
+                " FROM "+ MyDatabase.TABLE_SETTING;
+        String condition = " WHERE "+ MyDatabase.SETTING_COLUMN_NAME +" = '"+ conf +"'";
+        Cursor cursor = database.rawQuery(query + condition, null);
+
+        cursor.moveToFirst();
+
+        if (!cursor.isAfterLast()) {
+
+            value = cursor.getString(cursor.getColumnIndex(MyDatabase.SETTING_COLUMN_VALUE));
+        }
+
+        cursor.close();
+
+        return value;
     }
 }

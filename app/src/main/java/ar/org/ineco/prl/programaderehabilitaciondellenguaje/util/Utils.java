@@ -1,17 +1,23 @@
 package ar.org.ineco.prl.programaderehabilitaciondellenguaje.util;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.annotation.AnyRes;
+import android.support.annotation.NonNull;
 import android.util.Log;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.R;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Category;
-import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Level;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.database.DatabaseLoader;
 
 public class Utils {
-
-    private static final String pinNumber = "2785";
 
     public static boolean withSound (Context context) {
 
@@ -84,7 +90,7 @@ public class Utils {
 
     public static String getPinPassword () {
 
-        return pinNumber;
+        return DatabaseLoader.getInstance().getConfigValue("cod");
     }
 
     public static boolean getSoundStimulus(Context context) {
@@ -93,4 +99,47 @@ public class Utils {
         return sharedPref.getBoolean("pref_key_estimulos", true);
     }
 
+    public static String md5(final String s) {
+
+        final String SHA256 = "SHA-256";
+
+        try {
+
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance(SHA256);
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuilder hexString = new StringBuilder();
+
+            for (byte aMessageDigest : messageDigest) {
+
+                String h = Integer.toHexString(0xFF & aMessageDigest);
+
+                while (h.length() < 2) {
+                    h = "0" + h;
+                }
+
+                hexString.append(h);
+            }
+
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public static Uri getUriToResource(@NonNull Context context, @AnyRes int resId) throws Resources.NotFoundException {
+
+        Resources res = context.getResources();
+
+        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
+                "://" + res.getResourcePackageName(resId)
+                + '/' + res.getResourceTypeName(resId)
+                + '/' + res.getResourceEntryName(resId));
+    }
 }

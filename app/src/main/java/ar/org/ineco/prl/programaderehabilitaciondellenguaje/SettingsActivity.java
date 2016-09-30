@@ -147,7 +147,7 @@ public class SettingsActivity extends PreferenceActivity {
 
             Uri contentUri = ReportCreator.generateCsvReport();
 
-            i.putExtra(Intent.EXTRA_STREAM, contentUri);
+            if(contentUri != null) i.putExtra(Intent.EXTRA_STREAM, contentUri);
             i.putExtra(Intent.EXTRA_SUBJECT, subject);
             i.putExtra(Intent.EXTRA_TEXT, body);
             startActivity(Intent.createChooser(i, "E-mail"));
