@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/pref_user"
+        android:key="pref_key_user">
+        <EditTextPreference
+            android:key="pref_key_name"
+            android:summary="@string/pref_summary_name"
+            android:title="@string/pref_title_name" />
+        <EditTextPreference
+            android:key="pref_key_lastname"
+            android:summary="@string/pref_summary_lastname"
+            android:title="@string/pref_title_lastname" />
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:title="@string/pref_general"
         android:key="pref_key_general">
@@ -23,11 +37,26 @@
     <PreferenceCategory
         android:title="@string/pref_modulo_lectura"
         android:key="pref_key_modulo_lectura">
-        <CheckBoxPreference
-            android:key="pref_key_pregcomprension"
-            android:summary="@string/pref_summary_pregcomprension"
-            android:title="@string/pref_title_pregcomprension"
-            android:defaultValue="true" />
-
+        <ListPreference
+            android:key="pref_key_text_size"
+            android:title="@string/pref_title_text_size"
+            android:entries="@array/text_sizes"
+            android:entryValues="@array/text_sizes_values"
+            android:defaultValue="med">
+        </ListPreference>
+        <ListPreference
+            android:key="pref_key_time_shown"
+            android:title="@string/pref_title_time_shown"
+            android:entries="@array/time_shown"
+            android:entryValues="@array/time_shown_values"
+            android:defaultValue="6">
+        </ListPreference>
+        <ListPreference
+            android:key="pref_key_text_type"
+            android:title="@string/pref_title_text_type"
+            android:entries="@array/text_types"
+            android:entryValues="@array/text_types_values"
+            android:defaultValue="nor">
+        </ListPreference>
     </PreferenceCategory>
 </PreferenceScreen>

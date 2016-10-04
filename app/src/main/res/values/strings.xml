@@ -62,4 +62,6 @@
     <string name="pref_user">Datos del paciente</string>
     <string name="pref_title_catreset">Reiniciar categorías</string>
     <string name="explanationIntrusoWithoutDD">Presione la palabra/imagen que considere correcta.</string>
+    <string name="pref_title_newtask">Crear ejercicio</string>
+    <string name="title_activity_taskcreator">Crear ejercicios</string>
 </resources>

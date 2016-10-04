@@ -172,6 +172,7 @@ public class SettingsActivity extends PreferenceActivity {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class ObtenerReporteFragment extends PreferenceFragment {
 
         private PreferenceScreen obtenerReporte;
