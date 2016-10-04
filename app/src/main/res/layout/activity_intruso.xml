@@ -51,7 +51,9 @@
                 android:progressBackgroundTint="@color/material_blue_grey_800"
                 android:progressBackgroundTintMode="multiply"
                 android:indeterminateOnly="false"
-                android:max="100" />
+                android:max="100"
+                android:layout_gravity="right|top"
+                android:indeterminate="false" />
 
         </RelativeLayout>
 
@@ -101,7 +103,18 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"/>
 
+            <ImageView
+                android:layout_width="@dimen/abc_action_bar_default_height_material"
+                android:layout_height="@dimen/abc_action_bar_default_height_material"
+                android:id="@+id/infoButton"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/imgMargin"
+                android:src="@android:drawable/ic_menu_info_details"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter" />
+
         </RelativeLayout>
 
     </LinearLayout>
+
 </FrameLayout>

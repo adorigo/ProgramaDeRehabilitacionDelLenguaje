@@ -70,11 +70,17 @@ public class ReportCreator {
             // adjust it..
             //pict.resize();
 
+            Row rowNames = sheet.createRow((short) 3);
+            rowNames.createCell(3).setCellValue("Nombre");
+            rowNames.createCell(4).setCellValue(Utils.getUserName(ApplicationContext.get()));
+            rowNames.createCell(5).setCellValue("Apellido");
+            rowNames.createCell(6).setCellValue(Utils.getUserLastName(ApplicationContext.get()));
+
             // then add first row
-            Row rowheader = sheet.createRow((short) 4);
+            Row rowheader = sheet.createRow((short) 5);
 
             // with headers
-            rowheader.createCell(1).setCellValue("Categoria");
+            rowheader.createCell(1).setCellValue("Categoría");
             rowheader.createCell(2).setCellValue("Correctos");
             rowheader.createCell(3).setCellValue("Incorrectos");
             rowheader.createCell(4).setCellValue("Totales");
@@ -83,6 +89,8 @@ public class ReportCreator {
 
             short rowCount = 5;
             for (ReportLine line : reportData) {
+
+                rowCount++;
 
                 // a row
                 Row row = sheet.createRow(rowCount);
@@ -94,8 +102,6 @@ public class ReportCreator {
                 row.createCell(4).setCellValue(line.totalTries);
                 row.createCell(5).setCellValue(line.correctPerAns);
                 row.createCell(6).setCellValue(line.wrongPerAns);
-
-                rowCount++;
             }
 
             CellRangeAddress data = new CellRangeAddress(

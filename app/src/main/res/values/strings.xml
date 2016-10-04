@@ -53,4 +53,13 @@
     <string name="pref_title_obtenerReporte">Obtener reporte</string>
     <string name="subjectReport">Reporte generado automaticamente.</string>
     <string name="bodyReport">Reporte</string>
+    <string name="pref_summary_name">Ingrese el nombre del paciente</string>
+    <string name="pref_summary_lastname">Ingrese el apellido del paciente</string>
+    <string name="pref_title_lastname">Apellido</string>
+    <string name="pref_title_name">Nombre</string>
+    <string name="explanationIntruso">Presione prolongadamente la palabra/imagen que considere correcta y sin soltarla arrástrela hacia el cesto de basura, donde podrá soltar la misma.</string>
+    <string name="buttonOk">Entendido</string>
+    <string name="pref_user">Datos del paciente</string>
+    <string name="pref_title_catreset">Reiniciar categorías</string>
+    <string name="explanationIntrusoWithoutDD">Presione la palabra/imagen que considere correcta.</string>
 </resources>

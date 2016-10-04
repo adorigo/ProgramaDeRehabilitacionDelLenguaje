@@ -450,6 +450,15 @@ public class DatabaseLoader {
         Log.d(DatabaseLoader.class.getName(), "Reseting all questions for level " + thisLevel.getId()
                 + " with " + rows + " affected.");
 
+        contentValues = new ContentValues();
+        contentValues.put(MyDatabase.LVL_COLUMN_LVLDONE, 0);
+
+        condition = MyDatabase.LVL_COLUMN_ID + " = " + thisLevel.getId();
+
+        rows = database.update(MyDatabase.TABLE_LVL, contentValues, condition, null);
+        Log.d(DatabaseLoader.class.getName(), "Reseting level " + thisLevel.getId()
+                + " with " + rows + " affected.");
+
         close();
     }
 

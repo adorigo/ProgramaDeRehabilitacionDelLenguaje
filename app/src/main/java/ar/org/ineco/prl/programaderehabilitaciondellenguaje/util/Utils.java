@@ -142,4 +142,20 @@ public class Utils {
                 + '/' + res.getResourceTypeName(resId)
                 + '/' + res.getResourceEntryName(resId));
     }
+
+    public static String getUserName(Context context) {
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        String value = sharedPref.getString("pref_key_name", "");
+
+        return value;
+    }
+
+    public static String getUserLastName(Context context) {
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        String value = sharedPref.getString("pref_key_lastname", "");
+
+        return value;
+    }
 }

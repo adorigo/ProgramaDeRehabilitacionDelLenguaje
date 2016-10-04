@@ -2,6 +2,18 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
+        android:title="@string/pref_user"
+        android:key="pref_key_user">
+        <EditTextPreference
+            android:key="pref_key_name"
+            android:summary="@string/pref_summary_name"
+            android:title="@string/pref_title_name" />
+        <EditTextPreference
+            android:key="pref_key_lastname"
+            android:summary="@string/pref_summary_lastname"
+            android:title="@string/pref_title_lastname" />
+    </PreferenceCategory>
+    <PreferenceCategory
         android:title="@string/pref_general"
         android:key="pref_key_general">
         <CheckBoxPreference

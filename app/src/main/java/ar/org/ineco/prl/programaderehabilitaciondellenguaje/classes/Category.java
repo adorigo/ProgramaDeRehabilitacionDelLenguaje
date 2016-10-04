@@ -107,4 +107,11 @@ public class Category {
 
         return (parentCategory != null) ? parentCategory.getPath() +" -> "+ getName() : getName();
     }
+
+    public void reset() {
+
+        for (Level lvl : getLevels()) {
+            lvl.resetQuestions();
+        }
+    }
 }

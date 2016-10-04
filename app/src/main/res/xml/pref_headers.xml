@@ -13,6 +13,10 @@
         android:title="@string/pref_title_lvlrate"/>
 
     <header
+        android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$ReiniciarCategoriaFragment"
+        android:title="@string/pref_title_catreset"/>
+
+    <header
         android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$ObtenerReporteFragment"
         android:title="@string/pref_title_obtenerReporte"/>
 </preference-headers>

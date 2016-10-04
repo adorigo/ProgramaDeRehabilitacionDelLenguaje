@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -19,6 +20,7 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.SoundFile;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.AudioUtil;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.FeedbackDialog;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.Utils;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView;
 
 public abstract class BaseActivity extends Activity implements View.OnClickListener {
 
@@ -34,6 +36,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
     private FeedbackDialog feedbackEnd;
     private FeedbackDialog feedbackCorrectAns;
     private FeedbackDialog feedbackWrongAns;
+    private FeedbackDialog feedbackInfo;
     private ProgressBar vProgress;
     private AudioUtil audioUtil = ApplicationContext.getSndUtil();
     private int helpSnd;
@@ -53,6 +56,35 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 
         feedbackWrongAns = new FeedbackDialog(this, R.layout.activity_quiz_popup_incorrectans);
         feedbackWrongAns.findViewById(R.id.buttonTryAgain).setOnClickListener(this);
+
+        feedbackInfo = new FeedbackDialog(this, R.layout.activity_quiz_popup_info);
+        feedbackInfo.findViewById(R.id.buttonGoBackInfo).setOnClickListener(this);
+        VerdanaTextView tView = (VerdanaTextView) feedbackInfo.findViewById(R.id.textPopup);
+
+        if (Utils.withDragNDrop(this)) {
+            tView.setText(getResources().getString(R.string.explanationIntruso));
+
+        } else {
+            tView.setText(getResources().getString(R.string.explanationIntrusoWithoutDD));
+        }
+
+        ImageView helpInfo = (ImageView) findViewById(R.id.infoButton);
+
+        if (helpInfo != null) {
+
+            helpInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                    lp.copyFrom(feedbackInfo.getWindow().getAttributes());
+                    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+
+                    feedbackInfo.show();
+                    feedbackInfo.getWindow().setAttributes(lp);
+                }
+            });
+        }
 
         lvlRate = Utils.lvlRate(this, menu.getCurrentCategory());
 
@@ -247,6 +279,10 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
             case R.id.buttonTryAgain:
                 feedbackWrongAns.dismiss();
                 break;
+
+            case R.id.buttonGoBackInfo:
+                feedbackInfo.dismiss();
+                break;
         }
     }
 
@@ -258,5 +294,6 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
         feedbackEnd.dismiss();
         feedbackCorrectAns.dismiss();
         feedbackWrongAns.dismiss();
+        feedbackInfo.dismiss();
     }
 }

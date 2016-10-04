@@ -17,6 +17,7 @@ import android.support.v4.content.FileProvider;
 import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -27,6 +28,7 @@ import java.util.List;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.ApplicationContext;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Category;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.classes.Menu;
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.database.DatabaseLoader;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.ReportCreator;
 
 public class SettingsActivity extends PreferenceActivity {
@@ -49,7 +51,8 @@ public class SettingsActivity extends PreferenceActivity {
         return GeneralPreferenceFragment.class.getName().equals(fragmentName) ||
                 ModuloLecturaPreferenceFragment.class.getName().equals(fragmentName) ||
                 AvanceDeNivelFragment.class.getName().equals(fragmentName) ||
-                ObtenerReporteFragment.class.getName().equals(fragmentName);
+                ObtenerReporteFragment.class.getName().equals(fragmentName) ||
+                ReiniciarCategoriaFragment.class.getName().equals(fragmentName);
     }
 
 
@@ -116,6 +119,52 @@ public class SettingsActivity extends PreferenceActivity {
                     // Solo numeros.
                     EditText et = prefCat.getEditText();
                     et.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+                    prefCategory.addPreference(prefCat);
+                }
+            }
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class ReiniciarCategoriaFragment extends PreferenceFragment {
+
+        private PreferenceScreen reiniciarNivel;
+        private Menu menu = ApplicationContext.getMenu();
+
+        @Override
+        public void onCreate (Bundle savedInstanceState) {
+
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_avance_nivel);
+
+            reiniciarNivel = (PreferenceScreen) this.findPreference("avanceNivel");
+
+            for (Category cat : menu.getFirstCategories()) {
+
+                PreferenceCategory prefCategory = new PreferenceCategory(reiniciarNivel.getContext());
+                prefCategory.setTitle(cat.getName());
+                prefCategory.setKey(String.valueOf(cat.getId()));
+
+                reiniciarNivel.addPreference(prefCategory);
+
+                for (Category leaf : cat.getAllLeafs()) {
+
+                    Preference prefCat = new Preference(prefCategory.getContext());
+                    prefCat.setTitle(leaf.getName());
+                    prefCat.setSummary(leaf.getPath());
+
+                    final Category category = leaf;
+
+                    prefCat.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                        @Override
+                        public boolean onPreferenceClick(Preference preference) {
+                            category.reset();
+                            Toast.makeText(reiniciarNivel.getContext(),
+                                    "Categoría reiniciada", Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                    });
 
                     prefCategory.addPreference(prefCat);
                 }

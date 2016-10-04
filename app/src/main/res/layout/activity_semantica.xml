@@ -38,7 +38,7 @@
                 android:id="@+id/textTitle"
                 android:gravity="center_horizontal"
                 android:layout_gravity="center_vertical"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true" />
 
             <ProgressBar
                 android:layout_width="wrap_content"

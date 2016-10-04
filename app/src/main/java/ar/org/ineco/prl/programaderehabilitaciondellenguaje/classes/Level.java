@@ -85,6 +85,8 @@ public class Level {
 
             question.reset();
         }
+
+        this.done = false;
         DatabaseLoader.getInstance().resetLevel(this);
     }
 }
