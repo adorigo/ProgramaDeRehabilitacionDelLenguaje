@@ -63,7 +63,8 @@ public class Menu {
 
     public void setCurrentLevel (Level currentLevel) {
 
-        if (currentLevel != null && currentLevel.getQuestions().size() == 0) {
+        if (currentLevel != null) {
+            currentLevel.clearQuestions();
             currentLevel.addAllQuestions(databaseLoader.getAllQuestions(currentLevel));
         }
         this.currentLevel = currentLevel;

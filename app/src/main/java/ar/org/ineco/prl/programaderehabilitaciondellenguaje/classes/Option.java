@@ -44,6 +44,10 @@ public class Option {
         return qid;
     }
 
+    public boolean getIsCorrect() {
+        return isCorrect;
+    }
+
     public boolean checkAns () {
 
         DatabaseLoader.getInstance().createLogRecord(this, isCorrect);

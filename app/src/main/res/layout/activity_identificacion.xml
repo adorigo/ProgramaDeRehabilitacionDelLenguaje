@@ -15,45 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:background="@color/black_overlay">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/helpButtonHeight"
-                android:id="@+id/audioAyuda"
-                android:src="@android:drawable/ic_media_play"
-                android:scaleType="centerInside"
-                android:layout_margin="@dimen/imgMargin" />
-
-            <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/categoriesTitle"
-                android:text="@string/title_activity_identificacion"
-                android:id="@+id/textTitle"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"
-                android:layout_centerInParent="true"/>
-
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/helpButtonHeight"
-                android:id="@+id/progressBar"
-                android:layout_alignParentRight="true"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:padding="@dimen/abc_control_padding_material"
-                android:layout_margin="@dimen/imgMargin"
-                android:progressBackgroundTint="@color/material_blue_grey_800"
-                android:progressBackgroundTintMode="multiply"
-                android:indeterminateOnly="false"
-                android:max="100" />
-
-        </RelativeLayout>
+        <include layout="@layout/titlebar"/>
 
         <LinearLayout
             android:orientation="vertical"

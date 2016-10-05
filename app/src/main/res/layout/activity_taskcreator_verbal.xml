@@ -1,0 +1,101 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_quiz"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="ar.org.ineco.prl.programaderehabilitaciondellenguaje.TaskCreatorActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/titlebar"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:id="@+id/layoutQuestion"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:padding="@dimen/abc_control_padding_material"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaEditText
+                    android:layout_width="@dimen/maxButtonLayoutSize"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/inputQuestion"
+                    android:hint="@string/hintInputQuestion"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="@dimen/maxButtonLayoutSize"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:id="@+id/layoutOptions"
+                android:padding="@dimen/abc_control_padding_material"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaEditText
+                    android:layout_width="@dimen/maxButtonLayoutSize"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/inputOptionCorrect"
+                    android:hint="@string/hintInputOptionCorrect"
+                    android:gravity="center"/>
+                <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaEditText
+                    android:layout_width="@dimen/maxButtonLayoutSize"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/inputOption2"
+                    android:hint="@string/hintInputOption"
+                    android:gravity="center"/>
+                <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaEditText
+                    android:layout_width="@dimen/maxButtonLayoutSize"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/inputOption3"
+                    android:hint="@string/hintInputOption"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:layout_gravity="center_horizontal">
+
+                <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonSave"
+                    android:text="@string/buttonSave"
+                    android:onClick="saveTask"/>
+
+                <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonBack"
+                    android:text="@string/buttonGoBack"
+                    android:onClick="goBack"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

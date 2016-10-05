@@ -16,6 +16,10 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
 
 public class IntrusoActivity extends BaseActivity {
 
+    @Override
+    protected int getStringResourceId() {
+        return R.string.title_activity_intruso;
+    }
 
     @Override
     protected int getLayoutResourceId () {

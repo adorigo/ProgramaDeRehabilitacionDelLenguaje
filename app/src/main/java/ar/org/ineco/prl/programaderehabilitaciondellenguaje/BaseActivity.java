@@ -48,6 +48,9 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 
         setContentView(getLayoutResourceId());
 
+        VerdanaTextView textTitle = (VerdanaTextView) findViewById(R.id.textTitle);
+        textTitle.setText(getResources().getString(getStringResourceId()));
+
         feedbackEnd = new FeedbackDialog(this, R.layout.activity_quiz_popup_end);
         feedbackEnd.findViewById(R.id.buttonGoBack).setOnClickListener(this);
 
@@ -115,6 +118,8 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 
         onCreateHelper();
     }
+
+    protected abstract int getStringResourceId();
 
     protected abstract int getLayoutResourceId ();
 

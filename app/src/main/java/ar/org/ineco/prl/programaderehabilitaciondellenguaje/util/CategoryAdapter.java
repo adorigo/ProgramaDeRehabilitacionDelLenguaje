@@ -67,12 +67,14 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater)_context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.item_category, null);
+            convertView = infalInflater.inflate(android.R.layout.simple_expandable_list_item_2, null);
         }
 
-        TextView lblListHeader = (TextView) convertView.findViewById(R.id.catName);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle.getName());
+        TextView text1View = (TextView) convertView.findViewById(android.R.id.text1);
+        TextView text2View = (TextView) convertView.findViewById(android.R.id.text2);
+        text1View.setTypeface(null, Typeface.BOLD);
+        text1View.setText(headerTitle.getName());
+        text2View.setText(headerTitle.getPath());
 
         return convertView;
     }
@@ -84,13 +86,13 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.item_category, null);
+            convertView = infalInflater.inflate(android.R.layout.simple_expandable_list_item_1, null);
         }
 
-        TextView txtListChild = (TextView) convertView.findViewById(R.id.catName);
-        TextView pathListChild = (TextView) convertView.findViewById(R.id.catPath);
-        txtListChild.setText(childText.getLvlName());
-        pathListChild.setText(getGroup(groupPosition).getPath());
+        convertView.setTag(childText);
+
+        TextView text1View = (TextView) convertView.findViewById(android.R.id.text1);
+        text1View.setText(childText.getLvlName());
 
         return convertView;
     }

@@ -16,6 +16,10 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
 
 public class PragmaticaActivity extends BaseActivity {
 
+    @Override
+    protected int getStringResourceId() {
+        return R.string.title_activity_pragmatica;
+    }
 
     @Override
     protected int getLayoutResourceId () {

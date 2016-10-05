@@ -26,6 +26,11 @@ public class UnirConFlechasActivity extends BaseActivity{
     private Option currentO;
 
     @Override
+    protected int getStringResourceId() {
+        return R.string.title_activity_unirconflechas;
+    }
+
+    @Override
     protected int getLayoutResourceId () {
 
         return R.layout.activity_unirconflechas;

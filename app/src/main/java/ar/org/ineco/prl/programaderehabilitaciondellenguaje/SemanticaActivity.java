@@ -16,6 +16,10 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
 
 public class SemanticaActivity extends BaseActivity {
 
+    @Override
+    protected int getStringResourceId() {
+        return R.string.title_activity_semantica;
+    }
 
     @Override
     protected int getLayoutResourceId () {

@@ -1,7 +1,5 @@
 package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -16,6 +14,11 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView;
 
 public class DenominacionActivity extends BaseActivity {
+
+    @Override
+    protected int getStringResourceId() {
+        return R.string.title_activity_denominacion;
+    }
 
     @Override
     protected int getLayoutResourceId () {

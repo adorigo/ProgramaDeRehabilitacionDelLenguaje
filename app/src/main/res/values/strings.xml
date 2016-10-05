@@ -64,4 +64,10 @@
     <string name="explanationIntrusoWithoutDD">Presione la palabra/imagen que considere correcta.</string>
     <string name="pref_title_newtask">Crear ejercicio</string>
     <string name="title_activity_taskcreator">Crear ejercicios</string>
+    <string name="buttonSave">Guardar</string>
+    <string name="hintInputQuestion">Consigna</string>
+    <string name="hintInputOptionCorrect">Opción correcta</string>
+    <string name="hintInputOption">Opción incorrecta</string>
+    <string name="errorMissingInput">Error - Complete todos los campos</string>
+    <string name="taskCreated">Ejercicio creado</string>
 </resources>

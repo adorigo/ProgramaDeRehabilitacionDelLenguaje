@@ -450,14 +450,14 @@ public class DatabaseLoader {
         Log.d(DatabaseLoader.class.getName(), "Reseting all questions for level " + thisLevel.getId()
                 + " with " + rows + " affected.");
 
-        contentValues = new ContentValues();
+        /*contentValues = new ContentValues();
         contentValues.put(MyDatabase.LVL_COLUMN_LVLDONE, 0);
 
         condition = MyDatabase.LVL_COLUMN_ID + " = " + thisLevel.getId();
 
         rows = database.update(MyDatabase.TABLE_LVL, contentValues, condition, null);
         Log.d(DatabaseLoader.class.getName(), "Reseting level " + thisLevel.getId()
-                + " with " + rows + " affected.");
+                + " with " + rows + " affected.");*/
 
         close();
     }
@@ -512,6 +512,8 @@ public class DatabaseLoader {
 
         cursor.close();
 
+        close();
+
         return reportData;
     }
 
@@ -553,6 +555,51 @@ public class DatabaseLoader {
 
         cursor.close();
 
+        close();
+
         return value;
+    }
+
+    public void createTaks(Question newQuestion, Level selectedLevel) {
+
+        openWritable();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MyDatabase.QUESTION_COLUMN_TXT, newQuestion.getText());
+        contentValues.put(MyDatabase.QUESTION_COLUMN_CHECK, 0);
+        contentValues.put(MyDatabase.QUESTION_COLUMN_LVLID, selectedLevel.getId());
+
+        long questionId = database.insert(MyDatabase.TABLE_QUESTION, null, contentValues);
+
+        ContentValues optionValues = new ContentValues();
+
+        for (Option opt : newQuestion.getOpts()) {
+
+            optionValues.put(MyDatabase.OPTION_COLUMN_QID, questionId);
+            optionValues.put(MyDatabase.OPTION_COLUMN_TXT, opt.getStr());
+            optionValues.put(MyDatabase.OPTION_COLUMN_CORR, opt.getIsCorrect());
+
+            long optionId = database.insert(MyDatabase.TABLE_OPTION, null, optionValues);
+
+            optionValues.clear();
+        }
+
+        close();
+    }
+
+    public void resetLevelOnly(Level selectedLevel) {
+
+        openWritable();
+
+        ContentValues levelValues = new ContentValues();
+        levelValues.put(MyDatabase.LVL_COLUMN_LVLDONE, 0);
+
+        String condition = MyDatabase.LVL_COLUMN_ID + " = " + selectedLevel.getId();
+
+        int rows = database.update(MyDatabase.TABLE_LVL, levelValues, condition, null);
+        Log.d(DatabaseLoader.class.getName(), "Reseting level " + selectedLevel.getId()
+                + " with " + rows + " affected.");
+
+        close();
     }
 }

@@ -86,7 +86,16 @@ public class Level {
             question.reset();
         }
 
-        this.done = false;
+        resetLevel();
         DatabaseLoader.getInstance().resetLevel(this);
+    }
+
+    public void resetLevel() {
+        this.done = false;
+        DatabaseLoader.getInstance().resetLevelOnly(this);
+    }
+
+    public void clearQuestions() {
+        questions.clear();
     }
 }

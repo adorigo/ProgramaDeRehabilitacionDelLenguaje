@@ -15,6 +15,11 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
 public class VerdaderoFalsoActivity extends BaseActivity {
 
     @Override
+    protected int getStringResourceId() {
+        return R.string.title_activity_verdaderofalso;
+    }
+
+    @Override
     protected int getLayoutResourceId () {
 
         return R.layout.activity_verdaderofalso;

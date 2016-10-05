@@ -1,12 +1,9 @@
 package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
 
-import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -16,6 +13,11 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton;
 import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView;
 
 public class AsociacionActivity extends BaseActivity {
+
+    @Override
+    protected int getStringResourceId() {
+        return R.string.title_activity_asociacion;
+    }
 
     @Override
     protected int getLayoutResourceId () {

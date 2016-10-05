@@ -17,6 +17,11 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
 public class DiscriminacionActivity extends BaseActivity {
 
     @Override
+    protected int getStringResourceId() {
+        return R.string.title_activity_discriminacion;
+    }
+
+    @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_discriminacion;
     }

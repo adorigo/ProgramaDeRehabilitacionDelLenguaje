@@ -17,6 +17,10 @@ import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
 
 public class LecturaActivity extends BaseActivity {
 
+    @Override
+    protected int getStringResourceId() {
+        return R.string.title_activity_lectura;
+    }
 
     @Override
     protected int getLayoutResourceId () {
