@@ -66,6 +66,7 @@ public class MyDatabase extends SQLiteAssetHelper {
     public static final String IMG_COLUMN_ID = "_id";
     public static final String IMG_COLUMN_NAME = "img_nombre";
     public static final String IMG_COLUMN_TXTIMG = "txt_nombre";
+    public static final String IMG_COLUMN_SND = "img_sonido";
 
     public static final String TABLE_LVL = "nivel";
     public static final String LVL_COLUMN_ID = "_id";

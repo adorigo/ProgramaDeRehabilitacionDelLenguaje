@@ -35,7 +35,13 @@
         </activity>
         <activity
             android:name=".ComprensionActivity"
-            android:label="@string/title_activity_intruso"
+            android:label="@string/title_activity_comprension"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".EmparejamientoActivity"
+            android:label="@string/title_activity_emparejamiento"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme">
         </activity>

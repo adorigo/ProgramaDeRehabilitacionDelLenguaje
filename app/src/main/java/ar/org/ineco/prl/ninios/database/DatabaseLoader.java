@@ -150,8 +150,11 @@ public class DatabaseLoader {
 
         List<ImageFile> images = new ArrayList<>();
 
-        String query = "SELECT * FROM " + MyDatabase.TABLE_IMG;
-        String condition = " WHERE " + MyDatabase.IMG_COLUMN_ID + " IN (";
+        String query = "SELECT *, " + MyDatabase.TABLE_SND +"."+MyDatabase.SND_COLUMN_NAME +
+                " FROM " + MyDatabase.TABLE_IMG +
+                " LEFT JOIN " + MyDatabase.TABLE_SND + " ON " + MyDatabase.TABLE_SND + "." + MyDatabase.SND_COLUMN_ID +
+                " = " + MyDatabase.TABLE_IMG + "." + MyDatabase.IMG_COLUMN_SND;
+        String condition = " WHERE "+ MyDatabase.TABLE_IMG+"."+ MyDatabase.IMG_COLUMN_ID + " IN (";
 
         for (Long idImg : idsImages) {
             condition += String.valueOf(idImg) + ",";
@@ -178,7 +181,14 @@ public class DatabaseLoader {
 
         return new ImageFile(cursor.getLong(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_NAME)),
-                cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_TXTIMG))
+                cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_TXTIMG)),
+                (cursor.getLong(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_SND)) == 0) ? null : cursorToImageSound(cursor)
+        );
+    }
+
+    private SoundFile cursorToImageSound(Cursor cursor) {
+        return new SoundFile(cursor.getLong(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_SND)),
+                cursor.getString(cursor.getColumnIndex(MyDatabase.SND_COLUMN_NAME))
         );
     }
 
@@ -260,7 +270,8 @@ public class DatabaseLoader {
 
         return new ImageFile(cursor.getLong(cursor.getColumnIndex(MyDatabase.OPTION_COLUMN_IMGID)),
                 cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_NAME)),
-                cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_TXTIMG))
+                cursor.getString(cursor.getColumnIndex(MyDatabase.IMG_COLUMN_TXTIMG)),
+                null
         );
     }
 

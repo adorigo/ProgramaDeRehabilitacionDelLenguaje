@@ -70,4 +70,6 @@
     <string name="hintInputOption">Opción incorrecta</string>
     <string name="errorMissingInput">Error - Complete todos los campos</string>
     <string name="taskCreated">Ejercicio creado</string>
+    <string name="title_activity_emparejamiento">EMPAREJAMIENTO</string>
+    <string name="title_activity_comprension">COMPRENSIÓN DE VOCABULARIO</string>
 </resources>
