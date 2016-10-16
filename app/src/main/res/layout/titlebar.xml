@@ -35,6 +35,7 @@
         android:progressBackgroundTint="@color/material_blue_grey_800"
         android:progressBackgroundTintMode="multiply"
         android:indeterminateOnly="false"
-        android:max="100" />
+        android:max="100"
+        android:visibility="gone"/>
 
 </RelativeLayout>

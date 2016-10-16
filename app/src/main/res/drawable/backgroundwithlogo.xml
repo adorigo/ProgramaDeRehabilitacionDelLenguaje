@@ -4,10 +4,8 @@
         <color android:color="@color/crema_background"/>
     </item>
     <item>
-        <bitmap
-            android:gravity="bottom|left"
-            android:src="@drawable/caece"
+        <bitmap android:src="@mipmap/ic_launcher"
             android:alpha="0.2"
-            />
+            android:gravity="bottom|left"/>
     </item>
 </layer-list>

@@ -43,7 +43,7 @@ public class ReportCreator {
         try {
 
             // Get the logo.
-            Uri uri = Utils.getUriToResource(ApplicationContext.get(), R.drawable.caece);
+            Uri uri = Utils.getUriToResource(ApplicationContext.get(), R.mipmap.ic_launcher);
             InputStream stream = ApplicationContext.get().getContentResolver().openInputStream(uri);
 
             // parse it..

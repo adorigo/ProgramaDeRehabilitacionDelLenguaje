@@ -16,13 +16,13 @@
         android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$ReiniciarCategoriaFragment"
         android:title="@string/pref_title_catreset"/>
 
-    <header
+    <!--header
         android:title="@string/pref_title_newtask">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="ar.org.ineco.prl.programaderehabilitaciondellenguaje"
             android:targetClass="ar.org.ineco.prl.programaderehabilitaciondellenguaje.TaskCreatorActivity" />
-    </header>
+    </header-->
 
     <header
         android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$ObtenerReporteFragment"
