@@ -4,9 +4,9 @@
         android:fragment="ar.org.ineco.prl.ninios.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_general" />
 
-    <header
+    <!--header
         android:fragment="ar.org.ineco.prl.ninios.SettingsActivity$ModuloLecturaPreferenceFragment"
-        android:title="@string/pref_modulo_lectura" />
+        android:title="@string/pref_modulo_lectura" /-->
 
     <header
         android:fragment="ar.org.ineco.prl.ninios.SettingsActivity$AvanceDeNivelFragment"

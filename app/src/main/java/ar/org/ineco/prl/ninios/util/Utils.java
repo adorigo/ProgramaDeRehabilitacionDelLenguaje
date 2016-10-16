@@ -28,7 +28,7 @@ public class Utils {
     public static boolean withDragNDrop (Context context) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        return !sharedPref.getBoolean("pref_key_cpmotrices", false);
+        return !sharedPref.getBoolean("pref_key_cpmotrices", true);
     }
 
     public static float lvlRate (Context context, Category cat) {

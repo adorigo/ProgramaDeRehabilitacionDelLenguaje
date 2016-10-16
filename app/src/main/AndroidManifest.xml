@@ -34,62 +34,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SemanticaActivity"
-            android:label="@string/title_activity_semantica"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
-            android:name=".AsociacionActivity"
-            android:label="@string/title_activity_asociacion"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
-            android:name=".IdentificacionActivity"
-            android:label="@string/title_activity_identificacion"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
-            android:name=".IntrusoActivity"
+            android:name=".ComprensionActivity"
             android:label="@string/title_activity_intruso"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
-            android:name=".PragmaticaActivity"
-            android:label="@string/title_activity_pragmatica"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
-            android:name=".LecturaActivity"
-            android:label="@string/title_activity_lectura"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
-            android:name=".DiscriminacionActivity"
-            android:label="@string/title_activity_discriminacion"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
-            android:name=".DenominacionActivity"
-            android:label="@string/title_activity_denominacion"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
-            android:name=".VerdaderoFalsoActivity"
-            android:label="@string/title_activity_verdaderofalso"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
-            android:name=".UnirConFlechasActivity"
-            android:label="@string/title_activity_unirconflechas"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme">
         </activity>
@@ -114,12 +60,6 @@
         <activity
             android:name=".CategoriesActivity"
             android:label="@string/title_activity_categories"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
-            android:name=".TaskCreatorActivity"
-            android:label="@string/title_activity_taskcreator"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme">
         </activity>

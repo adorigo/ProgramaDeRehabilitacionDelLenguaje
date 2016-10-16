@@ -16,11 +16,11 @@
     <PreferenceCategory
         android:title="@string/pref_general"
         android:key="pref_key_general">
-        <CheckBoxPreference
+        <!--CheckBoxPreference
             android:key="pref_key_cpmotrices"
             android:summary="@string/pref_summary_cpmotrices"
             android:title="@string/pref_title_cpmotrices"
-            android:defaultValue="false" />
+            android:defaultValue="false" /-->
         <CheckBoxPreference
             android:key="pref_key_feedback"
             android:summary="@string/pref_summary_feedback"

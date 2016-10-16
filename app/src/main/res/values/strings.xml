@@ -4,7 +4,7 @@
     <string name="title_activity_semantica">Semántica</string>
     <string name="title_activity_pragmatica">Pragmática</string>
     <string name="title_activity_asociacion">Asociación</string>
-    <string name="title_activity_intruso">Intruso semántico</string>
+    <string name="title_activity_intruso">Comprensión de vocabulario</string>
     <string name="title_activity_identificacion">Identificación/Definición de atributos</string>
     <string name="title_activity_lectura">Lectura</string>
     <string name="title_activity_discriminacion">Discriminación auditiva</string>

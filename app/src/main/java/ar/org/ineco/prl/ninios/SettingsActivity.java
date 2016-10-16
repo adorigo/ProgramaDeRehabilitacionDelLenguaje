@@ -42,7 +42,7 @@ public class SettingsActivity extends PreferenceActivity {
     public boolean isValidFragment (String fragmentName) {
 
         return GeneralPreferenceFragment.class.getName().equals(fragmentName) ||
-                ModuloLecturaPreferenceFragment.class.getName().equals(fragmentName) ||
+//                ModuloLecturaPreferenceFragment.class.getName().equals(fragmentName) ||
                 AvanceDeNivelFragment.class.getName().equals(fragmentName) ||
                 ObtenerReporteFragment.class.getName().equals(fragmentName) ||
                 ReiniciarCategoriaFragment.class.getName().equals(fragmentName);
@@ -68,7 +68,7 @@ public class SettingsActivity extends PreferenceActivity {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    /*@TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class ModuloLecturaPreferenceFragment extends PreferenceFragment {
 
         @Override
@@ -77,7 +77,7 @@ public class SettingsActivity extends PreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_modulo_lectura);
         }
-    }
+    }*/
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class AvanceDeNivelFragment extends PreferenceFragment {

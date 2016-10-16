@@ -4,7 +4,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
     defaultConfig {
-        applicationId 'ar.org.ineco.prl.programaderehabilitaciondellenguaje.ninios'
+        applicationId 'ar.org.ineco.prl.ninios'
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
