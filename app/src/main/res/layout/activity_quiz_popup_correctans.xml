@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/abc_dialog_padding_material" >
 
-    <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
+    <ar.org.ineco.prl.ninios.util.VerdanaTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/correctAns"
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
 
-        <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaButton
+        <ar.org.ineco.prl.ninios.util.VerdanaButton
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

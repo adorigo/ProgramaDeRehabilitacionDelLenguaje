@@ -1,19 +1,19 @@
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
 
     <header
-        android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$GeneralPreferenceFragment"
+        android:fragment="ar.org.ineco.prl.ninios.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_general" />
 
     <header
-        android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$ModuloLecturaPreferenceFragment"
+        android:fragment="ar.org.ineco.prl.ninios.SettingsActivity$ModuloLecturaPreferenceFragment"
         android:title="@string/pref_modulo_lectura" />
 
     <header
-        android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$AvanceDeNivelFragment"
+        android:fragment="ar.org.ineco.prl.ninios.SettingsActivity$AvanceDeNivelFragment"
         android:title="@string/pref_title_lvlrate"/>
 
     <header
-        android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$ReiniciarCategoriaFragment"
+        android:fragment="ar.org.ineco.prl.ninios.SettingsActivity$ReiniciarCategoriaFragment"
         android:title="@string/pref_title_catreset"/>
 
     <!--header
@@ -25,6 +25,6 @@
     </header-->
 
     <header
-        android:fragment="ar.org.ineco.prl.programaderehabilitaciondellenguaje.SettingsActivity$ObtenerReporteFragment"
+        android:fragment="ar.org.ineco.prl.ninios.SettingsActivity$ObtenerReporteFragment"
         android:title="@string/pref_title_obtenerReporte"/>
 </preference-headers>

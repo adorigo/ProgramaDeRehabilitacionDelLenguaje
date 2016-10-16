@@ -1,4 +1,4 @@
-package ar.org.ineco.prl.programaderehabilitaciondellenguaje;
+package ar.org.ineco.prl.ninios;
 
 import org.junit.Test;
 
