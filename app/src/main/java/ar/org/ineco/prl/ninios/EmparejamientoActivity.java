@@ -43,7 +43,7 @@ public class EmparejamientoActivity extends BaseActivity {
 
             title.setText(currentQuestion.getText());
 
-            int margin = 5;
+            int margin = getResources().getDimensionPixelSize(R.dimen.imgMargin);
 
             for (ImageFile img : currentQuestion.getImages()) {
 

@@ -55,7 +55,7 @@ public class ComprensionActivity extends BaseActivity {
                 });
             }
 
-            int margin = 5;
+            int margin = getResources().getDimensionPixelSize(R.dimen.imgMargin);
             for (Option option : currentQuestion.getOpts()) {
 
                 if (option.getImg() == null) {

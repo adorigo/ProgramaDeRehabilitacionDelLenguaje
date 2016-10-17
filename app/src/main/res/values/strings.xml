@@ -72,4 +72,5 @@
     <string name="taskCreated">Ejercicio creado</string>
     <string name="title_activity_emparejamiento">EMPAREJAMIENTO</string>
     <string name="title_activity_comprension">COMPRENSIÓN DE VOCABULARIO</string>
+    <string name="title_activity_localizacion">LOCALIZACIÓN/IDENTIFICACIÓN</string>
 </resources>

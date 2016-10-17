@@ -143,8 +143,6 @@ public class Menu {
                     break;
                 case 15:
                 case 16:
-                    activityName += "IdentificacionActivity";
-                    break;
                 case 18:
                 case 19:
                     activityName += "LocalizacionActivity";

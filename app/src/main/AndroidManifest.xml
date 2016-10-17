@@ -46,6 +46,12 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity
+            android:name=".LocalizacionActivity"
+            android:label="@string/title_activity_localizacion"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="sensorLandscape"

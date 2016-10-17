@@ -135,6 +135,19 @@ public class Question {
     }
 
     public boolean isFirstTry() {
-        return tries <= 1;
+        return tries <= getCorrectOpts();
+    }
+
+    public int getCorrectOpts() {
+
+        int count = 0;
+
+        for (Option opt : getOpts()) {
+            if (opt.getIsCorrect()) {
+                count++;
+            }
+        }
+
+        return count;
     }
 }
