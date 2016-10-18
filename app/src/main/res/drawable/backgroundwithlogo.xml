@@ -3,9 +3,10 @@
     <item>
         <color android:color="@color/crema_background"/>
     </item>
-    <item>
-        <bitmap android:src="@mipmap/ic_launcher"
+    <!--<item>
+        <bitmap android:src="@drawable/hablan_texto"
             android:alpha="0.2"
-            android:gravity="bottom|left"/>
-    </item>
+            android:gravity="bottom|left"
+            />
+    </item>-->
 </layer-list>
