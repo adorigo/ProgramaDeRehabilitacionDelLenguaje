@@ -55,7 +55,7 @@ public class LocalizacionActivity extends BaseActivity {
 
                 ImageFile img = option.getImg();
 
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
                 layoutParams.setMargins(margin, margin, margin, margin);
 

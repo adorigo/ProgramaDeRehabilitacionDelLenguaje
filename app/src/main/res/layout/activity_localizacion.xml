@@ -32,7 +32,7 @@
                     android:id="@+id/layoutOptions1"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:padding="@dimen/abc_control_padding_material"
@@ -44,10 +44,11 @@
                     android:id="@+id/layoutOptions2"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:padding="@dimen/abc_control_padding_material">
+                    android:padding="@dimen/abc_control_padding_material"
+                    android:gravity="center">
 
                 </LinearLayout>
             </LinearLayout>
