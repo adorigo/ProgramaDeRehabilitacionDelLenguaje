@@ -73,4 +73,5 @@
     <string name="title_activity_emparejamiento">EMPAREJAMIENTO</string>
     <string name="title_activity_comprension">COMPRENSIÓN DE VOCABULARIO</string>
     <string name="title_activity_localizacion">LOCALIZACIÓN/IDENTIFICACIÓN</string>
+    <string name="title_activity_diccionario">DICCIONARIO</string>
 </resources>

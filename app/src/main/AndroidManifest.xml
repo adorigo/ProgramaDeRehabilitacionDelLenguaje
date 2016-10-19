@@ -52,6 +52,12 @@
             android:theme="@style/AppTheme">
         </activity>
         <activity
+            android:name=".DiccionarioActivity"
+            android:label="@string/title_activity_diccionario"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="sensorLandscape"

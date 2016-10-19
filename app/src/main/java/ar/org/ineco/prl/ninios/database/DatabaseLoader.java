@@ -613,4 +613,33 @@ public class DatabaseLoader {
 
         close();
     }
+
+    public ArrayList<ImageFile> getDictionary () {
+
+        ArrayList<ImageFile> images = new ArrayList<>();
+
+        openReadable();
+
+        String query = "SELECT *, " + MyDatabase.TABLE_SND +"."+MyDatabase.SND_COLUMN_NAME +
+                " FROM " + MyDatabase.TABLE_IMG +
+                " LEFT JOIN " + MyDatabase.TABLE_SND + " ON " + MyDatabase.TABLE_SND + "." + MyDatabase.SND_COLUMN_ID +
+                " = " + MyDatabase.TABLE_IMG + "." + MyDatabase.IMG_COLUMN_SND;
+        String condition = " WHERE "+ MyDatabase.TABLE_IMG+"."+ MyDatabase.IMG_COLUMN_SND + " != NULL ";
+
+        Cursor cursor = database.rawQuery(query + condition, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+
+            ImageFile image = cursorToImage(cursor);
+            images.add(image);
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+
+        close();
+
+        return images;
+    }
 }

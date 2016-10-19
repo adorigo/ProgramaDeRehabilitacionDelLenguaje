@@ -16,7 +16,7 @@ public class ComprensionActivity extends BaseActivity {
 
     @Override
     protected int getStringResourceId() {
-        return R.string.title_activity_discriminacion;
+        return R.string.title_activity_comprension;
     }
 
     @Override

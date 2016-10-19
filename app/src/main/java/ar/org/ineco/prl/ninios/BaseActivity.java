@@ -32,7 +32,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
     public float completeRate;
     public float lvlRate;
 
-    private Menu menu = ApplicationContext.getMenu();
+    public Menu menu = ApplicationContext.getMenu();
     private FeedbackDialog feedbackEnd;
     private FeedbackDialog feedbackCorrectAns;
     private FeedbackDialog feedbackWrongAns;

@@ -13,7 +13,7 @@ public class EmparejamientoActivity extends BaseActivity {
 
     @Override
     protected int getStringResourceId() {
-        return R.string.title_activity_verdaderofalso;
+        return R.string.title_activity_emparejamiento;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class EmparejamientoActivity extends BaseActivity {
 
                 questionLayout.addView(image);
 
-                Log.d(PragmaticaActivity.class.getName(), "Adding ImageView " + img.getName());
+                Log.d(EmparejamientoActivity.class.getName(), "Adding ImageView " + img.getName());
             }
 
             for (Option option : currentQuestion.getOpts()) {
@@ -106,7 +106,7 @@ public class EmparejamientoActivity extends BaseActivity {
 
                 optionsLayout.addView(optionImg);
 
-                Log.d(ComprensionActivity.class.getName(), "Adding ImageView " + imgOption.getName());
+                Log.d(EmparejamientoActivity.class.getName(), "Adding ImageView " + imgOption.getName());
             }
         }
     }

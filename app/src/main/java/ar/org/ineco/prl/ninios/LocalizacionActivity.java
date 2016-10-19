@@ -16,7 +16,7 @@ public class LocalizacionActivity extends BaseActivity {
 
     @Override
     protected int getStringResourceId() {
-        return R.string.title_activity_intruso;
+        return R.string.title_activity_localizacion;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class LocalizacionActivity extends BaseActivity {
 
                 countOpt++;
 
-                Log.d(ComprensionActivity.class.getName(), "Adding ImageView " + img.getName());
+                Log.d(LocalizacionActivity.class.getName(), "Adding ImageView " + img.getName());
             }
         }
     }
