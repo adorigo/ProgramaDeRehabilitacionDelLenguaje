@@ -3,9 +3,9 @@
     <item>
         <color android:color="@color/crema_background"/>
     </item>
-    <item>
+    <!--<item>
         <bitmap android:src="@mipmap/ic_launcher"
             android:alpha="0.2"
             android:gravity="bottom|left"/>
-    </item>
+    </item>-->
 </layer-list>
