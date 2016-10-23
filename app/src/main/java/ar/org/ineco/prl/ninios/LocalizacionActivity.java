@@ -47,9 +47,6 @@ public class LocalizacionActivity extends BaseActivity {
             LinearLayout optionsLayout1 = (LinearLayout) findViewById(R.id.layoutOptions1);
             optionsLayout1.removeAllViews();
 
-            LinearLayout optionsLayout2 = (LinearLayout) findViewById(R.id.layoutOptions2);
-            optionsLayout2.removeAllViews();
-
             if (currentQuestion.getSound() != null) {
 
                 final int sndId = loadSound(currentQuestion.getSound());
@@ -63,8 +60,6 @@ public class LocalizacionActivity extends BaseActivity {
             } else {
                 sndQuestion.setVisibility(View.GONE);
             }
-
-            int countOpt = 0;
 
             for (Option option : currentQuestion.getOpts()) {
 
@@ -93,13 +88,7 @@ public class LocalizacionActivity extends BaseActivity {
                     }
                 });
 
-                if (countOpt > 2 || currentQuestion.getSound() != null) {
-                    optionsLayout2.addView(optionImg);
-                } else {
-                    optionsLayout1.addView(optionImg);
-                }
-
-                countOpt++;
+                optionsLayout1.addView(optionImg);
 
                 Log.d(LocalizacionActivity.class.getName(), "Adding ImageView " + img.getName());
             }
