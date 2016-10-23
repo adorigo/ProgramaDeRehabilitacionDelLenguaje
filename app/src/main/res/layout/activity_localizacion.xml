@@ -29,6 +29,25 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
+                    android:id="@+id/layoutQuestion"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:padding="@dimen/abc_control_padding_material"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="@dimen/helpButtonHeight"
+                        android:layout_height="@dimen/helpButtonHeight"
+                        android:id="@+id/audioQuestion"
+                        android:src="@android:drawable/ic_media_play"
+                        android:scaleType="fitXY" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/layoutOptions1"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -52,29 +71,6 @@
 
                 </LinearLayout>
             </LinearLayout>
-
-            <ImageView
-                android:id="@+id/dropArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:layout_gravity="bottom|right"
-                android:src="@drawable/closedbin"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:visibility="gone"/>
-
-            <ImageView
-                android:layout_width="@dimen/abc_action_bar_default_height_material"
-                android:layout_height="@dimen/abc_action_bar_default_height_material"
-                android:id="@+id/infoButton"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="@dimen/imgMargin"
-                android:src="@android:drawable/ic_menu_info_details"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:visibility="gone"/>
 
         </RelativeLayout>
 

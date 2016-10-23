@@ -41,11 +41,28 @@ public class LocalizacionActivity extends BaseActivity {
             VerdanaTextView title = (VerdanaTextView) findViewById(R.id.textTitle);
             title.setText(currentQuestion.getText());
 
+            ImageView sndQuestion = (ImageView) findViewById(R.id.audioQuestion);
+            sndQuestion.setOnClickListener(null);
+
             LinearLayout optionsLayout1 = (LinearLayout) findViewById(R.id.layoutOptions1);
             optionsLayout1.removeAllViews();
 
             LinearLayout optionsLayout2 = (LinearLayout) findViewById(R.id.layoutOptions2);
             optionsLayout2.removeAllViews();
+
+            if (currentQuestion.getSound() != null) {
+
+                final int sndId = loadSound(currentQuestion.getSound());
+                sndQuestion.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        playSound(sndId);
+                    }
+                });
+            } else {
+                sndQuestion.setVisibility(View.GONE);
+            }
 
             int countOpt = 0;
 
@@ -76,7 +93,7 @@ public class LocalizacionActivity extends BaseActivity {
                     }
                 });
 
-                if (countOpt > 2) {
+                if (countOpt > 2 || currentQuestion.getSound() != null) {
                     optionsLayout2.addView(optionImg);
                 } else {
                     optionsLayout1.addView(optionImg);

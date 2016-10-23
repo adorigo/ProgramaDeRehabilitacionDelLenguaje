@@ -71,9 +71,9 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
             tView.setText(getResources().getString(R.string.explanationIntrusoWithoutDD));
         }
 
-        ImageView helpInfo = (ImageView) findViewById(R.id.infoButton);
+        //ImageView helpInfo = (ImageView) findViewById(R.id.infoButton);
 
-        if (helpInfo != null) {
+        /*if (helpInfo != null) {
 
             helpInfo.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,7 +87,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
                     feedbackInfo.getWindow().setAttributes(lp);
                 }
             });
-        }
+        }*/
 
         lvlRate = Utils.lvlRate(this, menu.getCurrentCategory());
 
