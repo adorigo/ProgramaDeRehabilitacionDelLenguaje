@@ -39,12 +39,30 @@
                 android:layout_margin="@dimen/abc_action_bar_subtitle_bottom_margin_material"/>
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/caece"
-            android:src="@drawable/caece"
-            android:layout_margin="@dimen/abc_action_bar_subtitle_bottom_margin_material"/>
+            android:gravity="center"
+            android:layout_gravity="center" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/appTitleHeight"
+                android:id="@+id/caece"
+                android:src="@drawable/caece"
+                android:layout_margin="@dimen/abc_action_bar_subtitle_bottom_margin_material"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/appTitleHeight"
+                android:id="@+id/lilen"
+                android:src="@drawable/lilen"
+                android:layout_margin="@dimen/abc_action_bar_subtitle_bottom_margin_material"
+                android:adjustViewBounds="true"
+                android:layout_weight="1" />
+        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>
