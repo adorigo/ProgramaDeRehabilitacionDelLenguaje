@@ -5,6 +5,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ar.org.ineco.prl.ninios.classes.ImageFile;
 import ar.org.ineco.prl.ninios.classes.Option;
 import ar.org.ineco.prl.ninios.util.VerdanaTextView;
@@ -12,7 +15,7 @@ import ar.org.ineco.prl.ninios.util.VerdanaTextView;
 public class LocalizacionActivity extends BaseActivity {
 
     private int correctOpts;
-    private int correctOptsDone;
+    private List<Option> optsSelected;
 
     @Override
     protected int getStringResourceId() {
@@ -32,7 +35,11 @@ public class LocalizacionActivity extends BaseActivity {
         if (currentQuestion != null) {
 
             correctOpts = currentQuestion.getCorrectOpts();
-            correctOptsDone = 0;
+            if (optsSelected != null) {
+                optsSelected.clear();
+            } else {
+                optsSelected = new ArrayList<>();
+            }
 
             Log.d(LocalizacionActivity.class.getName(), "PregId: " + currentQuestion.getId());
 
@@ -99,19 +106,27 @@ public class LocalizacionActivity extends BaseActivity {
 
         Option opt = (Option) v.getTag();
 
-        if (currentQuestion.makeTry(opt)) {
+        if (v.getAlpha() > 0.5f) {
 
             v.setAlpha(0.5f);
-            v.setOnClickListener(null);
-            correctOptsDone++;
-
-            if (correctOptsDone == correctOpts) {
-                answerCorrect();
-            }
+            optsSelected.add(opt);
 
         } else {
+            v.setAlpha(1.0f);
+            optsSelected.remove(opt);
+        }
 
-            answerIncorrect();
+        if (optsSelected.size() == correctOpts) {
+            boolean allCorrect = true;
+            for (Option option : optsSelected) {
+                allCorrect &= currentQuestion.makeTry(option);
+            }
+
+            if (allCorrect) {
+                answerCorrect();
+            } else {
+                answerIncorrect();
+            }
         }
     }
 
