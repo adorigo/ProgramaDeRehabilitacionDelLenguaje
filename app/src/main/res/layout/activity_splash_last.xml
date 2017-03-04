@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+    android:id="@+id/frameAbout">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:id="@+id/lLayoutAbout"
+        android:measureWithLargestChild="false">
+
+        <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tViewAbout"
+            android:layout_gravity="center"
+            android:text="@string/textTitleAbout"
+            android:gravity="center_horizontal"
+            android:textSize="@dimen/abc_text_size_large_material"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/tViewAbout1"
+                android:gravity="center_horizontal"
+                android:text="@string/textAbout"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:textSize="@dimen/abc_text_size_body_1_material"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_weight="1" />
+
+            <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/tViewAbout4"
+                android:gravity="center_horizontal"
+                android:text="@string/textAbout3"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:textSize="@dimen/abc_text_size_body_1_material"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/tViewAbout2"
+                android:gravity="center_horizontal"
+                android:text="@string/textAbout1"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:textSize="@dimen/abc_text_size_body_1_material" />
+
+            <ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/tViewAbout3"
+                android:gravity="center_horizontal"
+                android:text="@string/textAbout2"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:textSize="@dimen/abc_text_size_body_1_material" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

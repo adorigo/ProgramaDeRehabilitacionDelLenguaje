@@ -25,7 +25,7 @@
                 android:src="@drawable/favaloro"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:layout_margin="@dimen/abc_action_bar_subtitle_bottom_margin_material"
+                android:layout_margin="@dimen/activity_horizontal_margin"
                 android:layout_gravity="center_vertical" />
 
             <ImageView
@@ -36,7 +36,7 @@
                 android:src="@drawable/ineco"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:layout_margin="@dimen/abc_action_bar_subtitle_bottom_margin_material"/>
+                android:layout_margin="@dimen/activity_horizontal_margin"/>
         </LinearLayout>
 
         <LinearLayout
@@ -44,22 +44,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_gravity="center" >
+            android:layout_gravity="center">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/appTitleHeight"
                 android:id="@+id/caece"
                 android:src="@drawable/caece"
-                android:layout_margin="@dimen/abc_action_bar_subtitle_bottom_margin_material"
-                android:layout_weight="1" />
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/appTitleHeight"
                 android:id="@+id/lilen"
                 android:src="@drawable/lilen"
-                android:layout_margin="@dimen/abc_action_bar_subtitle_bottom_margin_material"
+                android:layout_margin="@dimen/activity_horizontal_margin"
                 android:adjustViewBounds="true"
                 android:layout_weight="1" />
         </LinearLayout>

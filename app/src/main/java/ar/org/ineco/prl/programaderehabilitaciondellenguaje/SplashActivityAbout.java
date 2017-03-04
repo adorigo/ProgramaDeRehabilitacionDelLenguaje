@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
-public class SplashActivity extends Activity {
+import ar.org.ineco.prl.programaderehabilitaciondellenguaje.util.VerdanaTextView;
+
+public class SplashActivityAbout extends Activity {
 
     Thread splashThread;
 
@@ -25,7 +26,7 @@ public class SplashActivity extends Activity {
     public void onCreate (Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_splash_last);
         StartAnimations();
     }
 
@@ -34,26 +35,29 @@ public class SplashActivity extends Activity {
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
         anim.reset();
 
-        LinearLayout l = (LinearLayout) findViewById(R.id.logos);
-        l.clearAnimation();
-        l.startAnimation(anim);
+        FrameLayout layoutAbout = (FrameLayout) findViewById(R.id.frameAbout);
+        layoutAbout.clearAnimation();
+        layoutAbout.setAnimation(anim);
 
         anim = AnimationUtils.loadAnimation(this, R.anim.translate);
         anim.reset();
 
-        ImageView caece = (ImageView) findViewById(R.id.caece);
-        caece.clearAnimation();
-        ImageView ineco = (ImageView) findViewById(R.id.ineco);
-        ineco.clearAnimation();
-        ImageView favaloro = (ImageView) findViewById(R.id.favaloro);
-        favaloro.clearAnimation();
-        ImageView lilen = (ImageView) findViewById(R.id.lilen);
-        lilen.clearAnimation();
+        VerdanaTextView about = (VerdanaTextView) findViewById(R.id.tViewAbout);
+        about.clearAnimation();
+        VerdanaTextView about1 = (VerdanaTextView) findViewById(R.id.tViewAbout1);
+        about1.clearAnimation();
+        VerdanaTextView about4 = (VerdanaTextView) findViewById(R.id.tViewAbout4);
+        about4.clearAnimation();
+        VerdanaTextView about2 = (VerdanaTextView) findViewById(R.id.tViewAbout2);
+        about2.clearAnimation();
+        VerdanaTextView about3 = (VerdanaTextView) findViewById(R.id.tViewAbout3);
+        about3.clearAnimation();
 
-        caece.startAnimation(anim);
-        ineco.startAnimation(anim);
-        favaloro.startAnimation(anim);
-        lilen.startAnimation(anim);
+        about.startAnimation(anim);
+        about1.startAnimation(anim);
+        about4.startAnimation(anim);
+        about2.startAnimation(anim);
+        about3.startAnimation(anim);
 
         splashThread = new Thread() {
 
@@ -70,17 +74,17 @@ public class SplashActivity extends Activity {
                         waited += 100;
                     }
 
-                    Intent intent = new Intent(SplashActivity.this,
-                            SplashActivityAbout.class);
+                    Intent intent = new Intent(SplashActivityAbout.this,
+                            MainMenuActivity.class);
                     //intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
                     startActivity(intent);
-                    SplashActivity.this.finish();
+                    SplashActivityAbout.this.finish();
 
                 } catch (InterruptedException e) {
                     // do nothing
                 } finally {
-                    SplashActivity.this.finish();
+                    SplashActivityAbout.this.finish();
                 }
 
             }

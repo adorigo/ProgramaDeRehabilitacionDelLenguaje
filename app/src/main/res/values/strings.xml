@@ -12,6 +12,39 @@
     <string name="title_activity_verdaderofalso">Verdadero o falso</string>
     <string name="title_activity_unirconflechas">Unir con flechas</string>
 
+    <string name="textTitleAbout">
+        <strong>Idea y desarrollo</strong>
+    </string>
+
+    <string name="textAbout">
+        Maria Agustina Caraballo\n
+        Agustín Nicolás Bruno Lavista\n
+        Agustín Cesar Dorigo\n
+        Andrea Lanaro\n
+        Macarena Martínez Cuitiño\n
+    </string>
+
+    <string name="textAbout1">
+        Dolores Zamora\n
+        Macarena Canga\n
+        Agustina Peccin\n
+        Celeste Berardo\n
+    </string>
+
+    <string name="textAbout2">
+        Daniela Szenkman\n
+        Vanina García\n
+        Brenda Steeb\n
+    </string>
+
+    <string name="textAbout3">
+        Geraldine Borovinsky\n
+        Federico Soriano\n
+        Lucas Collazo\n
+        Marianela F. Cruz Labonia\n
+        Julieta Fumagalli\n
+    </string>
+
     <string name="incorrectAns">Incorrecto</string>
     <string name="buttonTryAgain">Reintentar</string>
 
